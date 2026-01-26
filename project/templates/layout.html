@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <link href="/static/style.css" rel="stylesheet">
+    <title>Password Security Toolkit - {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav>
+        <!-- Navigation bar -->
+         <a href="/">Home</a>
+         <a href="/analyser">Strength Checker</a>
+         <a href="/simulator">Attack Simulator</a>
+    </nav>
+
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+</body>
+</html>
