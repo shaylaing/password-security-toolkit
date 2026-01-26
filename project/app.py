@@ -14,4 +14,4 @@ def analyser():
 
 @app.route("/simulator")
 def simulator():
-    return render_template("simulator.html")
+    return render_template("simulator.html") 
