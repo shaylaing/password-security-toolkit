@@ -5,16 +5,22 @@
 #### Description:
 <Explain what project is>
 
-#### File Name:
+#### app.py:
 <What does this file contain>
 
-#### File Name:
+#### analyser.py:
 <What does this file contain>
 
-#### File Name:
+#### simulator.py:
 <What does this file contain>
 
-#### File Name:
+#### helpers.py:
+<What does this file contain>
+
+#### templates/:
+<What does this file contain>
+
+#### static/:
 <What does this file contain>
 
 #### Design Choices & Thoughts:
