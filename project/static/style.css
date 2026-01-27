@@ -1,4 +1,29 @@
-nav .navbar
+body 
 {
-    
+    background: #222;
+}
+
+.navbar /* navbar element */
+{
+    box-sizing: border-box;
+    text-align: center; /* center navbar links */
+    margin: 0 auto; /* center navbar element */
+    padding: 20px;
+}
+
+nav a /* navbar links */
+{
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0 20px; /* spacing between each navbar link */
+    color: #b3f7d3;
+    text-decoration: none; /* removes link underline */
+    transition: 0.3s; /* recommended by Claude to make animation smoother */
+    font-family: monospace;
+    font-size: 18px;
+}
+
+nav a:hover /* hover animation for navbar links */
+{
+    opacity: 0.3; /* changing opacity effect when hovering over link */
 }
