@@ -27,3 +27,8 @@ nav a:hover /* hover animation for navbar links */
 {
     opacity: 0.3; /* changing opacity effect when hovering over link */
 }
+
+.current_page /* highlight page user is currently on in navbar */
+{
+    opacity: 0.3;
+} 

@@ -11,10 +11,10 @@
 
 <body>
     <nav class="navbar">
-        <!-- Navigation bar -->
-         <a href="/">Home</a>
-         <a href="/analyser">Strength Checker</a>
-         <a href="/simulator">Attack Simulator</a>
+        <!-- Navigation bar --> <!-- Claude helped with Jinja conditional -->
+         <a href="/" class="{% if current_page == '/' %}current_page{% endif %}">Home</a>
+         <a href="/analyser" class="{% if current_page == '/analyser' %}current_page{% endif %}">Strength Checker</a>
+         <a href="/simulator" class="{% if current_page == '/simulator' %}current_page{% endif %}">Attack Simulator</a>
     </nav>
 
     <main>

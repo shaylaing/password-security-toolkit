@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 
 # Configure Flask application
 app = Flask(__name__)
@@ -6,12 +6,12 @@ app = Flask(__name__)
 # Define template routes
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", current_page=request.path)
 
 @app.route("/analyser")
 def analyser():
-    return render_template("analyser.html")
+    return render_template("analyser.html", current_page=request.path)
 
 @app.route("/simulator")
 def simulator():
-    return render_template("simulator.html") 
+    return render_template("simulator.html", current_page=request.path) 
