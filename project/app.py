@@ -8,10 +8,12 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", current_page=request.path)
 
-@app.route("/analyser")
+@app.route("/analyser", methods=["GET", "POST"])
 def analyser():
+    # 
+
     return render_template("analyser.html", current_page=request.path)
 
-@app.route("/simulator")
+@app.route("/simulator", methods=["GET", "POST"])
 def simulator():
     return render_template("simulator.html", current_page=request.path) 
