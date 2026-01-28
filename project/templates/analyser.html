@@ -5,5 +5,19 @@
 {% endblock %}
 
 {% block main %}
-
+    <div class="analyser-form">
+        <p>Enter a password to test it's strength:</p>
+        <form id="strengthAnalyser" action="/analyser" method="post">
+            <input name="password" class="password" placeholder="Password" type="text" autofocus required>
+            <button name="startCheck" type="submit">Start</button>
+        </form>
+    </div>
+    <div id="results" class="results-section">
+        <h3>Strength Score</h3>
+        <p id="score"></p>
+        <h3>Entropy Estimation</h3>
+        <p id="entropy"></p>
+        <h3>Suggestions for improvements:</h3>
+        <p id="improvements"></p>
+    </div>
 {% endblock %}

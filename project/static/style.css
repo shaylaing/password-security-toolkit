@@ -1,6 +1,8 @@
 body 
 {
-    background: #222;
+    background: #222; /* dark mode as default */
+    color: #e0e0e0;
+    font-family: monospace;
 }
 
 .navbar /* navbar element */
@@ -32,3 +34,44 @@ nav a:hover /* hover animation for navbar links */
 {
     opacity: 0.3;
 } 
+
+.analyser-form /* password button */
+{
+    padding-top: 30px;
+    margin: 20px;
+}
+
+.results-section 
+{
+    padding-top: 10px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+.results-section p
+{
+    padding-bottom: 50px;
+}
+
+button
+{
+    color: #b3f7d3;
+    background: #222;
+    padding: 2px 20px;
+    margin: 5px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover /* hover animation for buttons */
+{
+    opacity: 0.7; /* changing opacity effect when hovering over button */
+}
+
+.password /* password text box */
+{
+    color: #b3f7d3;
+    background-color: #222;
+    font-family: monospace;
+}
