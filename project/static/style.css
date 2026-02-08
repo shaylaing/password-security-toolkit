@@ -35,7 +35,7 @@ nav a:hover /* hover animation for navbar links */
     opacity: 0.3;
 } 
 
-.analyser-form /* password button */
+.analyser-form /* password textbox and button */
 {
     padding-top: 30px;
     margin: 20px;
@@ -55,8 +55,9 @@ nav a:hover /* hover animation for navbar links */
 
 button
 {
-    color: #b3f7d3;
-    background: #222;
+    color: #222;
+    background: #b3f7d3;
+    border-color: #222;
     padding: 2px 20px;
     margin: 5px;
     font-family: monospace;
