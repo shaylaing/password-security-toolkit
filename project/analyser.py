@@ -43,6 +43,12 @@ for key, vals in COMMON_SUBSTITUTIONS.items():      # Take each key (real char) 
     for val in vals:        # Take each value in values (subbed chars) 
          common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
 
+'''Dictionary lookup is slow as it searches via keys by default. Reverse 
+mapping enables us to flip the dictionary around so that we treat its values
+as keys instead so that we can search via its values and speed up the process
+of searching the dictionary. Provides improvement from O(n) per character to 
+O(1) per character.'''
+
 
 # Define function to generate all possible original passwords by reversing character substituions
 def desubstitute(password: str):
@@ -74,20 +80,12 @@ def desubstitute(password: str):
 
     return desubbed_possibilities
 
+'''Each string in desubbed_possibilities acts as a base. For each base string, 
+we create a new string for every possible original character for the current 
+password character. That is how one base string produces multiple new strings, 
+one per possible original character.'''
 
 
-
-
-          
-
-
-
-          
-                    
-          
-               
-
-
-# Define blocklist check:
+# Define blocklist check function:
 def blocklistCheck(password: str) -> int:
     return 
