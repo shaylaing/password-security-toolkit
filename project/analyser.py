@@ -44,33 +44,33 @@ for key, vals in COMMON_SUBSTITUTIONS.items():      # Take each key (real char) 
          common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
 
 
-# Define function for password desubstitution
+# Define function to generate all possible original passwords by reversing character substituions
 def desubstitute(password: str):
-    # Initialise empty list to store all partial strings built so far
+    # Initialise list with empty string to act as starting base for building combinations
     desubbed_possibilities = [""]
 
-    # Loop through each character in password
+    # Loop through each character in the password 
     for char in password:
-        # Check for that character in reverse map
+        # Check for all possible original characters this current password character could represent
         if char in common_substitutions_reverse_map:
-            # Add regular characters matching that substituted character to list of possible characters
+            # Substituted character: store all original characters this substituted character could represent
             possible_chars = common_substitutions_reverse_map[char]
         else:
-            # Add character as is to list of possible characters if not recognised as a substituted character 
-            possible_chars = char
+            # Non-substituted character: store the current character as it already is in the password
+            possible_chars = [char]
         
-        # Initialise temporary list to store possible desubbed password combinations
-        combinations = []
+        # Temporary list to store all the new combinations including the current character or the orginal characters the current character may represent
+        new_combinations = []
 
-        # Loop through each partial string in current desubbed possibilities
+        # Loop through each partial string/combination in current list of desubbed combinations
         for possibility in desubbed_possibilities:
             # Loop through each character in possible desubbed characters
             for char in possible_chars:
-                # Append each possible character to each desubbed password possibility
-                combinations.append(possibility + char) 
+                # Combine the combinations built so far with each possible character for the current position in the password
+                new_combinations.append(possibility + char) 
         
-        # Store completed desubbed password possibilities in permanent list
-        desubbed_possibilities = combinations
+        # Update the list of desubbed possibilities to include the updated combinations with the possible characters of the current iteration
+        desubbed_possibilities = new_combinations
 
     return desubbed_possibilities
 
@@ -90,3 +90,4 @@ def desubstitute(password: str):
 
 # Define blocklist check:
 def blocklistCheck(password: str) -> int:
+    return 

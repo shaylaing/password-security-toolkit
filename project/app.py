@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-import analyser.py 
+from analyser import desubstitute
 
 # Configure Flask application
 app = Flask(__name__)
@@ -18,3 +18,4 @@ def analyser():
 @app.route("/simulator", methods=["GET", "POST"])
 def simulator():
     return render_template("simulator.html", current_page=request.path) 
+
