@@ -50,14 +50,14 @@ of searching the dictionary. Provides improvement from O(n) per character to
 O(1) per character.'''
 
 
-# Define function to generate all possible original passwords by reversing character substituions
-def desubstitute(password: str):
+# Define function to generate all possible original passwords by reversing character substitutions
+def desubstitute(password: str) -> list[str]:
     # Initialise list with empty string to act as starting base for building combinations
     desubbed_possibilities = [""]
 
     # Loop through each character in the password 
     for char in password:
-        # Check for all possible original characters this current password character could represent
+        # Check for all possible original characters this current character could represent
         if char in common_substitutions_reverse_map:
             # Substituted character: store all original characters this substituted character could represent
             possible_chars = common_substitutions_reverse_map[char]
@@ -65,18 +65,18 @@ def desubstitute(password: str):
             # Non-substituted character: store the current character as it already is in the password
             possible_chars = [char]
         
-        # Temporary list to store all the new combinations including the current character or the orginal characters the current character may represent
-        new_combinations = []
+        # Temporary list storing updated possibilities including the current character or the original characters the current character may represent
+        new_possibilities = []
 
-        # Loop through each partial string/combination in current list of desubbed combinations
+        # Loop through each partial string/combination in current list of desubbed possibilities
         for possibility in desubbed_possibilities:
             # Loop through each character in possible desubbed characters
-            for char in possible_chars:
-                # Combine the combinations built so far with each possible character for the current position in the password
-                new_combinations.append(possibility + char) 
+            for original_char in possible_chars:
+                # Combine the possible combinations built so far with each possible character for the current position in the password
+                new_possibilities.append(possibility + original_char) 
         
-        # Update the list of desubbed possibilities to include the updated combinations with the possible characters of the current iteration
-        desubbed_possibilities = new_combinations
+        # Update the list of desubbed possibilities to include the updated possibilities that include the possible characters of the current iteration
+        desubbed_possibilities = new_possibilities
 
     return desubbed_possibilities
 
@@ -84,6 +84,13 @@ def desubstitute(password: str):
 we create a new string for every possible original character for the current 
 password character. That is how one base string produces multiple new strings, 
 one per possible original character.'''
+
+'''If desubbed_possibilities currently contains four partial password strings 
+and the current password character could represent three possible original 
+characters (stored in possible_chars), then each possible character is appended 
+to its own separate copy of each existing string (stored in new_possibilities). 
+These newly created strings replace the old list, so desubbed_possibilities now 
+contains 12 partial password possibilities.'''
 
 
 # Define blocklist check function:
