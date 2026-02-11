@@ -1,5 +1,4 @@
 from math import log2
-from itertools import product
 
 # Define every possible ASCII symbol/special character for entropy check and composition check
 SYMBOLS_SET = {'!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
