@@ -58,6 +58,9 @@ def desubstitute(password: str) -> list[str]:
 
     # Loop through each character in the password 
     for char in password:
+        # Ensure character is lowercase before checking against dict
+        char = char.lower()
+
         # Check for all possible original characters this current character could represent
         if char in common_substitutions_reverse_map:
             # Substituted character: store all original characters this substituted character could represent
@@ -136,8 +139,8 @@ def blocklistCheck(password: str) -> bool:
                 match = True
                 return match
     
-    # Check desubbed versions of password if match not found:
+    # Check desubbed versions of password if match is not found:
     if not match:
-    
+    # do i need to loop through every desubbed version of the password and hash, query, and check the results of each of them?
 
     return 
