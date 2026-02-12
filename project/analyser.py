@@ -1,4 +1,6 @@
 from math import log2
+import hashlib
+import requests
 
 # Define every possible ASCII symbol/special character for entropy check and composition check
 SYMBOLS_SET = {'!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
@@ -93,5 +95,49 @@ contains 12 partial password possibilities.'''
 
 
 # Define blocklist check function:
-def blocklistCheck(password: str) -> int:
+def blocklistCheck(password: str) -> bool:
+    # Declare match variable to track whether a match has been found
+    match = False
+
+    # Calculate and store password length
+    length = len(password)
+
+    # Hash password with SHA-1 and store it  
+    password_hash = hashlib.sha1(password.encode()).hexdigest() 
+
+    '''.encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
+    .hexdigest() converts the resulting binary hash to a readable hexadecimal 
+    string so that it is compatible with the Pwned API's hex format.'''
+
+    # Store first five characters of password hash 
+    password_hash_prefix = password_hash[:5] 
+
+    # HTTP request header for Have I Been Pwned API query
+    headers = {
+        "User-Agent": "password-security-toolkit"
+    }
+
+    '''We are providing the Have I Been Pwned API with identification by including 
+    this header in our request.'''
+
+    # Query Have I Been Pwned password API for password hash prefix 
+    pwned_url = 'https://api.pwnedpasswords.com/range/{password_hash_prefix}'
+    pwned_suffix_results = requests.get(pwned_url, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+
+    '''Have I Been Pwned API documentation can be found at
+    https://haveibeenpwned.com/api/v3#PwnedPasswords'''
+
+    # Ensure Pwned API query results are not empty
+    if pwned_suffix_results:
+        # Check if Pwned API query results match password hash
+        for suffix in pwned_suffix_results:
+            if password_hash_prefix + suffix == password_hash:      # Join together password hash prefix and API suffix results to check complete hash results for match
+                # Match found:
+                match = True
+                return match
+    
+    # Check desubbed versions of password if match not found:
+    if not match:
+    
+
     return 
