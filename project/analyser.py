@@ -51,7 +51,7 @@ of searching the dictionary. Provides improvement from O(n) per character to
 O(1) per character.'''
 
 
-# Define function to generate all possible original passwords by reversing character substitutions
+# Define function to generate all possible original passwords by reversing character substitutions (used in blocklist check)
 def desubstitute(password: str) -> list[str]:
     # Initialise list with empty string to act as starting base for building combinations
     desubbed_possibilities = [""]
@@ -79,7 +79,7 @@ def desubstitute(password: str) -> list[str]:
                 # Combine the possible combinations built so far with each possible character for the current position in the password
                 new_possibilities.append(possibility + original_char) 
         
-        # Update the list of desubbed possibilities to include the updated possibilities that include the possible characters of the current iteration
+        # Update the list of desubbed possibilities to include the new possible characters of the current iteration
         desubbed_possibilities = new_possibilities
 
     return desubbed_possibilities
@@ -112,7 +112,7 @@ def blocklistCheck(password: str) -> bool:
     .hexdigest() converts the resulting binary hash to a readable hexadecimal 
     string so that it is compatible with the Pwned API's hex format.'''
 
-    # Store first five characters of password hash 
+    # Store first five characters of password hash for k-anonymity suppression
     password_hash_prefix = password_hash[:5] 
 
     # HTTP request header for Have I Been Pwned API query
@@ -130,17 +130,62 @@ def blocklistCheck(password: str) -> bool:
     '''Have I Been Pwned API documentation can be found at
     https://haveibeenpwned.com/api/v3#PwnedPasswords'''
 
-    # Ensure Pwned API query results are not empty
+
+
+
+
+
+    # Ensure Pwned API query results are not empty !!! check for 200 repsonse code that signify's successful response then check whether returned content actually contains hashes
     if pwned_suffix_results:
-        # Check if Pwned API query results match password hash
+        # Check if Pwned API query results match password hash !!!
         for suffix in pwned_suffix_results:
             if password_hash_prefix + suffix == password_hash:      # Join together password hash prefix and API suffix results to check complete hash results for match
                 # Match found:
                 match = True
                 return match
     
-    # Check desubbed versions of password if match is not found:
+
+
+
+
+
+
+    # Check de-subbed versions of password if match is not found:
     if not match:
-    # do i need to loop through every desubbed version of the password and hash, query, and check the results of each of them?
-        return
-    return 
+        # Create dictionary containing all possible de-subbed versions of password 
+        desubbed_passwords = desubstitute(password)
+
+        # Loop through each possible de-subbed version of password
+        for desubbed_password in desubbed_passwords:
+            # Hash current de-subbed version of password with SHA-1
+            desubbed_hash = hashlib.sha1(desubbed_password.encode()).hexdigest()
+            
+            # Store first five characters of de-subbed password hash for k-anonymity suppression
+            desubbed_hash_prefix = desubbed_hash[:5]
+            
+            # Query Have I Been Pwned password API for current de-subbed password hash prefix 
+            pwned_desubbed_suffix_results = requests.get(https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+
+
+
+
+
+
+
+            # Ensure Pwned API query results are not empty !!! check for 200 repsonse code that signify's successful response then check whether returned content actually contains hashes
+            if pwned_desubbed_suffix_results:
+                # Check if Pwned API query results match de-subbed password hash !!!
+                for suffix in pwned_desubbed_suffix_results:
+                    if desubbed_hash_prefix + suffix == desubbed_hash:      # Join together de-subbed password hash prefix and API suffix results to check complete hash results for match
+                        # Match found:
+                        match = True
+                        return match
+                    # Continue loop if no match found:
+    
+
+
+
+
+
+    
+    return match
