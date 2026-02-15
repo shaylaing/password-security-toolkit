@@ -1,2 +1,12 @@
+# Python
 __pycache__/
 flask_session/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# direnv (automated enviroment selector based on current directory)
+.envrc
+.direnv/
