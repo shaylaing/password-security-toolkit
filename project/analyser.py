@@ -125,25 +125,42 @@ def blocklistCheck(password: str) -> bool:
 
     # Query Have I Been Pwned password API for password hash prefix 
     pwned_url = 'https://api.pwnedpasswords.com/range/{password_hash_prefix}'
-    pwned_suffix_results = requests.get(pwned_url, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+    pwned_results = requests.get(pwned_url, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
 
     '''Have I Been Pwned API documentation can be found at
     https://haveibeenpwned.com/api/v3#PwnedPasswords'''
-
-
-
-
-
-
-    # Ensure Pwned API query results are not empty !!! check for 200 repsonse code that signify's successful response then check whether returned content actually contains hashes
-    if pwned_suffix_results:
-        # Check if Pwned API query results match password hash !!!
-        for suffix in pwned_suffix_results:
-            if password_hash_prefix + suffix == password_hash:      # Join together password hash prefix and API suffix results to check complete hash results for match
-                # Match found:
-                match = True
-                return match
     
+
+
+
+    
+    # Store Pwned suffix results with counts as list
+    pwned_suffixes_and_counts = pwned_results.splitlines()
+
+    # Remove counts from Pwned suffix results:
+    # Create new list to store suffix results without counts
+    pwned_suffixes = []
+    # Loop through each suffix in Pwned API results
+    for suffix in pwned_suffixes_and_counts:
+        # Check for end of suffix
+        end = suffix.index(":")
+        # Store suffix without count in new list 
+        pwned_suffixes.append(suffix[:end])
+    
+    # Check if Pwned API query results match password hash:
+    # Loop through each suffix in Pwned API results
+    for suffix in pwned_suffixes:
+        # Check if complete hash result (prefix + suffix) matches password hash
+        if password_hash_prefix + suffix == password_hash:
+            # Match found:
+            match = True
+            return match
+
+
+
+
+
+
 
 
 
@@ -187,5 +204,11 @@ def blocklistCheck(password: str) -> bool:
 
 
 
-    
+
     return match
+
+    '''Have I Been Pwned's API returns a multi-line string of suffixes whose 
+    prefix matches the prefix of the user's password hash. Therefore, we must use 
+    .splitlines() to separate each suffix and add them to a list so that we can 
+    iterate over them for the check. Likewise, we use .index() and slicing to remove 
+    the counts that are paired with each suffix by the API.'''
