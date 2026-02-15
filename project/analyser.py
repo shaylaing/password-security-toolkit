@@ -42,7 +42,7 @@ COMMON_SUBSTITUTIONS = {
 common_substitutions_reverse_map = {}      # Initialise empty dict for reverse map
 for key, vals in COMMON_SUBSTITUTIONS.items():      # Take each key (real char) and its list of substitutions (values) (.items prevents default key-only iteration over dict)
     for val in vals:        # Take each value in values (subbed chars) 
-         common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
+        common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
 
 '''Dictionary lookup is slow as it searches via keys by default. Reverse 
 mapping enables us to flip the dictionary around so that we treat its values

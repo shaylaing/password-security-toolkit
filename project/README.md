@@ -1,5 +1,5 @@
 # PASSWORD SECURITY TOOLKIT
-
+source .venv/bin/activate (delete)
 #### Video Demo: <URL HERE>
 
 #### Description:
