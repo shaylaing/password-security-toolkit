@@ -115,7 +115,7 @@ def blocklistCheck(password: str) -> bool:
     # Store first five characters of password hash for k-anonymity suppression
     password_hash_prefix = password_hash[:5] 
 
-    # HTTP request header for Have I Been Pwned API query
+    # HTTP request header for Have I Been Pwned API query (polite API usage and helps avoid rate-limiting or filtering issues)
     headers = {
         "User-Agent": "password-security-toolkit"
     }
@@ -124,26 +124,27 @@ def blocklistCheck(password: str) -> bool:
     this header in our request.'''
 
     # Query Have I Been Pwned password API for password hash prefix 
-    pwned_url = 'https://api.pwnedpasswords.com/range/{password_hash_prefix}'
-    pwned_results = requests.get(pwned_url, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+    pwned_results = requests.get(f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
 
     '''Have I Been Pwned API documentation can be found at
     https://haveibeenpwned.com/api/v3#PwnedPasswords'''
     
+    # !!! Ensure Pwned API query is successful !!! check for 200 repsonse code that signify's successful response then check whether returned content actually contains hashes https://stackoverflow.com/questions/18810777/how-do-i-read-a-response-from-python-requests
 
 
 
-    
     # Store Pwned suffix results with counts as list
     pwned_suffixes_and_counts = pwned_results.splitlines()
 
     # Remove counts from Pwned suffix results:
     # Create new list to store suffix results without counts
     pwned_suffixes = []
+
     # Loop through each suffix in Pwned API results
     for suffix in pwned_suffixes_and_counts:
         # Check for end of suffix
         end = suffix.index(":")
+
         # Store suffix without count in new list 
         pwned_suffixes.append(suffix[:end])
     
@@ -157,13 +158,9 @@ def blocklistCheck(password: str) -> bool:
             return match
 
 
-
-
-
-
-
-
-
+    
+    
+    
 
 
 
@@ -171,39 +168,38 @@ def blocklistCheck(password: str) -> bool:
     if not match:
         # Create dictionary containing all possible de-subbed versions of password 
         desubbed_passwords = desubstitute(password)
-
-        # Loop through each possible de-subbed version of password
+        
+        # Loop through each possible de-subbed version of password 
         for desubbed_password in desubbed_passwords:
             # Hash current de-subbed version of password with SHA-1
             desubbed_hash = hashlib.sha1(desubbed_password.encode()).hexdigest()
             
-            # Store first five characters of de-subbed password hash for k-anonymity suppression
+            # Store first five characters of de-subbed password hash for k-anonymity suppression 
             desubbed_hash_prefix = desubbed_hash[:5]
-            
+
             # Query Have I Been Pwned password API for current de-subbed password hash prefix 
-            pwned_desubbed_suffix_results = requests.get(https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
-
-
-
-
-
-
+            pwned_desubbed_suffix_results = requests.get(f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
 
             # Ensure Pwned API query results are not empty !!! check for 200 repsonse code that signify's successful response then check whether returned content actually contains hashes
-            if pwned_desubbed_suffix_results:
-                # Check if Pwned API query results match de-subbed password hash !!!
-                for suffix in pwned_desubbed_suffix_results:
-                    if desubbed_hash_prefix + suffix == desubbed_hash:      # Join together de-subbed password hash prefix and API suffix results to check complete hash results for match
-                        # Match found:
-                        match = True
-                        return match
-                    # Continue loop if no match found:
-    
 
 
 
+            # Store Pwned suffix results with counts as list
+            pwned_desubbed_suffixes_and_counts = pwned_desubbed_suffix_results.splitlines()
 
+            # Remove counts from Pwned suffix results:
+            # Create new list to store suffix results without counts
+            pwned_desubbed_suffixes = []
 
+            # Loop through each suffix in Pwned API results
+            for suffix in pwned_desubbed_suffixes:
+                # Check if complete hash result (prefix + suffix) matches password hash
+                if desubbed_hash_prefix + suffix == password_hash:
+                    # Match found:
+                    match = True
+                    return match
+                # Match not found:
+                continue
 
     return match
 
