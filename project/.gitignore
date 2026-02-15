@@ -6,7 +6,3 @@ flask_session/
 venv/
 .venv/
 env/
-
-# direnv (automated enviroment selector based on current directory)
-.envrc
-.direnv/

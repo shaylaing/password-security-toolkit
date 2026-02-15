@@ -1,6 +1,3 @@
 .DS_Store
 
-# direnv (automated enviroment selector based on current directory)
-.envrc
-
 .venv/
