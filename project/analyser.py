@@ -202,10 +202,39 @@ def blocklistCheck(password: str) -> bool:
                         return match
                     # Loop continues if match not found
 
-    return match
-
     # Have I Been Pwned's API returns a multi-line string of suffixes whose
     # prefix matches the prefix of the user's password hash. Therefore, we must use
     # .splitlines() to separate each suffix and add them to a list so that we can
     # iterate over them for the check. Likewise, we use .index() and slicing to remove
     # the counts that are paired with each suffix by the API.
+
+    return match
+
+
+# Define minimum length check function
+def min_length_check(password: str) -> tuple[int, int]:
+    points = 0
+
+    # Define default score cap
+    score_cap = 100
+
+    # Calculate and store length of password
+    length = len(password)
+
+    # Determine rewarded points and score cap:
+    # Below 8 characters
+    if length < 8:
+        score_cap = 25
+    # Between 8 - 11 characters
+    elif 8 <= length < 12:
+        score_cap = 60
+        points += 20
+    # Between 12 - 14 characters
+    elif 12 <= length < 15:
+        score_cap = 85
+        points += 35
+    # 15+ characters
+    elif length >= 15:
+        points += 50
+    
+    return points, score_cap
