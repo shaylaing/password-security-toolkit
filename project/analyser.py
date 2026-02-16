@@ -44,11 +44,11 @@ for key, vals in COMMON_SUBSTITUTIONS.items():      # Take each key (real char) 
     for val in vals:        # Take each value in values (subbed chars) 
         common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
 
-'''Dictionary lookup is slow as it searches via keys by default. Reverse 
-mapping enables us to flip the dictionary around so that we treat its values
-as keys instead so that we can search via its values and speed up the process
-of searching the dictionary. Provides improvement from O(n) per character to 
-O(1) per character.'''
+# Dictionary lookup is slow as it searches via keys by default. Reverse 
+# mapping enables us to flip the dictionary around so that we treat its values
+# as keys instead so that we can search via its values and speed up the process
+# of searching the dictionary. Provides improvement from O(n) per character to 
+# O(1) per character.'''
 
 
 # Define function to generate all possible original passwords by reversing character substitutions (used in blocklist check)
@@ -84,17 +84,17 @@ def desubstitute(password: str) -> list[str]:
 
     return desubbed_possibilities
 
-'''Each string in desubbed_possibilities acts as a base. For each base string, 
-we create a new string for every possible original character for the current 
-password character. That is how one base string produces multiple new strings, 
-one per possible original character.'''
+# Each string in desubbed_possibilities acts as a base. For each base string, 
+# we create a new string for every possible original character for the current 
+# password character. That is how one base string produces multiple new strings, 
+# one per possible original character.
 
-'''If desubbed_possibilities currently contains four partial password strings 
-and the current password character could represent three possible original 
-characters (stored in possible_chars), then each possible character is appended 
-to its own separate copy of each existing string (stored in new_possibilities). 
-These newly created strings replace the old list, so desubbed_possibilities now 
-contains 12 partial password possibilities.'''
+# If desubbed_possibilities currently contains four partial password strings 
+# and the current password character could represent three possible original 
+# characters (stored in possible_chars), then each possible character is appended 
+# to its own separate copy of each existing string (stored in new_possibilities). 
+# These newly created strings replace the old list, so desubbed_possibilities now 
+# contains 12 partial password possibilities.
 
 
 # Define blocklist check function:
@@ -102,15 +102,12 @@ def blocklistCheck(password: str) -> bool:
     # Declare match variable to track whether a match has been found
     match = False
 
-    # Calculate and store password length
-    length = len(password)
-
     # Hash password with SHA-1 and store it  
     password_hash = hashlib.sha1(password.encode()).hexdigest() 
 
-    '''.encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
-    .hexdigest() converts the resulting binary hash to a readable hexadecimal 
-    string so that it is compatible with the Pwned API's hex format.'''
+    # .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
+    # .hexdigest() converts the resulting binary hash to a readable hexadecimal 
+    # string so that it is compatible with the Pwned API's hex format.
 
     # Store first five characters of password hash for k-anonymity suppression
     password_hash_prefix = password_hash[:5] 
@@ -120,14 +117,14 @@ def blocklistCheck(password: str) -> bool:
         "User-Agent": "password-security-toolkit"
     }
 
-    '''We are providing the Have I Been Pwned API with identification by including 
-    this header in our request.'''
+    # We are providing the Have I Been Pwned API with identification by including 
+    # this header in our request.
 
     # Query Have I Been Pwned password API for password hash prefix 
-    pwned_results = requests.get(f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+    pwned_results = requests.get(f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', timeout=5, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
 
-    '''Have I Been Pwned API documentation can be found at
-    https://haveibeenpwned.com/api/v3#PwnedPasswords'''
+    # Have I Been Pwned API documentation can be found at
+    # https://haveibeenpwned.com/api/v3#PwnedPasswords
     
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
     if pwned_results.status_code() == 200:
@@ -165,11 +162,11 @@ def blocklistCheck(password: str) -> bool:
             # Hash current de-subbed version of password with SHA-1
             desubbed_hash = hashlib.sha1(desubbed_password.encode()).hexdigest()
             
-            # Store first five characters of de-subbed password hash for k-anonymity suppression 
+            # Store first five characters of de-subbed password hash for k-anonymity suppression (Pwned API returns suffix-only, meaning the first five hash characters are not included)
             desubbed_hash_prefix = desubbed_hash[:5]
 
             # Query Have I Been Pwned password API for current de-subbed password hash prefix 
-            pwned_desubbed_suffix_results = requests.get(f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+            pwned_desubbed_suffix_results = requests.get(f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)   
 
             # Ensure Pwned API query is successful by checking for HTTP 200 status code
             if pwned_results.status_code() == 200:
@@ -199,8 +196,8 @@ def blocklistCheck(password: str) -> bool:
 
     return match
 
-    '''Have I Been Pwned's API returns a multi-line string of suffixes whose 
-    prefix matches the prefix of the user's password hash. Therefore, we must use 
-    .splitlines() to separate each suffix and add them to a list so that we can 
-    iterate over them for the check. Likewise, we use .index() and slicing to remove 
-    the counts that are paired with each suffix by the API.'''
+    # Have I Been Pwned's API returns a multi-line string of suffixes whose 
+    # prefix matches the prefix of the user's password hash. Therefore, we must use 
+    # .splitlines() to separate each suffix and add them to a list so that we can 
+    # iterate over them for the check. Likewise, we use .index() and slicing to remove 
+    # the counts that are paired with each suffix by the API.
