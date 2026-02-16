@@ -43,7 +43,8 @@ COMMON_SUBSTITUTIONS = {
 common_substitutions_reverse_map = {}
 # Take each key (real char) and its list of substitutions (values) (.items prevents default key-only iteration over dict)
 for key, vals in COMMON_SUBSTITUTIONS.items():
-    for val in vals:        # Take each value in values (subbed chars)
+    # Take each value in values (subbed chars)
+    for val in vals:        
         # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
         common_substitutions_reverse_map.setdefault(val, []).append(key)
 
@@ -51,7 +52,7 @@ for key, vals in COMMON_SUBSTITUTIONS.items():
 # mapping enables us to flip the dictionary around so that we treat its values
 # as keys instead so that we can search via its values and speed up the process
 # of searching the dictionary. Provides improvement from O(n) per character to
-# O(1) per character.'''
+# O(1) per character.
 
 
 # Define function to generate all possible original passwords by reversing character substitutions (used in blocklist check)
@@ -132,7 +133,7 @@ def blocklistCheck(password: str) -> bool:
     # https://haveibeenpwned.com/api/v3#PwnedPasswords
 
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
-    if pwned_results.status_code() == 200:
+    if pwned_results.status_code == 200:
         # Store Pwned suffix results with counts as list
         pwned_suffixes_and_counts = pwned_results.text.splitlines()
 
@@ -176,7 +177,7 @@ def blocklistCheck(password: str) -> bool:
                 f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)
 
             # Ensure Pwned API query is successful by checking for HTTP 200 status code
-            if pwned_results.status_code() == 200:
+            if pwned_results.status_code == 200:
                 # Store Pwned suffix results with counts as list
                 pwned_desubbed_suffixes_and_counts = pwned_desubbed_suffix_results.text.splitlines()
 
