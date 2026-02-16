@@ -4,7 +4,7 @@ import requests
 
 # Define every possible ASCII symbol/special character for entropy check and composition check
 SYMBOLS_SET = {'!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
-           ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
+               ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
 
 
 # Define dict of commonly substituted characters and their singular substitutions (a.k.a. Leet Speak) for blocklist check
@@ -35,19 +35,22 @@ COMMON_SUBSTITUTIONS = {
     "x": ["%", "*"],
     "y": ["¥", "J", "j"],
     "z": ["2", "%"]
-    }
+}
 
 
 # Reverse mapping for desubstitute function (suggested by Claude to allow for fast O(1) value lookup on the COMMON_SUBSTITUTIONS dict)
-common_substitutions_reverse_map = {}      # Initialise empty dict for reverse map
-for key, vals in COMMON_SUBSTITUTIONS.items():      # Take each key (real char) and its list of substitutions (values) (.items prevents default key-only iteration over dict)
-    for val in vals:        # Take each value in values (subbed chars) 
-        common_substitutions_reverse_map.setdefault(val, []).append(key)      # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
+# Initialise empty dict for reverse map
+common_substitutions_reverse_map = {}
+# Take each key (real char) and its list of substitutions (values) (.items prevents default key-only iteration over dict)
+for key, vals in COMMON_SUBSTITUTIONS.items():
+    for val in vals:        # Take each value in values (subbed chars)
+        # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
+        common_substitutions_reverse_map.setdefault(val, []).append(key)
 
-# Dictionary lookup is slow as it searches via keys by default. Reverse 
+# Dictionary lookup is slow as it searches via keys by default. Reverse
 # mapping enables us to flip the dictionary around so that we treat its values
 # as keys instead so that we can search via its values and speed up the process
-# of searching the dictionary. Provides improvement from O(n) per character to 
+# of searching the dictionary. Provides improvement from O(n) per character to
 # O(1) per character.'''
 
 
@@ -56,7 +59,7 @@ def desubstitute(password: str) -> list[str]:
     # Initialise list with empty string to act as starting base for building combinations
     desubbed_possibilities = [""]
 
-    # Loop through each character in the password 
+    #  Loop through each character in the password
     for char in password:
         # Ensure character is lowercase before checking against dict
         char = char.lower()
@@ -68,7 +71,7 @@ def desubstitute(password: str) -> list[str]:
         else:
             # Non-substituted character: store the current character as it already is in the password
             possible_chars = [char]
-        
+
         # Temporary list storing updated possibilities including the current character or the original characters the current character may represent
         new_possibilities = []
 
@@ -77,23 +80,23 @@ def desubstitute(password: str) -> list[str]:
             # Loop through each character in possible desubbed characters
             for original_char in possible_chars:
                 # Combine the possible combinations built so far with each possible character for the current position in the password
-                new_possibilities.append(possibility + original_char) 
-        
+                new_possibilities.append(possibility + original_char)
+
         # Update the list of desubbed possibilities to include the new possible characters of the current iteration
         desubbed_possibilities = new_possibilities
 
     return desubbed_possibilities
 
-# Each string in desubbed_possibilities acts as a base. For each base string, 
-# we create a new string for every possible original character for the current 
-# password character. That is how one base string produces multiple new strings, 
+# Each string in desubbed_possibilities acts as a base. For each base string,
+# we create a new string for every possible original character for the current
+# password character. That is how one base string produces multiple new strings,
 # one per possible original character.
 
-# If desubbed_possibilities currently contains four partial password strings 
-# and the current password character could represent three possible original 
-# characters (stored in possible_chars), then each possible character is appended 
-# to its own separate copy of each existing string (stored in new_possibilities). 
-# These newly created strings replace the old list, so desubbed_possibilities now 
+# If desubbed_possibilities currently contains four partial password strings
+# and the current password character could represent three possible original
+# characters (stored in possible_chars), then each possible character is appended
+# to its own separate copy of each existing string (stored in new_possibilities).
+# These newly created strings replace the old list, so desubbed_possibilities now
 # contains 12 partial password possibilities.
 
 
@@ -102,30 +105,32 @@ def blocklistCheck(password: str) -> bool:
     # Declare match variable to track whether a match has been found
     match = False
 
-    # Hash password with SHA-1 and store it  
-    password_hash = hashlib.sha1(password.encode()).hexdigest() 
+    # Hash password with SHA-1 and store it
+    password_hash = hashlib.sha1(password.encode()).hexdigest()
 
-    # .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
-    # .hexdigest() converts the resulting binary hash to a readable hexadecimal 
+    #  .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string.
+    # .hexdigest() converts the resulting binary hash to a readable hexadecimal
     # string so that it is compatible with the Pwned API's hex format.
 
     # Store first five characters of password hash for k-anonymity suppression
-    password_hash_prefix = password_hash[:5] 
+    password_hash_prefix = password_hash[:5]
 
     # HTTP request header for Have I Been Pwned API query (polite API usage and helps avoid rate-limiting or filtering issues)
     headers = {
         "User-Agent": "password-security-toolkit"
     }
 
-    # We are providing the Have I Been Pwned API with identification by including 
+    # We are providing the Have I Been Pwned API with identification by including
     # this header in our request.
 
-    # Query Have I Been Pwned password API for password hash prefix 
-    pwned_results = requests.get(f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', timeout=5, headers=headers)     # Pwned API returns suffix-only results (first five hash characters not included)
+    # Query Have I Been Pwned password API for password hash prefix
+    # Pwned API returns suffix-only results (first five hash characters not included)
+    pwned_results = requests.get(
+        f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', timeout=5, headers=headers)
 
     # Have I Been Pwned API documentation can be found at
     # https://haveibeenpwned.com/api/v3#PwnedPasswords
-    
+
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
     if pwned_results.status_code() == 200:
         # Store Pwned suffix results with counts as list
@@ -140,9 +145,9 @@ def blocklistCheck(password: str) -> bool:
             # Find end of suffix
             end = suffix.index(":")
 
-            # Store suffix without count in new list 
+            # Store suffix without count in new list
             pwned_suffixes.append(suffix[:end])
-        
+
         # Check if Pwned API query results match password hash:
         # Loop through each suffix in Pwned API results
         for suffix in pwned_suffixes:
@@ -154,19 +159,21 @@ def blocklistCheck(password: str) -> bool:
 
     # Check de-subbed versions of password if match is not found:
     if not match:
-        # Create list containing all possible de-subbed versions of password 
+        # Create list containing all possible de-subbed versions of password
         desubbed_passwords = desubstitute(password)
-        
-        # Loop through each possible de-subbed version of password 
+
+        # Loop through each possible de-subbed version of password
         for desubbed_password in desubbed_passwords:
             # Hash current de-subbed version of password with SHA-1
-            desubbed_hash = hashlib.sha1(desubbed_password.encode()).hexdigest()
-            
+            desubbed_hash = hashlib.sha1(
+                desubbed_password.encode()).hexdigest()
+
             # Store first five characters of de-subbed password hash for k-anonymity suppression (Pwned API returns suffix-only, meaning the first five hash characters are not included)
             desubbed_hash_prefix = desubbed_hash[:5]
 
-            # Query Have I Been Pwned password API for current de-subbed password hash prefix 
-            pwned_desubbed_suffix_results = requests.get(f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)   
+            # Query Have I Been Pwned password API for current de-subbed password hash prefix
+            pwned_desubbed_suffix_results = requests.get(
+                f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)
 
             # Ensure Pwned API query is successful by checking for HTTP 200 status code
             if pwned_results.status_code() == 200:
@@ -182,7 +189,7 @@ def blocklistCheck(password: str) -> bool:
                     # Find end of suffix
                     end = suffix.index(":")
 
-                    # Store suffix without count in new list 
+                    # Store suffix without count in new list
                     pwned_desubbed_suffixes.append(suffix[:end])
 
                 # Loop through each suffix in Pwned API results
@@ -196,8 +203,8 @@ def blocklistCheck(password: str) -> bool:
 
     return match
 
-    # Have I Been Pwned's API returns a multi-line string of suffixes whose 
-    # prefix matches the prefix of the user's password hash. Therefore, we must use 
-    # .splitlines() to separate each suffix and add them to a list so that we can 
-    # iterate over them for the check. Likewise, we use .index() and slicing to remove 
+    # Have I Been Pwned's API returns a multi-line string of suffixes whose
+    # prefix matches the prefix of the user's password hash. Therefore, we must use
+    # .splitlines() to separate each suffix and add them to a list so that we can
+    # iterate over them for the check. Likewise, we use .index() and slicing to remove
     # the counts that are paired with each suffix by the API.
