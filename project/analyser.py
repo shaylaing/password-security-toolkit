@@ -211,7 +211,7 @@ def blocklistCheck(password: str) -> bool:
     return match
 
 
-# Define minimum length check function
+# Define minimum length check function:
 def min_length_check(password: str) -> tuple[int, int]:
     points = 0
 
@@ -238,3 +238,48 @@ def min_length_check(password: str) -> tuple[int, int]:
         points += 50
     
     return points, score_cap
+
+
+# Define entropy check function:
+def entropy_check(password: str) -> tuple[int, int, int]:
+    points = 0
+    charset_range = 0
+
+    # Define constants for each character type to be used when determining charset range
+    NUMERICS = 10
+    LOWERCASE = 26
+    UPPERCASE = 26
+    SYMBOLS = 32        # ASCII characters only
+
+    # Calculate and store length of password
+    length = len(password)
+
+    # Determine charset range for entropy check:
+    # Define boolean flag for each character type and set them to False by default
+    has_numeric = False
+    has_lower = False
+    has_upper = False
+    has_symbol = False
+
+    # Loop through each character in password
+    for char in password:
+        # Check if character is numeric
+        if char.isdigit() == True:
+            has_numeric = True
+        # Check if character is lowercase
+        if char.islower() == True:
+            has_lower = True
+        # Check if character is uppercase
+        if char.isupper() == True:
+            has_upper = True
+        # Check if character is symbol
+        if char in SYMBOLS_SET:
+            has_symbol = True
+    
+    # Calculate charset range
+    # Add numeric range to charset range if password contains an numeric character
+    # Add lowercase range to charset range if password contains an lowercase character
+    # Add uppercase range to charset range if password contains an uppercase character
+    # Add symbol range to charset range if password contains a symbol
+
+        return
