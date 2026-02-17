@@ -276,10 +276,42 @@ def entropy_check(password: str) -> tuple[int, int, int]:
         if char in SYMBOLS_SET:
             has_symbol = True
     
-    # Calculate charset range
+    # Calculate charset range:
     # Add numeric range to charset range if password contains an numeric character
+    if has_numeric:
+        charset_range += NUMERICS
     # Add lowercase range to charset range if password contains an lowercase character
+    if has_lower:
+        charset_range += LOWERCASE
     # Add uppercase range to charset range if password contains an uppercase character
+    if has_upper:
+        charset_range += UPPERCASE
     # Add symbol range to charset range if password contains a symbol
+    if has_symbol:
+        charset_range += SYMBOLS
+    
+    # Prevent charset range from being 0 by setting it to a default value of 1 
+    if charset_range == 0:
+        charset_range += 1
+    
+    # Calculate entropy
+    entropy_bits = length * log2(charset_range)
 
-        return
+    # Calculate total possible combinations an attacker would need to check to crack password
+    possible_combinations = pow(2, entropy_bits)
+
+    # Determine rewarded points:
+    # Below 60 entropy bits
+    if entropy_bits < 60:
+        points = 0
+    # Between 60 - 71 entropy bits
+    elif 60 <= entropy_bits <= 71:
+        points += 10
+    # Between 72 - 80 entropy bits
+    elif 72 <= entropy_bits <= 80:
+        points += 20
+    # Above 80 entropy bits
+    elif entropy_bits > 80:
+        points += 30
+
+    return points, entropy_bits, possible_combinations
