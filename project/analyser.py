@@ -304,7 +304,7 @@ def entropy_check(password: str) -> tuple[int, int, int]:
     # Determine rewarded points:
     # Below 60 entropy bits
     if entropy_bits < 60:
-        points = 0
+        points += 0
     # Between 60 - 71 entropy bits
     elif 60 <= entropy_bits <= 71:
         points += 10
@@ -345,13 +345,14 @@ def composition_check(password: str) -> int:
             has_symbol = True
     
     # Setup code for embedded check:
+    has_embedded_digit_or_symbol = False
+    
     # Ensure password is at least 3 characters long
     if len(password) >= 3:
         # Extract substring of only the embedded characters in password
         embedded_chars = password[1:len(password) - 1]
 
-        # Detect if any numbers or symbols are embedded in password 
-        has_embedded_digit_or_symbol = False
+        # Detect if any numbers or symbols are embedded in password:
         # Loop through each character in embedded characters of password
         for char in embedded_chars:
             # Check if embedded char is numeric or a symbol
