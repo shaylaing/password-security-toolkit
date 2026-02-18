@@ -359,6 +359,18 @@ def composition_check(password: str) -> int:
                 # Char is numeric or a symbol:
                 has_embedded_digit_or_symbol = True
 
+    # Check if password contains lowercase and uppercase characters AND embedded numbers or symbols
+    if has_embedded_digit_or_symbol and has_lower and has_upper:
+        points += 20
+    # Check if password contains lowercase, uppercase, numbers, and symbols
+    elif has_lower and has_upper and has_numeric and has_symbol:
+        points += 15
+    # Check if password contains lowercase, uppercase, and numeric characters
+    elif has_lower and has_upper and has_numeric:
+        points += 5
+    # Check if password contains letters only or numbers only
+    elif password.isalpha() or password.isdigit():
+        points = 0
 
-
-    # Check if password contains lowercase and uppercase characters AND if it contains embedded numbers or symbols
+    return points
+    
