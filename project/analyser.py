@@ -261,6 +261,7 @@ def entropy_check(password: str) -> tuple[int, int, int]:
     has_upper = False
     has_symbol = False
 
+    # Detect which character types appear in password:
     # Loop through each character in password
     for char in password:
         # Check if character is numeric
@@ -315,3 +316,49 @@ def entropy_check(password: str) -> tuple[int, int, int]:
         points += 30
 
     return points, entropy_bits, possible_combinations
+
+
+# Define composition check function:
+def composition_check(password: str) -> int:
+    points = 0
+
+    # Detect which character types appear in password:
+    # Define boolean flag for each character type and set them to False by default
+    has_numeric = False
+    has_lower = False
+    has_upper = False
+    has_symbol = False
+
+    # Loop through each character in password
+    for char in password:
+        # Check if character is numeric
+        if char.isdigit() == True:
+            has_numeric = True
+        # Check if character is lowercase
+        if char.islower() == True:
+            has_lower = True
+        # Check if character is uppercase
+        if char.isupper() == True:
+            has_upper = True
+        # Check if character is symbol
+        if char in SYMBOLS_SET:
+            has_symbol = True
+    
+    # Setup code for embedded check:
+    # Ensure password is at least 3 characters long
+    if len(password) >= 3:
+        # Extract substring of only the embedded characters in password
+        embedded_chars = password[1:len(password) - 1]
+
+        # Detect if any numbers or symbols are embedded in password 
+        has_embedded_digit_or_symbol = False
+        # Loop through each character in embedded characters of password
+        for char in embedded_chars:
+            # Check if embedded char is numeric or a symbol
+            if char.isnumeric() or char in SYMBOLS_SET:
+                # Char is numeric or a symbol:
+                has_embedded_digit_or_symbol = True
+
+
+
+    # Check if password contains lowercase and uppercase characters AND if it contains embedded numbers or symbols
