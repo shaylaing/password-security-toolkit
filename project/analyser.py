@@ -390,70 +390,54 @@ def pattern_check(password: str) -> int:
     # Check for sequential characters (abc, 123, etc.):
     # Loop through each character in password
     for i, char in enumerate(password):
-        # Ascending checks:
-        # Letter check:
-        # Get index of character in letters list if current password character is a letter
+        # Letter checks:
+        # Ensure current character is a letter
         if char.isalpha():
-            l = SEQUENTIAL_LETTERS.index(char)
+            # Get index of character in letters list if current password character is a letter
+            l = SEQUENTIAL_LETTERS.index(char.lower())
 
-            # Prevent IndexError with overflow check
-            if i + 2 > len(password):
-                break
-            
-            # Check if next character matches ascending letter sequence
-            if password[i + 1] == SEQUENTIAL_LETTERS[l + 1]:
-                # Check if next character also matches ascending letter sequence
-                if password[i + 2] == SEQUENTIAL_LETTERS[l + 2]:
-                    sequential_chars = True
-                    break
+            # Ascending:
+            # Prevent overflow 
+            if i + 2 <= len(password) - 1:
+                # Check if next character matches ascending letter sequence
+                if password[i + 1] == SEQUENTIAL_LETTERS[l + 1]:
+                    # Check if next character also matches ascending letter sequence
+                    if password[i + 2] == SEQUENTIAL_LETTERS[l + 2]:
+                        sequential_chars = True
+                        break
+        
+            # Descending:
+            # Prevent underflow
+            if i - 2 > -1 and l - 2 > -1:
+                # Check if previous character matches descending letter sequence
+                if password[i - 1] == SEQUENTIAL_LETTERS[l - 1]:
+                    # Check if previous character also matches descending letter sequence
+                    if password[i - 2] == SEQUENTIAL_LETTERS[l - 2]:
+                        sequential_chars = True
+                        break
 
-        # Number check:
-        # Get index of character in numbers list if current password character is a number
+        # Number checks:
+        # Ensure current character is a number
         if char.isdigit():
+            # Get index of character in numbers list if current password character is a number
             n = SEQUENTIAL_NUMBERS.index(char)
 
-            # Prevent IndexError with overflow check
-            if i + 2 > len(password):
-                break
+            # Ascending:
+            # Prevent overflow
+            if i + 2 <= len(password) - 1:
+                # Check if next character matches ascending number sequence
+                if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
+                    # Check if next character also matches ascending number sequence
+                    if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
+                        sequential_chars = True
+                        break
 
-            # Check if next character matches ascending number sequence
-            if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
-                # Check if next character also matches ascending number sequence
-                if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
-                    sequential_chars = True
-                    break
-
-        # Descending checks:
-        # Letter check:
-        if char.isalpha():
-            ld = SEQUENTIAL_LETTERS.index(char)
-
-            # Prevent IndexError with underflow and overflow check
-            if i + 2 > len(password) and ld >= 2:
-                break
-
-            # Check if previous character matches descending letter sequence
-            if password[i + 1] == SEQUENTIAL_LETTERS[ld - 1]:
-                # Check if previous character also matches descending letter sequence
-                if password[i + 2] == SEQUENTIAL_LETTERS[ld - 2]:
-                    sequential_chars = True
-                    break
-        
-        # Number check:
-        if char.isdigit():
-            nd = SEQUENTIAL_NUMBERS.index(char)
-            
-            # Prevent IndexError with underflow and overflow check
-            if i + 2 > len(password) and nd >= 2:
-                break
-        
-        # Check if previous character matches descending number sequence
-        if password[i + 1] == SEQUENTIAL_NUMBERS[nd - 1]:
-            # Check if previous character also matches descending number sequence
-            if password[i + 2] == SEQUENTIAL_NUMBERS[nd - 2]:
-                sequential_chars = True
-                break
-
-
-
-
+            # Descending:
+            # Prevent underflow
+            if i - 2 > -1 and n - 2 > -1:
+                # Check if previous character matches descending number sequence
+                if password[i - 1] == SEQUENTIAL_NUMBERS[n - 1]:
+                    # Check if previous character also matches descending number sequence
+                    if password[i - 2] == SEQUENTIAL_NUMBERS[n - 2]:
+                        sequential_chars = True
+                        break
