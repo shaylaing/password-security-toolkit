@@ -346,7 +346,7 @@ def composition_check(password: str) -> int:
     
     # Setup code for embedded check:
     has_embedded_digit_or_symbol = False
-    
+
     # Ensure password is at least 3 characters long
     if len(password) >= 3:
         # Extract substring of only the embedded characters in password
@@ -374,4 +374,86 @@ def composition_check(password: str) -> int:
         points = 0
 
     return points
-    
+
+
+# Define pattern check function:
+def pattern_check(password: str) -> int:
+    deducted_points = 0
+    sequential_chars = False
+    keyboard_pattern = False
+    repeated_chars = False
+
+    # Define character list constants for sequential characters check
+    SEQUENTIAL_LETTERS = "abcdefghijklmnopqrstuvwxyz"
+    SEQUENTIAL_NUMBERS = "0123456789"
+
+    # Check for sequential characters (abc, 123, etc.):
+    # Loop through each character in password
+    for i, char in enumerate(password):
+        # Ascending checks:
+        # Letter check:
+        # Get index of character in letters list if current password character is a letter
+        if char.isalpha():
+            l = SEQUENTIAL_LETTERS.index(char)
+
+            # Prevent IndexError with overflow check
+            if i + 2 > len(password):
+                break
+            
+            # Check if next character matches ascending letter sequence
+            if password[i + 1] == SEQUENTIAL_LETTERS[l + 1]:
+                # Check if next character also matches ascending letter sequence
+                if password[i + 2] == SEQUENTIAL_LETTERS[l + 2]:
+                    sequential_chars = True
+                    break
+
+        # Number check:
+        # Get index of character in numbers list if current password character is a number
+        if char.isdigit():
+            n = SEQUENTIAL_NUMBERS.index(char)
+
+            # Prevent IndexError with overflow check
+            if i + 2 > len(password):
+                break
+
+            # Check if next character matches ascending number sequence
+            if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
+                # Check if next character also matches ascending number sequence
+                if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
+                    sequential_chars = True
+                    break
+
+        # Descending checks:
+        # Letter check:
+        if char.isalpha():
+            ld = SEQUENTIAL_LETTERS.index(char)
+
+            # Prevent IndexError with underflow and overflow check
+            if i + 2 > len(password) and ld >= 2:
+                break
+
+            # Check if previous character matches descending letter sequence
+            if password[i + 1] == SEQUENTIAL_LETTERS[ld - 1]:
+                # Check if previous character also matches descending letter sequence
+                if password[i + 2] == SEQUENTIAL_LETTERS[ld - 2]:
+                    sequential_chars = True
+                    break
+        
+        # Number check:
+        if char.isdigit():
+            nd = SEQUENTIAL_NUMBERS.index(char)
+            
+            # Prevent IndexError with underflow and overflow check
+            if i + 2 > len(password) and nd >= 2:
+                break
+        
+        # Check if previous character matches descending number sequence
+        if password[i + 1] == SEQUENTIAL_NUMBERS[nd - 1]:
+            # Check if previous character also matches descending number sequence
+            if password[i + 2] == SEQUENTIAL_NUMBERS[nd - 2]:
+                sequential_chars = True
+                break
+
+
+
+
