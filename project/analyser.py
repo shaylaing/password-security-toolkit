@@ -376,8 +376,8 @@ def composition_check(password: str) -> int:
     return points
 
 
-# Define pattern check function:
-def pattern_check(password: str) -> int:
+# Define pattern checks function:
+def pattern_checks(password: str) -> int:
     deducted_points = 0
     sequential_chars = False
     keyboard_pattern = False
@@ -465,3 +465,28 @@ def pattern_check(password: str) -> int:
                 # Match found
                 repeated_chars = True
                 break
+
+    # Determine deducted points for pattern checks:
+    # Calculate how many pattern types appear in password
+    pattern_match_count = sum([sequential_chars, keyboard_pattern, repeated_chars])
+
+    # Determine deducted points:
+    # No pattern types found
+    if pattern_match_count == 0:
+        return deducted_points
+    # One pattern type found
+    elif pattern_match_count == 1:
+        deducted_points += 10
+        return deducted_points
+    # Two pattern types found
+    elif pattern_match_count == 2:
+        deducted_points += 25
+        return deducted_points
+    # Three pattern types found
+    elif pattern_match_count == 3:
+        deducted_points += 40
+        return deducted_points
+
+    # We use sum() because, in Python, True has a value of 1 and False has a value 
+    # of 0. So we can use sum() to total how many instances of True there are in 
+    # a list of multiple variables.
