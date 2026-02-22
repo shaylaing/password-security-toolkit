@@ -403,9 +403,9 @@ def pattern_checks(password: str) -> int:
             # Prevent overflow 
             if i + 2 <= len(password) - 1:
                 # Check if next character matches ascending letter sequence
-                if password[i + 1] == SEQUENTIAL_LETTERS[l + 1]:
+                if password[i + 1].lower() == SEQUENTIAL_LETTERS[l + 1]:
                     # Check if next character also matches ascending letter sequence
-                    if password[i + 2] == SEQUENTIAL_LETTERS[l + 2]:
+                    if password[i + 2].lower() == SEQUENTIAL_LETTERS[l + 2]:
                         # Match found
                         sequential_chars = True
                         break
@@ -414,9 +414,9 @@ def pattern_checks(password: str) -> int:
             # Prevent underflow
             if i - 2 > -1 and l - 2 > -1:
                 # Check if previous character matches descending letter sequence
-                if password[i - 1] == SEQUENTIAL_LETTERS[l - 1]:
+                if password[i + 1].lower() == SEQUENTIAL_LETTERS[l - 1]:
                     # Check if previous character also matches descending letter sequence
-                    if password[i - 2] == SEQUENTIAL_LETTERS[l - 2]:
+                    if password[i + 2].lower() == SEQUENTIAL_LETTERS[l - 2]:
                         # Match found
                         sequential_chars = True
                         break
@@ -442,9 +442,9 @@ def pattern_checks(password: str) -> int:
             # Prevent underflow
             if i - 2 > -1 and n - 2 > -1:
                 # Check if previous character matches descending number sequence
-                if password[i - 1] == SEQUENTIAL_NUMBERS[n - 1]:
+                if password[i + 1] == SEQUENTIAL_NUMBERS[n - 1]:
                     # Check if previous character also matches descending number sequence
-                    if password[i - 2] == SEQUENTIAL_NUMBERS[n - 2]:
+                    if password[i + 2] == SEQUENTIAL_NUMBERS[n - 2]:
                         # Match found
                         sequential_chars = True
                         break
@@ -490,3 +490,61 @@ def pattern_checks(password: str) -> int:
     # We use sum() because, in Python, True has a value of 1 and False has a value 
     # of 0. So we can use sum() to total how many instances of True there are in 
     # a list of multiple variables.
+
+
+# Define feedback creation function:
+def feedback_creation(blocklist_check_result = False, min_length_check_points = 0, entropy_check_points = 0, composition_check_points = 0, pattern_check_points = 0) -> dict:
+    # Create empty dictionary to store feedback messages to be returned
+    messages = {}
+
+    # Determine blocklist check message
+    if blocklist_check_result == True:
+        messages["blocklist_check"] = messages["Instant Fail: Password appears in blocklist (including de-substituted version)."]
+    else:
+        messages["blocklist_check"] = messages["Password does not appear in blocklist."]
+
+    # Determine minimum length check message
+    if min_length_check_points == 0:
+        messages["min_length_check"] = messages["Inadequate password length."]
+    elif min_length_check_points == 20:
+        messages["min_length_check"] = messages["Password length is okay."]
+    elif min_length_check_points == 35:
+        messages["min_length_check"] = messages["Password length is good."]
+    elif min_length_check_points == 50:
+        messages["min_length_check"] = messages["Password length is great."]
+    
+    # Determine entropy check message
+    if entropy_check_points == 0:
+        messages["entropy_check"] = messages["Password has very low entropy."]
+    elif entropy_check_points == 10:
+        messages["entropy_check"] = messages["Password has okay entropy."]
+    elif entropy_check_points == 20:
+        messages["entropy_check"] = messages["Password has good entropy."]
+    elif entropy_check_points == 30:
+        messages["entropy_check"] = messages["Password has great entropy."]
+
+    # Determine composition check message
+    if composition_check_points == 0:
+        messages["composition_check"] = messages["Password has bad composition complexity."]
+    elif composition_check_points == 5:
+        messages["composition_check"] = messages["Password has okay composition complexity."]
+    elif composition_check_points == 15:
+        messages["composition_check"] = messages["Password has good composition complexity."]
+    elif composition_check_points == 20:
+        messages["composition_check"] = messages["Password has great composition complexity."]
+    
+    # Determine pattern check message
+    if pattern_check_points == 0:
+        messages["pattern_check"] = messages["Password contains no common patterns."]
+    elif pattern_check_points == 10:
+        messages["pattern_check"] = messages["Password contains instances of one pattern type."]
+    elif pattern_check_points == 25:
+        messages["pattern_check"] = messages["Password contains instances of two pattern types."]
+    elif pattern_check_points == 40:
+        messages["pattern_check"] = messages["Password contains instances of three pattern types."]
+    
+    return messages
+
+    # Parameters for this function are given default values within its def statement. 
+    # This is to ensure that each parameter still has a value when they are not 
+    # included in the function call.
