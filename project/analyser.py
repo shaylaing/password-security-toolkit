@@ -154,7 +154,7 @@ def blocklistCheck(password: str) -> bool:
         for suffix in pwned_suffixes:
             # Check if complete hash result (prefix + suffix) matches password hash
             if password_hash_prefix + suffix == password_hash:
-                # Match found:
+                # Match found
                 match = True
                 return match
 
@@ -197,7 +197,7 @@ def blocklistCheck(password: str) -> bool:
                 for suffix in pwned_desubbed_suffixes:
                     # Check if complete hash result (prefix + suffix) matches password hash
                     if desubbed_hash_prefix + suffix == desubbed_hash:
-                        # Match found:
+                        # Match found
                         match = True
                         return match
                     # Loop continues if match not found
@@ -390,8 +390,8 @@ def pattern_check(password: str) -> int:
     # Define string set constant for keyboard patterns check
     KEYBOARD_PATTERNS = {"qwerty", "asdfgh", "zxcvbn", "qwertyuiop", "asdfghjkl", "zxcvbnm", "qweasd", "qazwsx", "wsxedc", "edcrfv", "rfvtgb", "tgbyhn", "yhnujm", "1qaz2wsx", "2wsx3edc", "3edc4rfv", "qwe", "asd", "zxc", "wer", "sdf", "xcv", "ert", "dfg", "cvb", "rty", "fgh", "vbn", "tyu", "ghj", "bnm", "yui", "hjk", "nmk", "uio", "jkl", "mkl", "iop", "klo", "pol", "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890", "qaz", "wsx", "edc", "rfv", "tgb", "yhn", "ujm"}
 
-    # Check for sequential characters ('abc', '123', etc.):
-    # Loop through each character in password
+    # Check for sequential characters ('abc', '123', etc.) in password:
+    # Loop through each character in password and fetch its index
     for i, char in enumerate(password):
         # Letter checks:
         # Ensure current character is a letter
@@ -406,7 +406,7 @@ def pattern_check(password: str) -> int:
                 if password[i + 1] == SEQUENTIAL_LETTERS[l + 1]:
                     # Check if next character also matches ascending letter sequence
                     if password[i + 2] == SEQUENTIAL_LETTERS[l + 2]:
-                        # Match found:
+                        # Match found
                         sequential_chars = True
                         break
         
@@ -417,7 +417,7 @@ def pattern_check(password: str) -> int:
                 if password[i - 1] == SEQUENTIAL_LETTERS[l - 1]:
                     # Check if previous character also matches descending letter sequence
                     if password[i - 2] == SEQUENTIAL_LETTERS[l - 2]:
-                        # Match found:
+                        # Match found
                         sequential_chars = True
                         break
 
@@ -434,7 +434,7 @@ def pattern_check(password: str) -> int:
                 if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
                     # Check if next character also matches ascending number sequence
                     if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
-                        # Match found:
+                        # Match found
                         sequential_chars = True
                         break
 
@@ -445,13 +445,23 @@ def pattern_check(password: str) -> int:
                 if password[i - 1] == SEQUENTIAL_NUMBERS[n - 1]:
                     # Check if previous character also matches descending number sequence
                     if password[i - 2] == SEQUENTIAL_NUMBERS[n - 2]:
-                        # Match found:
+                        # Match found
                         sequential_chars = True
                         break
 
-    # Check for keyboard patterns (including reversed) ('qwerty', 'asdfgh', etc.):
+    # Check for keyboard patterns (including reversed) ('qwerty', 'asdfgh', etc.) in password:
     # Check every pattern and reversed pattern in the keyboard patterns constant for a substring match in password
     if any(pattern in password for pattern in KEYBOARD_PATTERNS) or any(pattern[::-1] in password for pattern in KEYBOARD_PATTERNS):
-        # Match found:
+        # Match found
         keyboard_pattern = True
-
+    
+    # Check for repeated characters (3+ occurences) in password:
+    # Loop through each character in password and fetch its index
+    for i, char in enumerate(password):
+        # Prevent overflow
+        if i + 2 <= len(password) - 1:
+            # Check if next two characters in password match current character
+            if char == password[i + 1] and char == password[i + 2]:
+                # Match found
+                repeated_chars = True
+                break
