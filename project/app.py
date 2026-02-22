@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-from analyser import desubstitute
+import analyser
 
 # Configure Flask application
 app = Flask(__name__)
@@ -11,7 +11,8 @@ def index():
 
 @app.route("/analyser", methods=["GET", "POST"])
 def analyser():
-    # 
+    # Initialise final score
+    score = 0
 
     return render_template("analyser.html", current_page=request.path)
 
