@@ -499,49 +499,49 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
 
     # Determine blocklist check message
     if blocklist_check_result == True:
-        messages["blocklist_check"] = messages["Instant Fail: Password appears in blocklist (including de-substituted version)."]
+        messages["blocklist_check"] = "Instant Fail: Password appears in blocklist (including de-substituted version)."
     else:
-        messages["blocklist_check"] = messages["Password does not appear in blocklist."]
+        messages["blocklist_check"] = "Password does not appear in blocklist."
 
     # Determine minimum length check message
     if min_length_check_points == 0:
-        messages["min_length_check"] = messages["Inadequate password length."]
+        messages["min_length_check"] = "Inadequate password length."
     elif min_length_check_points == 20:
-        messages["min_length_check"] = messages["Password length is okay."]
+        messages["min_length_check"] = "Password length is okay."
     elif min_length_check_points == 35:
-        messages["min_length_check"] = messages["Password length is good."]
+        messages["min_length_check"] = "Password length is good."
     elif min_length_check_points == 50:
-        messages["min_length_check"] = messages["Password length is great."]
+        messages["min_length_check"] = "Password length is great."
     
     # Determine entropy check message
     if entropy_check_points == 0:
-        messages["entropy_check"] = messages["Password has very low entropy."]
+        messages["entropy_check"] = "Password has very low entropy."
     elif entropy_check_points == 10:
-        messages["entropy_check"] = messages["Password has okay entropy."]
+        messages["entropy_check"] = "Password has okay entropy."
     elif entropy_check_points == 20:
-        messages["entropy_check"] = messages["Password has good entropy."]
+        messages["entropy_check"] = "Password has good entropy."
     elif entropy_check_points == 30:
-        messages["entropy_check"] = messages["Password has great entropy."]
+        messages["entropy_check"] = "Password has great entropy."
 
     # Determine composition check message
     if composition_check_points == 0:
-        messages["composition_check"] = messages["Password has bad composition complexity."]
+        messages["composition_check"] = "Password has bad composition complexity."
     elif composition_check_points == 5:
-        messages["composition_check"] = messages["Password has okay composition complexity."]
+        messages["composition_check"] = "Password has okay composition complexity."
     elif composition_check_points == 15:
-        messages["composition_check"] = messages["Password has good composition complexity."]
+        messages["composition_check"] = "Password has good composition complexity."
     elif composition_check_points == 20:
-        messages["composition_check"] = messages["Password has great composition complexity."]
+        messages["composition_check"] = "Password has great composition complexity."
     
     # Determine pattern check message
     if pattern_check_points == 0:
-        messages["pattern_check"] = messages["Password contains no common patterns."]
+        messages["pattern_check"] = "Password contains no common patterns."
     elif pattern_check_points == 10:
-        messages["pattern_check"] = messages["Password contains instances of one pattern type."]
+        messages["pattern_check"] = "Password contains instances of one pattern type."
     elif pattern_check_points == 25:
-        messages["pattern_check"] = messages["Password contains instances of two pattern types."]
+        messages["pattern_check"] = "Password contains instances of two pattern types."
     elif pattern_check_points == 40:
-        messages["pattern_check"] = messages["Password contains instances of three pattern types."]
+        messages["pattern_check"] = "Password contains instances of three pattern types."
     
     return messages
 
