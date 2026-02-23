@@ -76,3 +76,8 @@ button:hover /* hover animation for buttons */
     background-color: #222;
     font-family: monospace;
 }
+
+.header
+{
+    margin-top: 50px;
+}

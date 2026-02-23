@@ -16,6 +16,7 @@
             {% endif %}
         </form>
     </div>
+    <!-- Display results of password strength check -->
     <div id="results" class="results-section">
         <h3 class="header">Strength Score</h3>
         {% if score is not none %}
@@ -25,10 +26,11 @@
         {% if entropy_bits %}
             <p id="entropy">{{ entropy_bits }}</p>
         {% endif %}
+        <br>
         <h3 class="header">Feedback:</h3>
         {% if feedback %}
             {% for i in feedback %}
-                <h5 id="feedback">{{ feedback[i] }}</h5>
+                <h5 id="feedback">- {{ feedback[i] }}</h5>
             {% endfor %}
         {% endif %}
     </div>
