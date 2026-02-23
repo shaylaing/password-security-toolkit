@@ -16,16 +16,19 @@ def analyser():
     # Initialise final score
     score = 0
 
-    # Get inputted password from form submission
-    password = request.form.get("password")
+    # Check for POST request method (form submission)
+    if request.method == "POST":
+        # Input validation for form submission:
+        # Get inputted password from form submission
+        password = request.form.get("password")
 
-    # Ensure inputted password is not longer than 64 characters (server-side input validation)
-    if len(password) > 64:
-        # If password is too long, return early with suitable error message
-        error_message = "400: Inputted password is too long."
-        return render_template("analyser.html", current_page=request.path, error_message=error_message)
+        # Ensure inputted password is not longer than 64 characters (server-side input validation)
+        if len(password) > 64:
+            # If password is too long, return early with suitable error message
+            error_message = "400: Inputted password is too long."
+            return render_template("analyser.html", current_page=request.path, error_message=error_message)
 
-    return render_template("analyser.html", current_page=request.path)
+        return render_template("analyser.html", current_page=request.path)
 
 
 @app.route("/simulator", methods=["GET", "POST"])
