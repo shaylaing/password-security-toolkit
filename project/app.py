@@ -54,6 +54,15 @@ def analyser():
         # vulnerable and likely to be cracked.
 
         # Minimum length check:
+        # Perform check and store result
+        min_length_check_points, score_cap = analyser.min_length_check(password)        # Tuple unpacking to store multiple return values 
+
+        # Add rewarded points for this check to final score
+        score += min_length_check_points
+
+        # Initialise returned score cap as a constant
+        SCORE_CAP = score_cap
+
 
         
         
