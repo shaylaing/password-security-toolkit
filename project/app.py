@@ -32,6 +32,7 @@ def analyser():
             error_message = "400: Inputted password is too long."
             return render_template("analyser.html", current_page=request.path, error_message=error_message)
         
+        # Perform checks:
         # Blocklist check:
         # Perform check and store result
         blocklist_check_result = analyser.blocklist_check(password)
@@ -57,11 +58,19 @@ def analyser():
         # Perform check and store result
         min_length_check_points, score_cap = analyser.min_length_check(password)        # Tuple unpacking to store multiple return values 
 
-        # Add rewarded points for this check to final score
+        # Add rewarded points for minimum length check to final score
         score += min_length_check_points
 
         # Initialise returned score cap as a constant
         SCORE_CAP = score_cap
+
+        # Entropy check:
+        # Perform check and store result
+        entropy_check_points, entropy_bits, possible_combinations = analyser.entropy_check(password) 
+
+        # Add rewarded points for entropy check to final score
+        score += entropy_check_points
+
 
 
         
