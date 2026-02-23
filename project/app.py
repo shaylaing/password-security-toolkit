@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-import analyser
+from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation
 
 # Configure Flask application
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def analyser():
         # Perform checks:
         # Blocklist check:
         # Perform check and store result
-        blocklist_check_result = analyser.blocklist_check(password)
+        blocklist_check_result = blocklist_check(password)
 
         # If blocklist check failed (return result is not a boolean expression), treat check as a pass
         if not isinstance(blocklist_check_result, bool):
@@ -47,7 +47,7 @@ def analyser():
             score = 0
 
             # Override all other checks and exit 
-            return render_template("analyser.html", current_page=request.path, score=score, feedback=analyser.feedback_creation(blocklist_check_result))
+            return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result))
         
         # If match is found in blocklist check, then it is treated as an instant fail 
         # and overrides all other checks, returning a final score of 0. When a password 
@@ -56,7 +56,7 @@ def analyser():
 
         # Minimum length check:
         # Perform check and store result
-        min_length_check_points, score_cap = analyser.min_length_check(password)        # Tuple unpacking to store multiple return values 
+        min_length_check_points, score_cap = min_length_check(password)        # Tuple unpacking to store multiple return values 
 
         # Add rewarded points for minimum length check to final score
         score += min_length_check_points
@@ -70,21 +70,21 @@ def analyser():
 
         # Entropy check:
         # Perform check and store result
-        entropy_check_points, entropy_bits, possible_combinations = analyser.entropy_check(password) 
+        entropy_check_points, entropy_bits, possible_combinations = entropy_check(password) 
 
         # Add rewarded points for entropy check to final score
         score += entropy_check_points
 
         # Composition check:
         # Perform check and store result
-        composition_check_points = analyser.composition_check(password)
+        composition_check_points = composition_check(password)
 
         # Add rewarded points for composition check to final score
         score += composition_check_points
 
         # Pattern check: 
         # Perform check and store result
-        pattern_checks_points = analyser.pattern_checks(password)
+        pattern_checks_points = pattern_checks(password)
 
         # Subtract deducted points for patterns checks from final score
         score -= pattern_checks_points
@@ -96,7 +96,7 @@ def analyser():
         score = min(score, SCORE_CAP)
 
         # Create feedback to be shown to the user
-        feedback = analyser.feedback_creation(blocklist_check_result, min_length_check_points, entropy_check_points, composition_check_points, pattern_checks_points)
+        feedback = feedback_creation(blocklist_check_result, min_length_check_points, entropy_check_points, composition_check_points, pattern_checks_points)
 
         return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback, entropy_bits=entropy_bits, possible_combinations=possible_combinations)
 

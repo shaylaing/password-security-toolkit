@@ -102,7 +102,7 @@ def desubstitute(password: str) -> list[str]:
 
 
 # Define blocklist check function:
-def blocklistCheck(password: str) -> bool:
+def blocklist_check(password: str) -> bool:
     # Declare match variable to track whether a match has been found
     match = False
 
