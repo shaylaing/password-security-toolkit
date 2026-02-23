@@ -8,7 +8,8 @@ app = Flask(__name__)
 # Define template routes
 @app.route("/")
 def index():
-    return render_template("index.html", current_page=request.path)
+    if request.method == "GET":
+        return render_template("index.html", current_page=request.path)
 
 
 @app.route("/analyser", methods=["GET", "POST"])
@@ -36,4 +37,5 @@ def analyser():
 
 @app.route("/simulator", methods=["GET", "POST"])
 def simulator():
-    return render_template("simulator.html", current_page=request.path) 
+    if request.method == "GET":
+        return render_template("simulator.html", current_page=request.path) 
