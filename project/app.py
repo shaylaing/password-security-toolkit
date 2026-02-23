@@ -78,6 +78,13 @@ def analyser():
         # Add rewarded points for composition check to final score
         score += composition_check_points
 
+        # Pattern check: 
+        # Perform check and store result
+        pattern_checks_points = analyser.pattern_checks(password)
+
+        # Subtract deducted points for patterns checks from final score
+        score -= pattern_checks_points
+
 
 
 
