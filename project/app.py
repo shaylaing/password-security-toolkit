@@ -5,7 +5,7 @@ import analyser
 app = Flask(__name__)
 
 
-# Define template routes
+# Define template routes:
 @app.route("/")
 def index():
     if request.method == "GET":
@@ -64,6 +64,10 @@ def analyser():
         # Initialise returned score cap as a constant
         SCORE_CAP = score_cap
 
+        # The minimum length check determines a score cap that limits the maximum score
+        # the password can achieve. This design choice was made to reflect the importance 
+        # the length of a password alone has on the hacker's ability to crack it.
+
         # Entropy check:
         # Perform check and store result
         entropy_check_points, entropy_bits, possible_combinations = analyser.entropy_check(password) 
@@ -85,22 +89,16 @@ def analyser():
         # Subtract deducted points for patterns checks from final score
         score -= pattern_checks_points
 
+        # Prevent negative final score
+        score = max(score, 0)
 
+        # Ensure final score complies with score cap
+        score = min(score, SCORE_CAP)
 
+        # Create feedback to be shown to the user
+        feedback = analyser.feedback_creation(blocklist_check_result, min_length_check_points, entropy_check_points, composition_check_points, pattern_checks_points)
 
-        
-        
-        
-        
-        
-        
-        return render_template("analyser.html", current_page=request.path)
-
-
-
-
-
-
+        return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback, entropy_bits=entropy_bits, possible_combinations=possible_combinations)
 
 
 @app.route("/simulator", methods=["GET", "POST"])
