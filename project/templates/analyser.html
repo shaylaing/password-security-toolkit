@@ -17,17 +17,19 @@
         </form>
     </div>
     <div id="results" class="results-section">
-        <h3>Strength Score</h3>
-        {% if score %}
-            <p id="score">{{ score }}</p>
+        <h3 class="header">Strength Score</h3>
+        {% if score is not none %}
+            <p id="score">{{ score }}/100</p>
         {% endif %}
-        <h3>Entropy Estimation</h3>
+        <h3 class="header">Entropy Estimation</h3>
         {% if entropy_bits %}
             <p id="entropy">{{ entropy_bits }}</p>
         {% endif %}
-        <h3>Feedback:</h3>
+        <h3 class="header">Feedback:</h3>
         {% if feedback %}
-            <p id="feedback">{{ feedback }}</p>
+            {% for i in feedback %}
+                <h5 id="feedback">{{ feedback[i] }}</h5>
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}
