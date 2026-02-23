@@ -31,8 +31,43 @@ def analyser():
             # If password is too long, return early with suitable error message
             error_message = "400: Inputted password is too long."
             return render_template("analyser.html", current_page=request.path, error_message=error_message)
+        
+        # Blocklist check:
+        # Perform check and store result
+        blocklist_check_result = analyser.blocklist_check(password)
 
+        # If blocklist check failed, treat check as a pass
+        if blocklist_check_result != True or blocklist_check_result != False:
+            blocklist_check_result = False
+
+        # If result of blocklist check is a fail, SKIP ALL OTHER CHECKS AND EARLY EXIT
+        if blocklist_check_result == True:
+            # Set final score to 0
+            score = 0
+
+            # Override all other checks and exit 
+            return render_template("analyser.html", current_page=request.path, score=score, feedback=analyser.feedback_creation(blocklist_check_result))
+        
+        # If match is found in blocklist check, then it is treated as an instant fail 
+        # and overrides all other checks, returning a final score of 0. When a password 
+        # appears in the blocklist, it is certain that the password is extremely 
+        # vulnerable and likely to be cracked.
+
+        # Minimum length check:
+
+        
+        
+        
+        
+        
+        
         return render_template("analyser.html", current_page=request.path)
+
+
+
+
+
+
 
 
 @app.route("/simulator", methods=["GET", "POST"])
