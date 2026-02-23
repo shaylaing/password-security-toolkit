@@ -9,7 +9,7 @@
         <p>Enter a password to test it's strength:</p>
         <form id="strengthAnalyser" action="/analyser" method="post">
             <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
-            <button name="startCheck" type="submit">Start</button>
+            <button id="startCheckButton" name="startCheck" type="submit">Start</button>
         </form>
     </div>
     <div id="results" class="results-section">
@@ -24,8 +24,16 @@
 
 <footer>
     <script>
-        if (strengthAnalyser.passwordTextbox) {
-            
-        }
+        // Listen for user submitting their inputted password
+        document.getElementById("strengthAnalyser").addEventListener("submit", function(event){
+            // Prevent inputted password from being longer than 64 characters
+            if (document.getElementById("passwordTextbox").value.length > 64) {
+                // Stop submission
+                event.preventDefault()
+                
+                // If password length is over 64 characters, show error message
+                alert("400: Inputted password is too long.")
+            }
+        });
     </script>
 </footer>
