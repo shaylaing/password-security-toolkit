@@ -391,8 +391,11 @@ def pattern_checks(password: str) -> int:
     KEYBOARD_PATTERNS = {"qwerty", "asdfgh", "zxcvbn", "qwertyuiop", "asdfghjkl", "zxcvbnm", "qweasd", "qazwsx", "wsxedc", "edcrfv", "rfvtgb", "tgbyhn", "yhnujm", "1qaz2wsx", "2wsx3edc", "3edc4rfv", "qwe", "asd", "zxc", "wer", "sdf", "xcv", "ert", "dfg", "cvb", "rty", "fgh", "vbn", "tyu", "ghj", "bnm", "yui", "hjk", "nmk", "uio", "jkl", "mkl", "iop", "klo", "pol", "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890", "qaz", "wsx", "edc", "rfv", "tgb", "yhn", "ujm"}
 
     # Check for sequential characters ('abc', '123', etc.) in password:
-    # Loop through each character in password and fetch its index
-    for i, char in enumerate(password):
+    # Loop through each character index in password 
+    for i in range(len(password) - 2):
+        # Access character in current iteration
+        char = password[i]
+
         # Letter checks:
         # Ensure current character is a letter
         if char.isalpha():
@@ -400,19 +403,17 @@ def pattern_checks(password: str) -> int:
             l = SEQUENTIAL_LETTERS.index(char.lower())
 
             # Ascending:
-            # Prevent overflow 
-            if i + 2 <= len(password) - 1:
-                # Check if next character matches ascending letter sequence
-                if password[i + 1].lower() == SEQUENTIAL_LETTERS[l + 1]:
-                    # Check if next character also matches ascending letter sequence
-                    if password[i + 2].lower() == SEQUENTIAL_LETTERS[l + 2]:
-                        # Match found
-                        sequential_chars = True
-                        break
+            # Check if next character matches ascending letter sequence
+            if password[i + 1].lower() == SEQUENTIAL_LETTERS[l + 1]:
+                # Check if next character also matches ascending letter sequence
+                if password[i + 2].lower() == SEQUENTIAL_LETTERS[l + 2]:
+                    # Match found
+                    sequential_chars = True
+                    break
         
             # Descending:
             # Prevent underflow
-            if i - 2 > -1 and l - 2 > -1:
+            if l - 2 > -1:
                 # Check if previous character matches descending letter sequence
                 if password[i + 1].lower() == SEQUENTIAL_LETTERS[l - 1]:
                     # Check if previous character also matches descending letter sequence
@@ -428,19 +429,17 @@ def pattern_checks(password: str) -> int:
             n = SEQUENTIAL_NUMBERS.index(char)
 
             # Ascending:
-            # Prevent overflow
-            if i + 2 <= len(password) - 1:
-                # Check if next character matches ascending number sequence
-                if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
-                    # Check if next character also matches ascending number sequence
-                    if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
-                        # Match found
-                        sequential_chars = True
-                        break
+            # Check if next character matches ascending number sequence
+            if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
+                # Check if next character also matches ascending number sequence
+                if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
+                    # Match found
+                    sequential_chars = True
+                    break
 
             # Descending:
             # Prevent underflow
-            if i - 2 > -1 and n - 2 > -1:
+            if n - 2 > -1:
                 # Check if previous character matches descending number sequence
                 if password[i + 1] == SEQUENTIAL_NUMBERS[n - 1]:
                     # Check if previous character also matches descending number sequence
