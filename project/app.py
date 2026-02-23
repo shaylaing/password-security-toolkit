@@ -37,8 +37,8 @@ def analyser():
         # Perform check and store result
         blocklist_check_result = analyser.blocklist_check(password)
 
-        # If blocklist check failed, treat check as a pass
-        if blocklist_check_result != True or blocklist_check_result != False:
+        # If blocklist check failed (return result is not a boolean expression), treat check as a pass
+        if not isinstance(blocklist_check_result, bool):
             blocklist_check_result = False
 
         # If result of blocklist check is a fail, SKIP ALL OTHER CHECKS AND EARLY EXIT
