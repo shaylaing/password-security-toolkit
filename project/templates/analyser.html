@@ -18,11 +18,17 @@
     </div>
     <div id="results" class="results-section">
         <h3>Strength Score</h3>
-        <p id="score"></p>
+        {% if score %}
+            <p id="score">{{ score }}</p>
+        {% endif %}
         <h3>Entropy Estimation</h3>
-        <p id="entropy"></p>
-        <h3>Suggestions for improvements:</h3>
-        <p id="improvements"></p>
+        {% if entropy_bits %}
+            <p id="entropy">{{ entropy_bits }}</p>
+        {% endif %}
+        <h3>Feedback:</h3>
+        {% if feedback %}
+            <p id="feedback">{{ feedback }}</p>
+        {% endif %}
     </div>
 {% endblock %}
 
