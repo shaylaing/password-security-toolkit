@@ -71,6 +71,14 @@ def analyser():
         # Add rewarded points for entropy check to final score
         score += entropy_check_points
 
+        # Composition check:
+        # Perform check and store result
+        composition_check_points = analyser.composition_check(password)
+
+        # Add rewarded points for composition check to final score
+        score += composition_check_points
+
+
 
 
         
