@@ -134,8 +134,11 @@ def blocklist_check(password: str) -> bool:
 
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
     if pwned_results.status_code == 200:
+        # Convert Pwned suffix results to lowercase
+        pwned_results_lower = pwned_results.text.lower()
+
         # Store Pwned suffix results with counts as list
-        pwned_suffixes_and_counts = pwned_results.text.splitlines()
+        pwned_suffixes_and_counts = pwned_results_lower.splitlines()
 
         # Remove counts from Pwned suffix results:
         # Create new list to store suffix results without counts

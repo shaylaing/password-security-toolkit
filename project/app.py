@@ -46,10 +46,6 @@ def analyser():
             # Set final score to 0
             score = 0
 
-            # TEMP
-            print(blocklist_check_result)
-            print(score)
-
             # Override all other checks and exit 
             return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result))
         
