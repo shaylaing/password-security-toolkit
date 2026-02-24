@@ -502,6 +502,9 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
     # Determine blocklist check message
     if blocklist_check_result == True:
         messages["blocklist_check"] = "Instant Fail: Password appears in blocklist (including de-substituted version)."
+        
+        # Only return this message if match is found
+        return messages
     else:
         messages["blocklist_check"] = "Password does not appear in blocklist."
 
