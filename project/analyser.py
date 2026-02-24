@@ -239,7 +239,7 @@ def min_length_check(password: str) -> tuple[int, int]:
     # 15+ characters
     elif length >= 15:
         points += 50
-    
+
     return points, score_cap
 
 
