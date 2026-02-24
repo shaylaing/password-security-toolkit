@@ -79,5 +79,21 @@ button:hover /* hover animation for buttons */
 
 .header
 {
-    margin-top: 50px;
+    margin-top: 30px;
+}
+
+/* Feedback Colouring: */
+.bad
+{
+    color: red;
+}
+
+.okay
+{
+    color: #ffbf00;
+}
+
+.good
+{
+    color: #b3f7d3;
 }
