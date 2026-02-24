@@ -15,7 +15,8 @@ def index():
 @app.route("/analyser", methods=["GET", "POST"])
 def analyser():
     if request.method == "GET":
-        return render_template("analyser.html", current_page=request.path)
+        score = None
+        return render_template("analyser.html", current_page=request.path, score=score)
 
     # Initialise final score
     score = 0
