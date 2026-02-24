@@ -18,13 +18,17 @@
     </div>
     <!-- Display results of password strength check -->
     <div id="results" class="results-section">
-        <h3 class="header">Strength Score</h3>
+        <h3 class="header">Strength Score:</h3>
         {% if score is not none %}
-            <p id="score">{{ score }}/100</p>
+            <p id="show_score">{{ score }}/100</p>
         {% endif %}
-        <h3 class="header">Entropy Estimation</h3>
         {% if entropy_bits %}
-            <p id="entropy">{{ entropy_bits }}</p>
+        <h3 class="header">Entropy Estimation:</h3>
+            <p id="show_entropy">{{ entropy_bits }}</p>
+        {% endif %}
+        {% if possible_combinations %}
+        <h3 class="header">Estimated Brute-Force Search Space:</h3>
+            <p id="show_possible_combinations">{{ possible_combinations }}</p>
         {% endif %}
         <br>
         {% if feedback %}
