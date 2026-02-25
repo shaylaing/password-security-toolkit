@@ -76,6 +76,12 @@ def analyser():
         # Add rewarded points for entropy check to final score
         score += entropy_check_points
 
+        # Round entropy bits to one decimal place
+        entropy_bits = round(entropy_bits, 1)
+
+        # Convert possible combinations to scientific notation with three significant figures (recommended by Claude for presentability)
+        possible_combinations = f"{possible_combinations:.2E}"
+
         # Composition check:
         # Perform check and store result
         composition_check_points = composition_check(password)

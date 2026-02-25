@@ -27,7 +27,7 @@
             <p id="show_entropy">{{ entropy_bits }}</p>
         {% endif %}
         {% if possible_combinations %}
-        <h3 class="header">Estimated Brute-Force Search Space:</h3>
+        <h3 class="header">Brute-Force Search Space:</h3>
             <p id="show_possible_combinations">{{ possible_combinations }}</p>
         {% endif %}
         {% if feedback %}
@@ -38,6 +38,9 @@
         {% endif %}
     </div>
 {% endblock %}
+
+<!-- Brute Force Search Space refers to the estimated total possible combindations 
+ a hacker may have to check to crack the inputted password-->
 
 <!-- Import JavaScript from script.js -->
 {% block scripts %}
