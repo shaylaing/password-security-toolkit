@@ -33,24 +33,13 @@
         {% if feedback %}
             <h3 class="header">Feedback:</h3>
             {% for i in feedback %}
-                <h5 class="{{ feedback[i].level }}" id="feedback_message">- {{ feedback[i].text }}</h5>
+                <h5 class="{{ feedback[i].level }}">- {{ feedback[i].text }}</h5>
             {% endfor %}
         {% endif %}
     </div>
 {% endblock %}
 
-<footer>
-    <script>
-        // Listen for user submitting their inputted password
-        document.getElementById("strengthAnalyser").addEventListener("submit", function(event){
-            // Prevent inputted password from being longer than 64 characters
-            if (document.getElementById("passwordTextbox").value.length > 64) {
-                // Stop submission
-                event.preventDefault()
-
-                // If password length is over 64 characters, show error message
-                alert("400: Inputted password is too long.")
-            }
-        });
-    </script>
-</footer>
+<!-- Import JavaScript from script.js -->
+{% block scripts %}
+    <script src="{{ url_for('static', filename='analyser.js') }}"></script>
+{% endblock %}
