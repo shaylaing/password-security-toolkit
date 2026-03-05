@@ -5,5 +5,24 @@
 {% endblock %}
 
 {% block main %}
+    <div class="about-section">
+        <h3 class="header">About:</h3>
+        <p id="about">EXPLAIN WHAT THIS PAGE DOES AND CLARIFY SCOPE</p>
+        <p id="note">Note - In the real world, attackers may use a combinations of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
+    </div>
+    <div class="simulator-form">
+        <p>Enter password to estimate attack times:</p>
+    <form id="attackSimulator">
+        <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
+        <button id="startCheckButton" name="startCheck" type="submit">Start</button>
+    </form>
+    </div>
+    <!-- Display results of password attack simulator -->
+    <div id="results" class="results-section">
 
+    </div>
+    <div class="assumptions-section">
+        <h3 class="header">Assumptions:</h3>
+        <p id="assumptions">ADD ASSUMPTIONS AFTER CLARIFYING THEM IN CODE</p>
+    </div>
 {% endblock %}
