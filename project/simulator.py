@@ -78,7 +78,7 @@ def convert_times_to_units(times: dict) -> dict:
     return converted_times
 
 
-# Define brute force simulation function:
+# Define brute force attack simulation function:
 def brute_force_sim(password: str) -> dict:
     # Calculate and store length of password
     length = len(password)
@@ -104,3 +104,43 @@ def brute_force_sim(password: str) -> dict:
 
     # Convert each time estimate in times dict to largest meaningful unit and return it
     return convert_times_to_units(times)
+
+
+# Define dictionary attack simulation function:
+def dictionary_sim(password: str) -> None | dict:
+    # Initialise flag variable for vulnerability
+    vulnerable = False
+
+    # Search for password in wordlist and store position if found:
+    # Loop through each word in wordlist
+    for i, word in enumerate(wordlist):
+        if word == password:
+            # Match found, store position and update flag variable
+            match_position = i
+            vulnerable = True
+            break
+    
+    # If match found:
+    if vulnerable:
+        # Create dict to store attack time estimates
+        times = {}
+
+        # Determine total guesses attacker would need to make to crack password (and prevent position 0)
+        guesses = match_position + 1
+
+        # Calculate attack time estimates for worst case (maximum time) and store them in times dict
+        times["online_maximum_time"] = guesses / online_benchmark
+        times["offline_maximum_time"] = guesses / offline_benchmark
+        times["specialised_maximum_time"] = guesses / specialised_benchmark
+
+        # Calculate average attack time estimates and store them in times dict
+        times["online_average_time"] = (guesses / 2) / online_benchmark
+        times["offline_average_time"] = (guesses / 2) / offline_benchmark
+        times["specialised_average_time"] = (guesses / 2) / specialised_benchmark
+
+        # Convert each time estimate in times dict to largest meaningful unit and return it
+        return convert_times_to_units(times)
+
+    # If match not found:
+    else:
+        return None
