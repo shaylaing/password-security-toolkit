@@ -50,10 +50,10 @@ def analyser():
             # Override all other checks and exit 
             return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result))
         
-        # If match is found in blocklist check, then it is treated as an instant fail 
-        # and overrides all other checks, returning a final score of 0. When a password 
-        # appears in the blocklist, it is certain that the password is extremely 
-        # vulnerable and likely to be cracked.
+        # NOTE: If match is found in blocklist check, then it is treated as an instant fail 
+        # and overrides all other checks, returning a final score of 0. When a password appears
+        # in the blocklist, it is certain that the password is extremely vulnerable and likely 
+        # to be cracked.
 
         # Minimum length check:
         # Perform check and store result
@@ -65,7 +65,7 @@ def analyser():
         # Initialise returned score cap as a constant
         SCORE_CAP = score_cap
 
-        # The minimum length check determines a score cap that limits the maximum score
+        # NOTE: The minimum length check determines a score cap that limits the maximum score
         # the password can achieve. This design choice was made to reflect the importance 
         # the length of a password alone has on the hacker's ability to crack it.
 

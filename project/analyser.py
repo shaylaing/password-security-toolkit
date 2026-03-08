@@ -16,9 +16,9 @@ def blocklist_check(password: str) -> bool:
     # Hash password with SHA-1 and store it
     password_hash = hashlib.sha1(password.encode()).hexdigest()
 
-    #  .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string.
-    # .hexdigest() converts the resulting binary hash to a readable hexadecimal
-    # string so that it is compatible with the Pwned API's hex format.
+    # NOTE: .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
+    # .hexdigest() converts the resulting binary hash to a readable hexadecimal string 
+    # so that it is compatible with the Pwned API's hex format.
 
     # Store first five characters of password hash for k-anonymity suppression
     password_hash_prefix = password_hash[:5]
@@ -28,7 +28,7 @@ def blocklist_check(password: str) -> bool:
         "User-Agent": "password-security-toolkit"
     }
 
-    # We are providing the Have I Been Pwned API with identification by including
+    # NOTE: We are providing the Have I Been Pwned API with identification by including 
     # this header in our request.
 
     # Query Have I Been Pwned password API for password hash prefix
@@ -36,7 +36,7 @@ def blocklist_check(password: str) -> bool:
     pwned_results = requests.get(
         f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', timeout=5, headers=headers)
 
-    # Have I Been Pwned API documentation can be found at:
+    # NOTE: Have I Been Pwned API documentation can be found at:
     # https://haveibeenpwned.com/api/v3#PwnedPasswords
 
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
@@ -112,7 +112,7 @@ def blocklist_check(password: str) -> bool:
                         return match
                     # Loop continues if match not found
 
-    # Have I Been Pwned's API returns a multi-line string of suffixes whose
+    # NOTE: Have I Been Pwned's API returns a multi-line string of suffixes whose
     # prefix matches the prefix of the user's password hash. Therefore, we must use
     # .splitlines() to separate each suffix and add them to a list so that we can
     # iterate over them for the check. Likewise, we use .index() and slicing to remove
@@ -396,8 +396,8 @@ def pattern_checks(password: str) -> int:
         deducted_points += 40
         return deducted_points
 
-    # We use sum() because, in Python, True has a value of 1 and False has a value 
-    # of 0. So we can use sum() to total how many instances of True there are in 
+    # NOTE: We use sum() because, in Python, True has a value of 1 and False has a 
+    # value of 0. So we can use sum() to total how many instances of True there are in 
     # a list of multiple variables.
 
 
@@ -511,7 +511,7 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
     
     return messages
 
-    # Parameters for this function are given default values within its def statement. 
-    # This is to ensure that each parameter still has a value when they are not 
-    # included in the function call. Added 'level' functionality to indicate serverity 
-    # of feedback when displayed in form.
+    # NOTE: Parameters for this function are given default values within its def statement. 
+    # This is to ensure that each parameter still has a value when they are not included 
+    # in the function call. Added 'level' functionality to indicate serverity of feedback 
+    # when displayed in form.

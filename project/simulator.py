@@ -7,7 +7,7 @@ with open('10k-most-common.txt', 'r') as file:
 # Convert wordlist to set for faster lookup (O(1)) (for all other attack types)
 wordset = set(wordlist)
 
-# Source for wordlist can be found at:
+# NOTE: Source for wordlist can be found at:
 # https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt
 
 
@@ -21,7 +21,7 @@ OFFLINE_BENCHMARK = 10 ** 10
 # Specialised Attack Scenario - one hundred trillion guesses per second (cracking arrays, botnets, GPU clusters, etc.)
 SPECIALISED_BENCHMARK = 10 ** 14
 
-# Sources used to inform hardware assumptions can be found at:
+# NOTE: Sources used to inform hardware assumptions can be found at:
 # https://www.onlinehashcrack.com/guides/password-recovery/bruteforce-attack-limits-calculate-time-needed.php
 # https://www.grc.com/haystack.htmhttps://www.grc.com/haystack.htm 
 
@@ -111,7 +111,7 @@ def dictionary_sim(password: str) -> None | dict:
     # Initialise flag variable for vulnerability
     vulnerable = False
 
-    # Search for password in wordlist and store position if found:
+    # Search for password in wordlist to determine vulnerability and store position if found:
     # Loop through each word in wordlist
     for i, word in enumerate(wordlist):
         if word == password:
@@ -147,3 +147,26 @@ def dictionary_sim(password: str) -> None | dict:
 
 
 # Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack)
+def hybrid_sim(password: str) -> None | dict:
+    # Initialise flag variable for vulnerability
+    vulnerable = False
+
+    # Hardcode estimated attack times for hybrid attack (times aren't dependent on password):
+    # Calculate total possible character mutations for both prefixes and suffixes
+    maximum_mutations = 2 * (43 + (43 ** 2) + (43 ** 3)) 
+
+    # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
+    # NOTE: Estimates prefix and suffix mutations independently of each other 
+
+
+
+
+    # Search for password in wordlist to determine vulnerability:
+    # Check if password as-it appears in wordlist
+    if password in wordset:
+        # Match found, update flag variable
+        vulnerable = True
+
+
+
+
