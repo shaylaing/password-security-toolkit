@@ -158,6 +158,16 @@ def hybrid_sim(password: str) -> None | dict:
     # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
     # NOTE: Estimates prefix and suffix mutations independently of each other 
 
+    # Calculate maximium possible combinations attacker needs to check to crack password (worst case)
+    total_combinations = len(wordset) * maximum_mutations
+
+    # Initialise dict with times hardcoded
+    times = {
+        # Attack time estimates for worst case (maximum time)
+        times
+        # Average attack time estimates
+        
+    }
 
 
 
@@ -166,7 +176,3 @@ def hybrid_sim(password: str) -> None | dict:
     if password in wordset:
         # Match found, update flag variable
         vulnerable = True
-
-
-
-
