@@ -76,3 +76,31 @@ def convert_times_to_units(times: dict) -> dict:
             converted_times[name] = (converted_time, unit)
     
     return converted_times
+
+
+# Define brute force simulation function:
+def brute_force_sim(password: str) -> dict:
+    # Calculate and store length of password
+    length = len(password)
+
+    # Initialise maximum charset range (assumes that attacker is taking into account ASCII characters only (95 chars), not other standards like Unicode)
+    MAX_CHARSET_RANGE = 95
+
+    # Calculate and store keyspace (total possible combinations)
+    keyspace = MAX_CHARSET_RANGE ** length
+
+    # Create dict to store attack time estimates
+    times = {}
+
+    # Calculate attack time estimates for worst case (maximum time) and store them in times dict
+    times["online_maximum_time"] = keyspace / online_benchmark
+    times["offline_maximum_time"] = keyspace / offline_benchmark
+    times["specialised_maximum_time"] = keyspace / specialised_benchmark
+
+    # Calculate average attack time estimates and store them in times dict
+    times["online_average_time"] = (keyspace / 2) / online_benchmark
+    times["offline_average_time"] = (keyspace / 2) / offline_benchmark
+    times["specialised_average_time"] = (keyspace / 2) / specialised_benchmark
+
+    # Convert each time estimate in times dict to largest meaningful unit and return it
+    return convert_times_to_units(times)
