@@ -36,7 +36,7 @@ def blocklist_check(password: str) -> bool:
     pwned_results = requests.get(
         f'https://api.pwnedpasswords.com/range/{password_hash_prefix}', timeout=5, headers=headers)
 
-    # Have I Been Pwned API documentation can be found at
+    # Have I Been Pwned API documentation can be found at:
     # https://haveibeenpwned.com/api/v3#PwnedPasswords
 
     # Ensure Pwned API query is successful by checking for HTTP 200 status code
