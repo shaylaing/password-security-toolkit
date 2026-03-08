@@ -13,13 +13,13 @@ wordset = set(wordlist)
 
 # Declare assumptions for three levels of computational hardware power the attacker could possess:
 # Online Attack Scenario - one thousand guesses per second (assumes minimal rate limiting and poor configuration)
-online_benchmark = 10 ** 3
+ONLINE_BENCHMARK = 10 ** 3
 
 # Offline Attack Scenario - ten billion guesses per second (assumes high-end GPU)
-offline_benchmark = 10 ** 10
+OFFLINE_BENCHMARK = 10 ** 10
 
 # Specialised Attack Scenario - one hundred trillion guesses per second (cracking arrays, botnets, GPU clusters, etc.)
-specialised_benchmark = 10 ** 14
+SPECIALISED_BENCHMARK = 10 ** 14
 
 # Sources used to inform hardware assumptions can be found at:
 # https://www.onlinehashcrack.com/guides/password-recovery/bruteforce-attack-limits-calculate-time-needed.php
@@ -93,14 +93,14 @@ def brute_force_sim(password: str) -> dict:
     times = {}
 
     # Calculate attack time estimates for worst case (maximum time) and store them in times dict
-    times["online_maximum_time"] = keyspace / online_benchmark
-    times["offline_maximum_time"] = keyspace / offline_benchmark
-    times["specialised_maximum_time"] = keyspace / specialised_benchmark
+    times["online_maximum_time"] = keyspace / ONLINE_BENCHMARK
+    times["offline_maximum_time"] = keyspace / OFFLINE_BENCHMARK
+    times["specialised_maximum_time"] = keyspace / SPECIALISED_BENCHMARK
 
     # Calculate average attack time estimates and store them in times dict
-    times["online_average_time"] = (keyspace / 2) / online_benchmark
-    times["offline_average_time"] = (keyspace / 2) / offline_benchmark
-    times["specialised_average_time"] = (keyspace / 2) / specialised_benchmark
+    times["online_average_time"] = (keyspace / 2) / ONLINE_BENCHMARK
+    times["offline_average_time"] = (keyspace / 2) / OFFLINE_BENCHMARK
+    times["specialised_average_time"] = (keyspace / 2) / SPECIALISED_BENCHMARK
 
     # Convert each time estimate in times dict to largest meaningful unit and return it
     return convert_times_to_units(times)
@@ -129,14 +129,14 @@ def dictionary_sim(password: str) -> None | dict:
         guesses = match_position + 1
 
         # Calculate attack time estimates for worst case (maximum time) and store them in times dict
-        times["online_maximum_time"] = guesses / online_benchmark
-        times["offline_maximum_time"] = guesses / offline_benchmark
-        times["specialised_maximum_time"] = guesses / specialised_benchmark
+        times["online_maximum_time"] = guesses / ONLINE_BENCHMARK
+        times["offline_maximum_time"] = guesses / OFFLINE_BENCHMARK
+        times["specialised_maximum_time"] = guesses / SPECIALISED_BENCHMARK
 
         # Calculate average attack time estimates and store them in times dict
-        times["online_average_time"] = (guesses / 2) / online_benchmark
-        times["offline_average_time"] = (guesses / 2) / offline_benchmark
-        times["specialised_average_time"] = (guesses / 2) / specialised_benchmark
+        times["online_average_time"] = (guesses / 2) / ONLINE_BENCHMARK
+        times["offline_average_time"] = (guesses / 2) / OFFLINE_BENCHMARK
+        times["specialised_average_time"] = (guesses / 2) / SPECIALISED_BENCHMARK
 
         # Convert each time estimate in times dict to largest meaningful unit and return it
         return convert_times_to_units(times)
@@ -144,3 +144,6 @@ def dictionary_sim(password: str) -> None | dict:
     # If match not found:
     else:
         return None
+
+
+# Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack)
