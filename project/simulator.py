@@ -26,6 +26,11 @@ SPECIALISED_BENCHMARK = 10 ** 14
 # https://www.grc.com/haystack.htmhttps://www.grc.com/haystack.htm 
 
 
+# Define every possible ASCII symbol/special character for entropy check and composition check
+SYMBOLS_SET = {'!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
+               ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
+
+
 # Define time conversion function (automatic unit scaling for raw times in seconds):
 def convert_times_to_units(times: dict) -> dict:
     # Initialise dict to store converted times and units
@@ -164,15 +169,60 @@ def hybrid_sim(password: str) -> None | dict:
     # Initialise dict with times hardcoded
     times = {
         # Attack time estimates for worst case (maximum time)
-        times
+        "online_maximum_time": total_combinations / ONLINE_BENCHMARK,
+        "offline_maximum_time": total_combinations / OFFLINE_BENCHMARK,
+        "specialised_maximum_time": total_combinations / SPECIALISED_BENCHMARK,
+
         # Average attack time estimates
-        
+        "online_average_time": (total_combinations / 2) / ONLINE_BENCHMARK,
+        "offline_average_time": (total_combinations / 2) / OFFLINE_BENCHMARK,
+        "specialised_average_time": (total_combinations / 2) / SPECIALISED_BENCHMARK,
     }
-
-
 
     # Search for password in wordlist to determine vulnerability:
     # Check if password as-it appears in wordlist
     if password in wordset:
         # Match found, update flag variable
         vulnerable = True
+    
+    # Match not found, check if hybrid versions of password (without 1-3 character prefixes and suffixes) appears in wordlist:
+    else:
+        # Initialise prefix count variable and suffix count variable
+        prefix_count = 0
+        suffix_count = 0
+
+        # Count how many numbers or symbols appear in prefix (first 3 chars) of password and store total
+        for char in password[:3]:       # Iterates from start to 3rd char
+            if char.isdigit() or char in SYMBOLS_SET:
+                prefix_count += 1
+       
+        # Count how many numbers or symbols appear in suffix (last 3 chars) of password and store total
+        for char in password[-3:]:       # Start from 3rd last char and iterates till end
+            if char.isdigit() or char in SYMBOLS_SET:
+                suffix_count += 1
+        
+        # Gradually remove each prefix and suffix char one by one and check if remaining password appears in wordlist:
+        # Iterate for the total prefix count 
+        for p in range(prefix_count + 1):
+            # Iterate for the total suffix count
+            for s in range(suffix_count + 1):
+                # Prevent original password from being checked again
+                if p == 0 and s == 0:
+                    continue
+                
+                # Prevent :-0 edge case in slicing
+                if s == 0:
+                    # Check if remaining password (without prefix chars) 
+                    if password[p:] in wordset:
+                        # Match found, update flag variable
+                        vulnerable = True
+                
+                # Continue check if there's still prefixes and suffixes to be removed
+                else:
+                    if password[p:-s] in wordset:
+                        # Match found, update flag variable
+                        vulnerable = True
+                        break
+                
+                # If match found, convert times:
+                if vulnerable == True:
