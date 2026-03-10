@@ -28,6 +28,14 @@ def analyser():
         # Get inputted password from form submission
         password = request.form.get("password")
 
+        # Prevent empty password:
+        if len(password) == 0:
+            # Create error variable and set it to True
+            error = "Error 400: Password must be at least one character long."
+            
+            # Early return with error message
+            return render_template("simulator.html", current_page=request.path, error=error)
+
         # Ensure inputted password is not longer than 64 characters (server-side input validation)
         if len(password) > 64:
             # If password is too long, return early with suitable error message
@@ -115,5 +123,14 @@ def simulator():
         return render_template("simulator.html", current_page=request.path)
     
     if request.method == "POST":
+        # Input validation for form submission:
         # Get inputted password from form submission
         password = request.form.get("password")
+
+        # Prevent empty password:
+        if len(password) == 0:
+            # Create error variable and set it to True
+            error = "Error 400: Password must be at least one character long."
+            
+            # Early return with error message
+            return render_template("simulator.html", current_page=request.path, error=error)

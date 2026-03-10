@@ -16,6 +16,10 @@
         <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
         <button id="startCheckButton" name="startCheck" type="submit">Start</button>
     </form>
+        <!-- Prevent empty password -->
+        {% if error %}
+            <p id="error-message">{{ error }}</p>  
+        {% endif %}
     </div>
     <!-- Display results of password attack simulator -->
     <div id="results" class="results-section">      <!-- DELETE: make subsection for maximum times and subsection for average times -->

@@ -15,6 +15,10 @@
                 <p>{{ error_message }}</p>
             {% endif %}
         </form>
+        <!-- Prevent empty password -->
+        {% if error %}
+            <p id="error-message">{{ error }}</p>  
+        {% endif %}
     </div>
     <!-- Display results of password strength check -->
     <div id="results" class="results-section">
