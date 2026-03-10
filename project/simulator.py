@@ -224,5 +224,16 @@ def hybrid_sim(password: str) -> None | dict:
                         vulnerable = True
                         break
                 
-                # If match found, convert times:
+                # If match found, convert times and return:
                 if vulnerable == True:
+                    return convert_times_to_units(times)
+                
+                # If no match found, return None:
+                else:
+                    return None
+    
+    # NOTE: Assumes a padding depth limit of up to three characters for the prefix and suffix. 
+    # NOTE: Estimated attack times remain constant as the attacker would need to try all possible 
+    # combinations if they don't know the composition of password beforehand.
+    # NOTE: Utlises a standard wordlist size of the top 10,000 most common passwords, in addition to
+    # assuming ASCII characters only.
