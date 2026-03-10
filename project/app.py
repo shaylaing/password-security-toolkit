@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation
+from simulator import brute_force_sim, dictionary_sim, hybrid_sim, rule_based_mutation_sim
 
 # Configure Flask application
 app = Flask(__name__)
@@ -111,4 +112,8 @@ def analyser():
 @app.route("/simulator", methods=["GET", "POST"])
 def simulator():
     if request.method == "GET":
-        return render_template("simulator.html", current_page=request.path) 
+        return render_template("simulator.html", current_page=request.path)
+    
+    if request.method == "POST":
+        # Get inputted password from form submission
+        password = request.form.get("password")
