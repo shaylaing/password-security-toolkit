@@ -151,7 +151,7 @@ def dictionary_sim(password: str) -> None | dict:
         return None
 
 
-# Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack)
+# Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack):
 def hybrid_sim(password: str) -> None | dict:
     # Initialise flag variable for vulnerability
     vulnerable = False
@@ -225,10 +225,10 @@ def hybrid_sim(password: str) -> None | dict:
                         break
                 
                 # If match found, convert times and return:
-                if vulnerable == True:
+                if vulnerable:
                     return convert_times_to_units(times)
                 
-                # If no match found, return None:
+                # If match not found:
                 else:
                     return None
     
@@ -237,3 +237,56 @@ def hybrid_sim(password: str) -> None | dict:
     # combinations if they don't know the composition of password beforehand.
     # NOTE: Utlises a standard wordlist size of the top 10,000 most common passwords, in addition to
     # assuming ASCII characters only.
+
+
+# Define rule-based mutation attack simulation function:
+def rule_based_mutation_sim(password: str) -> None | dict:
+    # Initialise flag variable for vulnerability
+    vulnerable = False
+
+    # Get all de-substituted variants of password
+    desubbed_passwords = desubstitute(password)
+
+    # Search for passwords in wordlist to determine vulnerability:
+    # Check if password has no de-substituted variants (password has no Leetspeak chars)
+    if len(desubbed_passwords) == 1:
+        # Check if password as-is appears in wordlist
+        if password in wordset:
+            # Match found, update flag variable
+            vulnerable = True
+    
+    # If there are de-subtituted variants of the password, check if any appear in wordlist
+    else:
+        for variant in desubbed_passwords:
+            if variant in wordset:
+                # Match found, update flag variable
+                vulnerable = True
+                break
+    
+    # If match found:
+    if vulnerable:
+        # Create dict to store attack time estimates
+        times = {}
+
+        # Calculate attack time estimates for worst case (maximum time) and store them in times dict
+        times["online_maximum_time"] = (len(wordset) * 20) / ONLINE_BENCHMARK
+        times["offline_maximum_time"] = (len(wordset) * 20) / OFFLINE_BENCHMARK
+        times["specialised_maximum_time"] = (len(wordset) * 20) / SPECIALISED_BENCHMARK
+
+        # Calculate average attack time estimates and store them in times dict
+        times["online_average_time"] = ((len(wordset) * 20) / 2) / ONLINE_BENCHMARK
+        times["offline_average_time"] = ((len(wordset) * 20) / 2) / OFFLINE_BENCHMARK
+        times["specialised_average_time"] = ((len(wordset) * 20) / 2) / SPECIALISED_BENCHMARK
+
+        # NOTE: For the attack time calculation/estimates, the model assumes an average of ~20 
+        # rule-based mutations per word in the wordlist to account for common Leetspeak 
+        # substitutions, capitalisaion, and symbol replacements. This value assumption is used 
+        # because the attacker cannot know the correct mutations in advance and must attempt 
+        # multiple password variants.
+
+        # Convert each time estimate in times dict to largest meaningful unit and return it
+        return convert_times_to_units(times)
+    
+    # If match not found:
+    else:
+        return None
