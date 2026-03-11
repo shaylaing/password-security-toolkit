@@ -134,3 +134,18 @@ def simulator():
             
             # Early return with error message
             return render_template("simulator.html", current_page=request.path, error=error)
+        
+        # Perform attack simulations:
+        # Brute force simulation
+        brute_force_times = brute_force_sim(password)
+
+        # Dictionary simulation
+        dictionary_times = dictionary_sim(password)
+
+        # Hybrid simulation
+        hybrid_times = hybrid_sim(password)
+
+        # Rule-based mutation simulation
+        rule_based_times = rule_based_mutation_sim(password)
+
+        return render_template("simulator.html", brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times)
