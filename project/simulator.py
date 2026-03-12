@@ -1,7 +1,7 @@
 from helpers import desubstitute
 
 # Read in SecLists' Top 10,000 Common Passwords .txt file as list (for dictionary attack)
-with open('10k-most-common.txt', 'r') as file:
+with open('static/10k-most-common.txt', 'r') as file:
     wordlist = file.read().splitlines()
 
 # Convert wordlist to set for faster lookup (O(1)) (for all other attack types)
@@ -23,7 +23,7 @@ SPECIALISED_BENCHMARK = 10 ** 14
 
 # NOTE: Sources used to inform hardware assumptions can be found at:
 # https://www.onlinehashcrack.com/guides/password-recovery/bruteforce-attack-limits-calculate-time-needed.php
-# https://www.grc.com/haystack.htmhttps://www.grc.com/haystack.htm 
+# https://www.grc.com/haystack.htm
 
 
 # Define every possible ASCII symbol/special character for entropy check and composition check
@@ -163,7 +163,7 @@ def hybrid_sim(password: str) -> None | dict:
     # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
     # NOTE: Estimates prefix and suffix mutations independently of each other 
 
-    # Calculate maximium possible combinations attacker needs to check to crack password (worst case)
+    # Calculate maximum possible combinations attacker needs to check to crack password (worst case)
     total_combinations = len(wordset) * maximum_mutations
 
     # Initialise dict with times hardcoded
@@ -182,8 +182,8 @@ def hybrid_sim(password: str) -> None | dict:
     # Search for password in wordlist to determine vulnerability:
     # Check if password as-it appears in wordlist
     if password in wordset:
-        # Match found, update flag variable
-        vulnerable = True
+        # Match found, return early
+        return convert_times_to_units(times)
     
     # Match not found, check if hybrid versions of password (without 1-3 character prefixes and suffixes) appears in wordlist:
     else:
@@ -214,23 +214,17 @@ def hybrid_sim(password: str) -> None | dict:
                 if s == 0:
                     # Check if remaining password (without prefix chars) 
                     if password[p:] in wordset:
-                        # Match found, update flag variable
-                        vulnerable = True
+                        # Match found, update flag variable and return early
+                        return convert_times_to_units(times)
                 
                 # Continue check if there's still prefixes and suffixes to be removed
                 else:
                     if password[p:-s] in wordset:
-                        # Match found, update flag variable
-                        vulnerable = True
-                        break
+                        # Match found, return early
+                        return convert_times_to_units(times)
                 
-                # If match found, convert times and return:
-                if vulnerable:
-                    return convert_times_to_units(times)
-                
-                # If match not found:
-                else:
-                    return None
+        # If match not found:
+        return None
     
     # NOTE: Assumes a padding depth limit of up to three characters for the prefix and suffix. 
     # NOTE: Estimated attack times remain constant as the attacker would need to try all possible 

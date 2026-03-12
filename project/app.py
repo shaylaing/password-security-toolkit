@@ -148,4 +148,4 @@ def simulator():
         # Rule-based mutation simulation
         rule_based_times = rule_based_mutation_sim(password)
 
-        return render_template("simulator.html", brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times)
+        return render_template("simulator.html", current_page=request.path, brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times)
