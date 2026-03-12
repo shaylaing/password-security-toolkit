@@ -11,13 +11,13 @@
             <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
             <button id="startCheckButton" name="startCheck" type="submit">Start</button>
             <!-- Show error message if inputted password is too long -->
-            {% if error_message %}
-                <p>{{ error_message }}</p>
+            {% if length_error %}
+                <p id="length-error">{{ length_error }}</p>
             {% endif %}
         </form>
         <!-- Prevent empty password -->
-        {% if error %}
-            <p id="error-message">{{ error }}</p>  
+        {% if empty_error %}
+            <p id="empty-error">{{ empty_error }}</p>  
         {% endif %}
     </div>
     <!-- Display results of password strength check -->

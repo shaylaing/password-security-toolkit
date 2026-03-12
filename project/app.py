@@ -31,16 +31,16 @@ def analyser():
         # Prevent empty password:
         if len(password) == 0:
             # Create error variable and set it to True
-            error = "Error 400: Password must be at least one character long."
+            empty_error = "Error 400: Password must be at least one character long."
             
             # Early return with error message
-            return render_template("simulator.html", current_page=request.path, error=error)
+            return render_template("simulator.html", current_page=request.path, empty_error=empty_error)
 
         # Ensure inputted password is not longer than 64 characters (server-side input validation)
         if len(password) > 64:
             # If password is too long, return early with suitable error message
-            error_message = "400: Inputted password is too long."
-            return render_template("analyser.html", current_page=request.path, error_message=error_message)
+            length_error = "400: Inputted password is too long."
+            return render_template("analyser.html", current_page=request.path, length_error=length_error)
         
         # Perform checks:
         # Blocklist check:
