@@ -8,11 +8,11 @@
     <div class="about-section">
         <h3 class="header">About:</h3>
         <p id="about">EXPLAIN WHAT THIS PAGE DOES AND CLARIFY SCOPE</p>
-        <p id="note">Note - In the real world, attackers may use a combinations of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
+        <p id="note">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
     </div>
     <div class="simulator-form">
-        <p>Enter password to estimate attack times:</p>
-    <form id="attackSimulator">
+        <p style="padding-top: 30px;">Enter password to estimate attack times:</p>
+    <form id="attackSimulator" action="/simulator" method="post">
         <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
         <button id="startCheckButton" name="startCheck" type="submit">Start</button>
     </form>
@@ -22,68 +22,70 @@
         {% endif %}
     </div>
     <!-- Display results of password attack simulator -->
-    <div id="results" class="results-section">     
-        <h3>Brute Force Attack Time Estimates:</h3>
-        {% if brute_force_times %}
+    <div id="results" class="sim-results-section">
+        {% if brute_force_times %}     
+            <h3 class="header">Brute Force Attack Time Estimates:</h3>
             <!-- Show maximum brute force times -->
-            <h6>Maximum Times (worst case)</h6>
-            <p>Online Scenario: {{ brute_force_times["online_maximum_time"][0] }} + {{ brute_force_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ brute_force_times["offline_maximum_time"][0] }} + {{ brute_force_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ brute_force_times["specialised_maximum_time"][0] }} + {{ brute_force_times["specialised_maximum_time"][1] }}</p>
+            <h4>Maximum Times (worst case)</h4>
+            <p>Online Scenario: {{ brute_force_times["online_maximum_time"][0] }} {{ brute_force_times["online_maximum_time"][1] }}</p>
+            <p>Offline Scenario: {{ brute_force_times["offline_maximum_time"][0] }} {{ brute_force_times["offline_maximum_time"][1] }}</p>
+            <p>Specialised Scenario: {{ brute_force_times["specialised_maximum_time"][0] }} {{ brute_force_times["specialised_maximum_time"][1] }}</p>
             <!-- Show average brute force times -->
-            <h6>Average Times</h6>
-            <p>Online Scenario: {{ brute_force_times["online_average_time"][0] }} + {{ brute_force_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ brute_force_times["offline_average_time"][0] }} + {{ brute_force_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ brute_force_times["specialised_average_time"][0] }} + {{ brute_force_times["specialised_average_time"][1] }}</p>
+            <h4 style="padding-top: 8px;">Average Times</h4>
+            <p>Online Scenario: {{ brute_force_times["online_average_time"][0] }} {{ brute_force_times["online_average_time"][1] }}</p>
+            <p>Offline Scenario: {{ brute_force_times["offline_average_time"][0] }} {{ brute_force_times["offline_average_time"][1] }}</p>
+            <p>Specialised Scenario: {{ brute_force_times["specialised_average_time"][0] }} {{ brute_force_times["specialised_average_time"][1] }}</p>
         {% endif %}
             
-        <h3>Dictionary Attack Time Estimates:</h3>
-        {% if dictionary_times is not none %}
+        {% if dictionary_times %}
+            <h3 class="header">Dictionary Attack Time Estimates:</h3>
             <!-- Show maximum dictionary attack times -->
-            <h6>Maximum Times (worst case)</h6>
-            <p>Online Scenario: {{ dictionary_times["online_maximum_time"][0] }} + {{ dictionary_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ dictionary_times["offline_maximum_time"][0] }} + {{ dictionary_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ dictionary_times["specialised_maximum_time"][0] }} + {{ dictionary_times["specialised_maximum_time"][1] }}</p>
+            <h4>Maximum Times (worst case)</h4>
+            <p>Online Scenario: {{ dictionary_times["online_maximum_time"][0] }} {{ dictionary_times["online_maximum_time"][1] }}</p>
+            <p>Offline Scenario: {{ dictionary_times["offline_maximum_time"][0] }} {{ dictionary_times["offline_maximum_time"][1] }}</p>
+            <p>Specialised Scenario: {{ dictionary_times["specialised_maximum_time"][0] }} {{ dictionary_times["specialised_maximum_time"][1] }}</p>
             <!-- Show average dictionary times -->
-            <h6>Average Times</h6>
-            <p>Online Scenario: {{ dictionary_times["online_average_time"][0] }} + {{ dictionary_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ dictionary_times["offline_average_time"][0] }} + {{ dictionary_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} + {{ dictionary_times["specialised_average_time"][1] }}</p>
+            <h4 style="padding-top: 8px;">Average Times</h4>
+            <p>Online Scenario: {{ dictionary_times["online_average_time"][0] }} {{ dictionary_times["online_average_time"][1] }}</p>
+            <p>Offline Scenario: {{ dictionary_times["offline_average_time"][0] }} {{ dictionary_times["offline_average_time"][1] }}</p>
+            <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} {{ dictionary_times["specialised_average_time"][1] }}</p>
         {% endif %}
 
-        <h3>Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h3>
-        {% if hybrid_times is not none %}
+        {% if hybrid_times %}
+            <h3 class="header">Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h3>
             <!-- Show maximum hybrid attack times -->
             <h6>Maximum Times (worst case)</h6>
-            <p>Online Scenario: {{ hybrid_times["online_maximum_time"][0] }} + {{ hybrid_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ hybrid_times["offline_maximum_time"][0] }} + {{ hybrid_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ hybrid_times["specialised_maximum_time"][0] }} + {{ hybrid_times["specialised_maximum_time"][1] }}</p>
+            <p>Online Scenario: {{ hybrid_times["online_maximum_time"][0] }} {{ hybrid_times["online_maximum_time"][1] }}</p>
+            <p>Offline Scenario: {{ hybrid_times["offline_maximum_time"][0] }} {{ hybrid_times["offline_maximum_time"][1] }}</p>
+            <p>Specialised Scenario: {{ hybrid_times["specialised_maximum_time"][0] }} {{ hybrid_times["specialised_maximum_time"][1] }}</p>
             <!-- Show average hybrid times -->
-            <h6>Average Times</h6>
-            <p>Online Scenario: {{ hybrid_times["online_average_time"][0] }} + {{ hybrid_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ hybrid_times["offline_average_time"][0] }} + {{ hybrid_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} + {{ hybrid_times["specialised_average_time"][1] }}</p>
+            <h4 style="padding-top: 8px;">Average Times</h4>
+            <p>Online Scenario: {{ hybrid_times["online_average_time"][0] }} {{ hybrid_times["online_average_time"][1] }}</p>
+            <p>Offline Scenario: {{ hybrid_times["offline_average_time"][0] }} {{ hybrid_times["offline_average_time"][1] }}</p>
+            <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} {{ hybrid_times["specialised_average_time"][1] }}</p>
         {% endif %}
 
-        <h3>Rule-Based Mutation Attack Time Estimates:</h3>
-        {% if rule_based_times is not none %}
+        {% if rule_based_times %}
+            <h3 class="header">Rule-Based Mutation Attack Time Estimates:</h3>
             <!-- Show maximum rule-based mutation attack times -->
-            <h6>Maximum Times (worst case)</h6>
-            <p>Online Scenario: {{ rule_based_times["online_maximum_time"][0] }} + {{ rule_based_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ rule_based_times["offline_maximum_time"][0] }} + {{ rule_based_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ rule_based_times["specialised_maximum_time"][0] }} + {{ rule_based_times["specialised_maximum_time"][1] }}</p>
+            <h4>Maximum Times (worst case)</h4>
+            <p>Online Scenario: {{ rule_based_times["online_maximum_time"][0] }} {{ rule_based_times["online_maximum_time"][1] }}</p>
+            <p>Offline Scenario: {{ rule_based_times["offline_maximum_time"][0] }} {{ rule_based_times["offline_maximum_time"][1] }}</p>
+            <p>Specialised Scenario: {{ rule_based_times["specialised_maximum_time"][0] }} {{ rule_based_times["specialised_maximum_time"][1] }}</p>
             <!-- Show average rule-based mutation times -->
-            <h6>Average Times</h6>
-            <p>Online Scenario: {{ rule_based_times["online_average_time"][0] }} + {{ rule_based_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ rule_based_times["offline_average_time"][0] }} + {{ rule_based_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} + {{ rule_based_times["specialised_average_time"][1] }}</p>
+            <h4 style="padding-top: 8px;">Average Times</h4>
+            <p>Online Scenario: {{ rule_based_times["online_average_time"][0] }} {{ rule_based_times["online_average_time"][1] }}</p>
+            <p>Offline Scenario: {{ rule_based_times["offline_average_time"][0] }} {{ rule_based_times["offline_average_time"][1] }}</p>
+            <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} {{ rule_based_times["specialised_average_time"][1] }}</p>
         {% endif %}
     </div>
     <div class="assumptions-section">
-        <h3 class="header">Assumptions:</h3>
-        <p>ADD ASSUMPTIONS AFTER CLARIFYING THEM IN CODE</p>
-        <p>- Assumed benchmark speed for three varying levels of computational hardware power that could be utlised by the attacker: Online Attack Scenario - one thousand guesses per second (dependent on network latency and rate limiting of service), Offline Attack Scenario (with high-end GPU) - ten billion guesses per second, and Specialised Rig Scenario (cracking arrays, botnets, GPU clusters, etc.) - one hundred trillion guesses per second.</p>
-        <p>- Utilised a standard top 10,000 most common passwords list to be used in dictionary attack estimate and hybrid attack estimate.</p>
-        <p></p>
+        <h3 class="header" style="padding-top: 50px;">Assumptions:</h3>
+        <div style="font-size: small;">
+            <p>ADD ASSUMPTIONS AFTER CLARIFYING THEM IN CODE</p>
+            <p>- Assumed benchmark speed for three varying levels of computational hardware power that could be utlised by the attacker: Online Attack Scenario - one thousand guesses per second (dependent on network latency and rate limiting of service), Offline Attack Scenario (with high-end GPU) - ten billion guesses per second, and Specialised Rig Scenario (cracking arrays, botnets, GPU clusters, etc.) - one hundred trillion guesses per second.</p>
+            <p>- Utilised a standard top 10,000 most common passwords list to be used in dictionary attack estimate and hybrid attack estimate.</p>
+            <p></p>
+        </div>
     </div>
 {% endblock %}

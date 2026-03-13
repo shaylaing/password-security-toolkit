@@ -41,6 +41,9 @@ def convert_times_to_units(times: dict) -> dict:
     for name, time in times.items():
         # Seconds check:
         if time < 60:
+            # Convert time to have 3 decimal places
+            time = round(time, 3)
+
             # Add converted time and unit to dict
             unit = "seconds"
             converted_times[name] = (time, unit)
@@ -48,6 +51,10 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 3600:
             # Convert time to minutes
             converted_time = time / 60
+
+            # Convert time to have 3 decimal places
+            converted_time = round(converted_time, 3)
+                         
             # Add converted time and unit to dict
             unit = "minutes"
             converted_times[name] = (converted_time, unit)
@@ -55,6 +62,10 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 86400:
             # Convert time to hours
             converted_time = time / 3600
+
+            # Convert time to have 3 decimal places
+            converted_time = round(converted_time, 3)
+
             # Add converted time and unit to dict
             unit = "hours"
             converted_times[name] = (converted_time, unit)
@@ -62,6 +73,9 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 31536000:
             # Convert time to days
             converted_time = time / 86400
+            # Convert time to have 3 decimal places
+            converted_time = round(converted_time, 3)
+
             # Add converted time and unit to dict
             unit = "days"
             converted_times[name] = (converted_time, unit)
@@ -69,6 +83,10 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 31536000000:
             # Convert time to years:
             converted_time = time / 31536000
+
+            # Convert time to have 3 decimal places
+            converted_time = round(converted_time, 3)
+
             # Add converted time and unit to dict
             unit = "years"
             converted_times[name] = (converted_time, unit)
@@ -76,8 +94,12 @@ def convert_times_to_units(times: dict) -> dict:
         else:
             # Convert time to years (purely for presentation)
             converted_time = time / 31536000
+
+            # Convert time to have 3 decimal places
+            converted_time = round(converted_time, 3)
+
             # Add converted time and unit to dict
-            unit = "effectively uncrackable"
+            unit = "years (effectively uncrackable)"
             converted_times[name] = (converted_time, unit)
     
     return converted_times
