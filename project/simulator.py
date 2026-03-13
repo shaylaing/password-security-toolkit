@@ -99,7 +99,7 @@ def convert_times_to_units(times: dict) -> dict:
             converted_time = round(converted_time, 3)
 
             # Add converted time and unit to dict
-            unit = "years (effectively uncrackable)"
+            unit = "years (practically uncrackable)"
             converted_times[name] = (converted_time, unit)
     
     return converted_times
@@ -175,11 +175,9 @@ def dictionary_sim(password: str) -> None | dict:
 
 # Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack):
 def hybrid_sim(password: str) -> None | dict:
-    # Initialise flag variable for vulnerability
-    vulnerable = False
 
     # Hardcode estimated attack times for hybrid attack (times aren't dependent on password):
-    # Calculate total possible character mutations for both prefixes and suffixes
+    # Calculate total possible character mutations for both prefixes OR suffixes
     maximum_mutations = 2 * (43 + (43 ** 2) + (43 ** 3)) 
 
     # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
@@ -213,15 +211,24 @@ def hybrid_sim(password: str) -> None | dict:
         prefix_count = 0
         suffix_count = 0
 
-        # Count how many numbers or symbols appear in prefix (first 3 chars) of password and store total
+        # Count how many numbers or symbols appear in prefix (first 3 chars) of password contiguously and store total
         for char in password[:3]:       # Iterates from start to 3rd char
             if char.isdigit() or char in SYMBOLS_SET:
                 prefix_count += 1
+            
+            # If current character is not a symbol or number, end loop 
+            else:
+                if 
+                break
        
-        # Count how many numbers or symbols appear in suffix (last 3 chars) of password and store total
-        for char in password[-3:]:       # Start from 3rd last char and iterates till end
+        # Count how many numbers or symbols appear in suffix (last 3 chars) of password contiguously and store total
+        for char in password[-3:][::-1]:       # Iterates from 3rd last char till end
             if char.isdigit() or char in SYMBOLS_SET:
                 suffix_count += 1
+            
+            # If current character is not a symbol or number, end loop 
+            else:
+                break
         
         # Gradually remove each prefix and suffix char one by one and check if remaining password appears in wordlist:
         # Iterate for the total prefix count 
