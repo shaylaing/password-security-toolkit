@@ -120,7 +120,7 @@ def analyser():
 @app.route("/simulator", methods=["GET", "POST"])
 def simulator():
     if request.method == "GET":
-        return render_template("simulator.html", current_page=request.path)
+        return render_template("simulator.html", current_page=request.path, submitted=False)
     
     if request.method == "POST":
         # Input validation for form submission:
@@ -133,7 +133,7 @@ def simulator():
             error = "Error 400: Password must be at least one character long."
             
             # Early return with error message
-            return render_template("simulator.html", current_page=request.path, error=error)
+            return render_template("simulator.html", current_page=request.path, error=error, submitted=False)
         
         # Perform attack simulations:
         # Brute force simulation
@@ -148,4 +148,4 @@ def simulator():
         # Rule-based mutation simulation
         rule_based_times = rule_based_mutation_sim(password)
 
-        return render_template("simulator.html", current_page=request.path, brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times)
+        return render_template("simulator.html", current_page=request.path, brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times, submitted=True)

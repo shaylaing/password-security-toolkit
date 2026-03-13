@@ -24,7 +24,7 @@
     <!-- Display results of password attack simulator -->
     <div id="results" class="sim-results-section">
         {% if brute_force_times %}     
-            <h3 class="header">Brute Force Attack Time Estimates:</h3>
+            <h3 class="header" style="padding-top: 20px;">Brute Force Attack Time Estimates:</h3>
             <!-- Show maximum brute force times -->
             <h4>Maximum Times (worst case)</h4>
             <p>Online Scenario: {{ brute_force_times["online_maximum_time"][0] }} {{ brute_force_times["online_maximum_time"][1] }}</p>
@@ -36,9 +36,9 @@
             <p>Offline Scenario: {{ brute_force_times["offline_average_time"][0] }} {{ brute_force_times["offline_average_time"][1] }}</p>
             <p>Specialised Scenario: {{ brute_force_times["specialised_average_time"][0] }} {{ brute_force_times["specialised_average_time"][1] }}</p>
         {% endif %}
-            
+                
         {% if dictionary_times %}
-            <h3 class="header">Dictionary Attack Time Estimates:</h3>
+            <h3 class="header" style="padding-top: 20px;">Dictionary Attack Time Estimates:</h3>
             <!-- Show maximum dictionary attack times -->
             <h4>Maximum Times (worst case)</h4>
             <p>Online Scenario: {{ dictionary_times["online_maximum_time"][0] }} {{ dictionary_times["online_maximum_time"][1] }}</p>
@@ -49,12 +49,15 @@
             <p>Online Scenario: {{ dictionary_times["online_average_time"][0] }} {{ dictionary_times["online_average_time"][1] }}</p>
             <p>Offline Scenario: {{ dictionary_times["offline_average_time"][0] }} {{ dictionary_times["offline_average_time"][1] }}</p>
             <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} {{ dictionary_times["specialised_average_time"][1] }}</p>
+        <!-- Show message if password isn't vulnerable to dictionary attack -->
+        {% elif submitted %}
+            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to dictionary attack.</p>
         {% endif %}
 
         {% if hybrid_times %}
-            <h3 class="header">Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h3>
+            <h3 class="header" style="padding-top: 20px;">Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h3>
             <!-- Show maximum hybrid attack times -->
-            <h6>Maximum Times (worst case)</h6>
+            <h4>Maximum Times (worst case)</h4>
             <p>Online Scenario: {{ hybrid_times["online_maximum_time"][0] }} {{ hybrid_times["online_maximum_time"][1] }}</p>
             <p>Offline Scenario: {{ hybrid_times["offline_maximum_time"][0] }} {{ hybrid_times["offline_maximum_time"][1] }}</p>
             <p>Specialised Scenario: {{ hybrid_times["specialised_maximum_time"][0] }} {{ hybrid_times["specialised_maximum_time"][1] }}</p>
@@ -63,10 +66,13 @@
             <p>Online Scenario: {{ hybrid_times["online_average_time"][0] }} {{ hybrid_times["online_average_time"][1] }}</p>
             <p>Offline Scenario: {{ hybrid_times["offline_average_time"][0] }} {{ hybrid_times["offline_average_time"][1] }}</p>
             <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} {{ hybrid_times["specialised_average_time"][1] }}</p>
+        <!-- Show message if password isn't vulnerable to hybrid attack -->
+        {% elif submitted %}
+            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to hybrid attack.</p>
         {% endif %}
 
         {% if rule_based_times %}
-            <h3 class="header">Rule-Based Mutation Attack Time Estimates:</h3>
+            <h3 class="header" style="padding-top: 20px;">Rule-Based Mutation Attack Time Estimates:</h3>
             <!-- Show maximum rule-based mutation attack times -->
             <h4>Maximum Times (worst case)</h4>
             <p>Online Scenario: {{ rule_based_times["online_maximum_time"][0] }} {{ rule_based_times["online_maximum_time"][1] }}</p>
@@ -77,6 +83,9 @@
             <p>Online Scenario: {{ rule_based_times["online_average_time"][0] }} {{ rule_based_times["online_average_time"][1] }}</p>
             <p>Offline Scenario: {{ rule_based_times["offline_average_time"][0] }} {{ rule_based_times["offline_average_time"][1] }}</p>
             <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} {{ rule_based_times["specialised_average_time"][1] }}</p>
+        <!-- Show message if password isn't vulnerable to rule-based mutation attack -->
+        {% elif submitted %}
+            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to rule-based mutation attack.</p>
         {% endif %}
     </div>
     <div class="assumptions-section">
