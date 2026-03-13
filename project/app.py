@@ -34,7 +34,7 @@ def analyser():
             empty_error = "Error 400: Password must be at least one character long."
             
             # Early return with error message
-            return render_template("simulator.html", current_page=request.path, empty_error=empty_error)
+            return render_template("analyser.html", current_page=request.path, empty_error=empty_error)
 
         # Ensure inputted password is not longer than 64 characters (server-side input validation)
         if len(password) > 64:
