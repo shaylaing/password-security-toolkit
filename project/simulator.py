@@ -218,7 +218,6 @@ def hybrid_sim(password: str) -> None | dict:
             
             # If current character is not a symbol or number, end loop 
             else:
-                if 
                 break
        
         # Count how many numbers or symbols appear in suffix (last 3 chars) of password contiguously and store total
