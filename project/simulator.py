@@ -270,20 +270,12 @@ def rule_based_mutation_sim(password: str) -> None | dict:
     desubbed_passwords = desubstitute(password)
 
     # Search for passwords in wordlist to determine vulnerability:
-    # Check if password has no de-substituted variants (password has no Leetspeak chars)
-    if len(desubbed_passwords) == 1:
-        # Check if password as-is appears in wordlist
-        if password in wordset:
+    # Check if any de-subtituted variants of the password appear in wordlist
+    for variant in desubbed_passwords:
+        if variant in wordset:
             # Match found, update flag variable
             vulnerable = True
-    
-    # If there are de-subtituted variants of the password, check if any appear in wordlist
-    else:
-        for variant in desubbed_passwords:
-            if variant in wordset:
-                # Match found, update flag variable
-                vulnerable = True
-                break
+            break
     
     # If match found:
     if vulnerable:
