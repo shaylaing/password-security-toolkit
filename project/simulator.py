@@ -269,6 +269,10 @@ def rule_based_mutation_sim(password: str) -> None | dict:
     # Get all de-substituted variants of password
     desubbed_passwords = desubstitute(password)
 
+    # Return None early if no substitutions were found for password (not vulnerable)
+    if len(desubbed_passwords) == 1:
+        return None
+
     # Search for passwords in wordlist to determine vulnerability:
     # Check if any de-subtituted variants of the password appear in wordlist
     for variant in desubbed_passwords:

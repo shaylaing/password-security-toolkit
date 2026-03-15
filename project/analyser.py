@@ -313,13 +313,15 @@ def pattern_checks(password: str) -> int:
             l = SEQUENTIAL_LETTERS.index(char.lower())
 
             # Ascending:
-            # Check if next character matches ascending letter sequence
-            if password[i + 1].lower() == SEQUENTIAL_LETTERS[l + 1]:
-                # Check if next character also matches ascending letter sequence
-                if password[i + 2].lower() == SEQUENTIAL_LETTERS[l + 2]:
-                    # Match found
-                    sequential_chars = True
-                    break
+            # Prevent bound error by ensuring characters being checked don't exceed length of sequence constant
+            if l + 2 < len(SEQUENTIAL_LETTERS):
+                # Check if next character matches ascending letter sequence
+                if password[i + 1].lower() == SEQUENTIAL_LETTERS[l + 1]:
+                    # Check if next character also matches ascending letter sequence
+                    if password[i + 2].lower() == SEQUENTIAL_LETTERS[l + 2]:
+                        # Match found
+                        sequential_chars = True
+                        break
         
             # Descending:
             # Prevent underflow
@@ -339,13 +341,15 @@ def pattern_checks(password: str) -> int:
             n = SEQUENTIAL_NUMBERS.index(char)
 
             # Ascending:
-            # Check if next character matches ascending number sequence
-            if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
-                # Check if next character also matches ascending number sequence
-                if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
-                    # Match found
-                    sequential_chars = True
-                    break
+            # Prevent bound error by ensuring characters being checked don't exceed length of sequence constant
+            if n + 2 < len(SEQUENTIAL_NUMBERS):
+                # Check if next character matches ascending number sequence
+                if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
+                    # Check if next character also matches ascending number sequence
+                    if password[i + 2] == SEQUENTIAL_NUMBERS[n + 2]:
+                        # Match found
+                        sequential_chars = True
+                        break
 
             # Descending:
             # Prevent underflow
