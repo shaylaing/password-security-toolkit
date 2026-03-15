@@ -72,7 +72,15 @@ def blocklist_check(password: str) -> bool:
     if not match:
         # Create list containing all possible de-subbed versions of password
         desubbed_passwords = helpers.desubstitute(password)
-
+           
+        # Return False early if no substitutions were found for password (not vulnerable)
+        if len(desubbed_passwords) == 1 and desubbed_passwords[0] == password.lower():
+            return match
+        
+        # Limit the amount of desubbed password variants being queried against the API (limit = 1000 variants) to prevent request hanging or timeouts caused by combinatorial explosion
+        if len(desubbed_passwords) > 1000:
+            desubbed_passwords = desubbed_passwords[:1000]
+       
         # Loop through each possible de-subbed version of password
         for desubbed_password in desubbed_passwords:
             # Hash current de-subbed version of password with SHA-1
@@ -83,11 +91,16 @@ def blocklist_check(password: str) -> bool:
             desubbed_hash_prefix = desubbed_hash[:5]
 
             # Query Have I Been Pwned password API for current de-subbed password hash prefix
-            pwned_desubbed_suffix_results = requests.get(
+            try:
+                pwned_desubbed_suffix_results = requests.get(
                 f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)
 
+            # Return False if API query failed/timed out
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+                return False
+
             # Ensure Pwned API query is successful by checking for HTTP 200 status code
-            if pwned_results.status_code == 200:
+            if pwned_desubbed_suffix_results.status_code == 200:
                 # Store Pwned suffix results with counts as list
                 pwned_desubbed_suffixes_and_counts = pwned_desubbed_suffix_results.text.splitlines()
 
