@@ -10,6 +10,6 @@ document.getElementById("strengthAnalyser").addEventListener("submit", function(
         event.preventDefault()
 
         // If password length is over 64 characters, show error message
-        alert("400: Inputted password is too long.")
+        document.getElementById("client-length-error").hidden = false
     }
 });

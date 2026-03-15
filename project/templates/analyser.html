@@ -10,10 +10,12 @@
         <form id="strengthAnalyser" action="/analyser" method="post">
             <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
             <button id="startCheckButton" name="startCheck" type="submit">Start</button>
-            <!-- Show error message if inputted password is too long -->
+            <!-- Show error message if inputted password is too long (server-side) -->
             {% if length_error %}
-                <p id="length-error">{{ length_error }}</p>
+                <p id="server-length-error" style="color: red;">{{ length_error }}</p>
             {% endif %}
+            <!-- Show error message if inputted password is too long (client-side) -->
+            <p id="client-length-error" style="color: red;" hidden>Error 400: Inputted password is too long.</p>
         </form>
         <!-- Prevent empty password -->
         {% if empty_error %}
