@@ -1,3 +1,4 @@
+// Input validation for password submission:
 // Listen for user submitting their inputted password
 document.getElementById("strengthAnalyser").addEventListener("submit", function(event){
     // Get password input textbox 

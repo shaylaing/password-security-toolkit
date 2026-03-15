@@ -8,6 +8,8 @@
     <div class="about-section">
         <h3 class="header">About:</h3>
         <p id="about">EXPLAIN WHAT THIS PAGE DOES AND CLARIFY SCOPE</p>
+        <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer;">MAKE THIS A BUTTON TO SHOW/HIDE EXTRA INFO ABOUT ATTACK TYPES</button>
+        <p id="moreInfo" name="moreInfo"></p>
         <p id="note">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
     </div>
     <div class="simulator-form">
@@ -97,4 +99,10 @@
             <p></p>
         </div>
     </div>
+{% endblock %}
+
+
+<!-- Import JavaScript from script.js -->
+{% block scripts %}
+    <script src="{{ url_for('static', filename='simulator.js') }}"></script>
 {% endblock %}
