@@ -8,9 +8,14 @@
     <div class="about-section">
         <h3 class="header">About:</h3>
         <p id="about">EXPLAIN WHAT THIS PAGE DOES AND CLARIFY SCOPE</p>
-        <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer;">MAKE THIS A BUTTON TO SHOW/HIDE EXTRA INFO ABOUT ATTACK TYPES</button>
-        <p id="moreInfo" name="moreInfo">EXPLAIN EACH ATTACK TYPE</p>
-        <p id="note">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
+        <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer;">(i) Click here to show more information about each tested attack type.</button>
+        <div id="moreInfo" name="moreInfo">
+            <p>Brute Force Attack - </p>
+            <p>Dictionary Attack - </p>
+            <p>Brute Force x Dictionary Hybrid Attack - Also known as a Suffix-Prefix Attack, </p>
+            <p>Rule-Based Mutation Attack - </p>
+        </div>
+        <p id="note" style="padding-top: 5px;">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
     </div>
     <div class="simulator-form">
         <p style="padding-top: 30px;">Enter password to estimate attack times:</p>
@@ -53,7 +58,7 @@
             <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} {{ dictionary_times["specialised_average_time"][1] }}</p>
         <!-- Show message if password isn't vulnerable to dictionary attack -->
         {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to dictionary attack.</p>
+            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to dictionary attack.</p>
         {% endif %}
 
         {% if hybrid_times %}
@@ -70,7 +75,7 @@
             <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} {{ hybrid_times["specialised_average_time"][1] }}</p>
         <!-- Show message if password isn't vulnerable to hybrid attack -->
         {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to hybrid attack.</p>
+            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to hybrid attack.</p>
         {% endif %}
 
         {% if rule_based_times %}
@@ -87,7 +92,7 @@
             <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} {{ rule_based_times["specialised_average_time"][1] }}</p>
         <!-- Show message if password isn't vulnerable to rule-based mutation attack -->
         {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px;">Password is not vulnerable to rule-based mutation attack.</p>
+            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to rule-based mutation attack.</p>
         {% endif %}
     </div>
     <div class="assumptions-section">
