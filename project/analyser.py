@@ -77,9 +77,9 @@ def blocklist_check(password: str) -> bool:
         if len(desubbed_passwords) == 1 and desubbed_passwords[0] == password.lower():
             return match
         
-        # Limit the amount of desubbed password variants being queried against the API (limit = 1000 variants) to prevent request hanging or timeouts caused by combinatorial explosion
-        if len(desubbed_passwords) > 1000:
-            desubbed_passwords = desubbed_passwords[:1000]
+        # Limit the amount of desubbed password variants being queried against the API (limit = 200 variants) to prevent request hanging or timeouts caused by combinatorial explosion
+        if len(desubbed_passwords) > 200:
+            desubbed_passwords = desubbed_passwords[:200]
        
         # Loop through each possible de-subbed version of password
         for desubbed_password in desubbed_passwords:

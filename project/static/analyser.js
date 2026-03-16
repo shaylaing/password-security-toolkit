@@ -9,7 +9,10 @@ document.getElementById("strengthAnalyser").addEventListener("submit", function(
         // Stop submission
         event.preventDefault()
 
-        // If password length is over 64 characters, show error message
+        // Hide results
+        document.getElementById("results").hidden = true
+
+        // Show error message
         document.getElementById("client-length-error").hidden = false
     }
 });
