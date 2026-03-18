@@ -10,10 +10,10 @@
         <p id="about">EXPLAIN WHAT THIS PAGE DOES AND CLARIFY SCOPE</p>
         <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer;">(i) Click here to show more information about each tested attack type.</button>
         <div id="moreInfo" name="moreInfo">
-            <p>Brute Force Attack - </p>
-            <p>Dictionary Attack - </p>
-            <p>Brute Force x Dictionary Hybrid Attack - Also known as a Suffix-Prefix Attack, </p>
-            <p>Rule-Based Mutation Attack - </p>
+            <p>Brute Force Attack - systematically tries every possible character combination within a defined character set. Simulation returns estimated time based on total search space.</p>
+            <p>Dictionary Attack - tests the password against a list of commonly used passwords. If a match is found, the password is considered vulnerable and an estimated crack time is returned.</p>
+            <p>Brute Force x Dictionary Hybrid Attack - also known as a Suffix-Prefix Attack, takes common passwords from a wordlist and systematically adds short sequences (typically 1-3 characters) of numbers or symbols to its beginning and/or end. If a match is found, returns estimated time.</p>
+            <p>Rule-Based Mutation Attack - applies common transformations (e.g. Leetspeak character substitution, capitalisation, symbol replacement) to dictionary words and checks if any variant matches the password. If a match is found, returns estimated time.</p>
         </div>
         <p id="note" style="padding-top: 5px;">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
     </div>
