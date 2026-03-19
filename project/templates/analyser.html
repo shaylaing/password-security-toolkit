@@ -31,7 +31,7 @@
     <div id="results" class="results-section">
         <h3 class="header">Strength Score:</h3>
         {% if score is not none %}
-            <p id="show_score">{{ score }}/100</p>
+            <p id="show_score" class="{{ level }}" style="font-size: larger;">{{ score }}/100</p>
         {% endif %}
         {% if entropy_bits %}
         <h3 class="header">Entropy Estimation:</h3>

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation
+from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation, score_colour
 from simulator import brute_force_sim, dictionary_sim, hybrid_sim, rule_based_mutation_sim
 
 # Configure Flask application
@@ -56,8 +56,11 @@ def analyser():
             # Set final score to 0
             score = 0
 
+            # Determine display colour of final score
+            level = score_colour(score)
+
             # Override all other checks and exit 
-            return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result))
+            return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result), level=level)
         
         # NOTE: If match is found in blocklist check, then it is treated as an instant fail 
         # and overrides all other checks, returning a final score of 0. When a password appears
@@ -114,7 +117,10 @@ def analyser():
         # Create feedback to be shown to the user
         feedback = feedback_creation(blocklist_check_result, min_length_check_points, entropy_check_points, composition_check_points, pattern_checks_points)
 
-        return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback, entropy_bits=entropy_bits, possible_combinations=possible_combinations)
+        # Determine display colour of final score
+        level = score_colour(score)
+
+        return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback, entropy_bits=entropy_bits, possible_combinations=possible_combinations, level=level)
 
 
 @app.route("/simulator", methods=["GET", "POST"])

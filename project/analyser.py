@@ -532,3 +532,16 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
     # This is to ensure that each parameter still has a value when they are not included 
     # in the function call. Added 'level' functionality to indicate serverity of feedback 
     # when displayed in form.
+
+
+# Define score colouring function:
+def score_colour(score: int) -> str:
+    # For scores between 0-49, colour final score red
+    if score < 50:
+        return "bad"
+    # For scores between 50-74, colour final score amber
+    elif 49 < score < 75:
+        return "okay"
+    # For scores between 75-100, colour final score green
+    elif 84 < score <= 100:
+        return "good"

@@ -97,7 +97,7 @@ button:hover /* hover animation for buttons */
     color: #b3f7d3;
 }
 
-/* Feedback Colouring: */
+/* Feedback and Final Score Colouring: */
 .bad
 {
     color: red;
