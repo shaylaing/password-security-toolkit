@@ -95,6 +95,7 @@
             <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to rule-based mutation attack.</p>
         {% endif %}
     </div>
+    <!-- Declare assumptions -->
     <div class="assumptions-section">
         <h3 class="header" style="padding-top: 50px;">Assumptions:</h3>
         <div style="font-size: small;">
@@ -103,7 +104,7 @@
             <p>- Hybrid attack simulation assumes the attacker would consider prefixes and suffixes to have a padding depth of up to 3 characters.</p>
             <p>- Rule-based Mutation attack simulation model assumes every word in the wordlist has an average of 20 rule-based mutations each to determine total candidate pool size.</p>
             <p>- Assumes a charset of 95 ASCII characters for brute force attack estimations.</p>
-            <p>- Assumes a total of 43 possible ASCII symbols are included in the charset used to determine what is and what isn't a special character in the hybrid attack model.</p>
+            <p>- Assumes a total of 43 possible ASCII symbols and digits are included in the charset used to determine what is and what isn't a special character in the hybrid attack model.</p>
         </div>
     </div>
 {% endblock %}
