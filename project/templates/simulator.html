@@ -98,12 +98,12 @@
     <div class="assumptions-section">
         <h3 class="header" style="padding-top: 50px;">Assumptions:</h3>
         <div style="font-size: small;">
-            <p>ADD ASSUMPTIONS AFTER CLARIFYING THEM IN CODE</p>
             <p>- Assumes benchmark speeds for three varying levels of computational hardware power that an attacker may possess: Online Attack Scenario - one thousand guesses per second (dependent on network latency and rate limiting of service), Offline Attack Scenario (with high-end GPU) - ten billion guesses per second, and Specialised Rig Scenario (cracking arrays, botnets, GPU clusters, etc.) - one hundred trillion guesses per second.</p>
             <p>- Utilises a standard top 10,000 most common passwords list to be used in dictionary attack estimate and hybrid attack estimate.</p>
             <p>- Hybrid attack simulation assumes the attacker would consider prefixes and suffixes to have a padding depth of up to 3 characters.</p>
             <p>- Rule-based Mutation attack simulation model assumes every word in the wordlist has an average of 20 rule-based mutations each to determine total candidate pool size.</p>
-            <p>- Attack estimations utilise ASCII standard characters only when determining what is considered a special character.</p>
+            <p>- Assumes a charset of 95 ASCII characters for brute force attack estimations.</p>
+            <p>- Assumes a total of 43 possible ASCII symbols are included in the charset used to determine what is and what isn't a special character in the hybrid attack model.</p>
         </div>
     </div>
 {% endblock %}
