@@ -15,27 +15,27 @@ source .venv/bin/activate (delete)
 
 
 #### app.py:
-<What does this file contain>
+This file is the controller file for the applications that acts as the intermediary between the user's input (via HTML templates) and the application logic (via Python modules). It is responsible for getting the submitted password, computing its score and/or estimated attack times via module functions, and then updating the resepctive HTML templates with its response by rendering the template with the variables containing the result values. 
 
 
 #### analyser.py:
-<What does this file contain>
+This is the module file used for the password strength checker side of the toolkit. It contains all the relevant functionality needed to compute a score based on the user's submitted password. Each included function corresponds to each of the five checks (blocklist, minimum length, entropy, composition, and pattern) needed to determine the total score, in addition to an extra function whose sole purpose is to generate the score feedback that is displayed underneath the final score. This process is performed in the controller file, and therefore requires this module to be imported into app.py.
 
 
 #### simulator.py:
-<What does this file contain>
+This is the module file used for the attack simulation side of the toolkit. It contains all the relevant functionality needed to calculate estimated attack times for the following attack types; brute force, dictionary, brute force x dictionary hybrid (a.k.a. suffix-prefix attack), and rule-based mutation. This module also contains an extra function that converts each raw computed time estimations (seconds) to more meaningful units for display purposes. This process is performed in the controller file, and therefore requires this module to be imported into app.py.
 
 
 #### helpers.py:
-<What does this file contain>
+The helpers module file solely contains the functionality needed to get all possible de-substituted variants of the submitted password. This refers to the process of identifying any Leetspeak characters (for instance, '@' representing 'a') used in the password, and returns a dict containing every possible variant of the password with the substituted Leetspeak characters replaced with their original characters.
 
 
 #### templates/:
-<What does this file contain>
+A directory containing the templates for each HTML page of the application. It includes the HTML code for the homepage, password strength checker, and the attack simulation. It also includes the layout file that acts as the boilerplate for all the other templates. These templates can be re-rendered to include the application's result response to the user's requests.
 
 
 #### static/:
-<What does this file contain>
+A directory containing a variety static (unchanging) files used to support the application. This includes two JavaScript files used to provide dynamic functionality for the strength checker and attack simulation HTML pages, a CSS file for HTML template styling, and a txt file containing the wordlist used in the attack simulation code.
 
 
 #### Design Choices & Thoughts:
