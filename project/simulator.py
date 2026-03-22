@@ -178,10 +178,11 @@ def hybrid_sim(password: str) -> None | dict:
 
     # Hardcode estimated attack times for hybrid attack (times aren't dependent on password):
     # Calculate total possible character mutations for both prefixes OR suffixes
-    maximum_mutations = 2 * (43 + (43 ** 2) + (43 ** 3)) 
+    maximum_mutations = 2 * (42 + (42 ** 2) + (42 ** 3)) 
 
     # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
     # NOTE: Estimates prefix and suffix mutations independently of each other 
+    # NOTE: Charset size of 42 characters (32 symbols + 10 digits)
 
     # Calculate maximum possible combinations attacker needs to check to crack password (worst case)
     total_combinations = len(wordset) * maximum_mutations
