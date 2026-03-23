@@ -4,7 +4,11 @@ source .venv/bin/activate (delete)
 
 
 #### Description:
-<Explain what project is>
+This project is an educational toolkit containing two separate password tools created to demonstrate the knowledge I've gained throughout Harvard's online CS50x course. The first tool is a password strength checker that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength. Meanwhile, the second tool is an attack simulator that estimates the time (worst case and average) it would take various different attack types to crack the submitted password and displays the results.
+
+The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulation estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
+
+It should be noted that this project is purely for educational purposes and represents simplified versions of both these real-world security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic.
 
 
 #### How to run this project locally:
