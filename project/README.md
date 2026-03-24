@@ -5,7 +5,7 @@
 
 #### Description:
 
-This project is an educational toolkit containing two separate password tools created to demonstrate the knowledge I've gained throughout Harvard's online CS50x course. The first tool is a password strength checker that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength. Meanwhile, the second tool is an attack simulator that estimates the time (worst case and average) it would take various different attack types to crack the submitted password and displays the results.
+This project is an educational toolkit containing two separate password tools created to demonstrate the knowledge I've gained throughout Harvard's online CS50x course. The first tool is a password strength checker that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength. Meanwhile, the second tool is an attack simulator that estimates the time (worst case and average) it would take various attack types to crack the submitted password and displays the results.
 
 The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulation estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
 
@@ -37,7 +37,7 @@ This is the module file used for the attack simulation side of the toolkit. It c
 
 #### helpers.py:
 
-The helpers module file solely contains the functionality needed to get all possible de-substituted variants of the submitted password. This refers to the process of identifying any Leetspeak characters (for instance, '@' representing 'a') used in the password, and returns a dict containing every possible variant of the password with the substituted Leetspeak characters replaced with their original characters.
+The helpers module file solely contains the functionality needed to get all possible de-substituted variants of the submitted password. This refers to the process of identifying any Leetspeak characters (for instance, '@' representing 'a') used in the password, and returns list containing every possible variant of the password with the substituted Leetspeak characters replaced with their original characters.
 
 
 #### templates/:
@@ -103,7 +103,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (11) What is the purpose of the reverse mapping functionality used for the de-substitute function in the blocklist check?
 
-- Reverse Mapping allows for fast lookup via values in dictionaries. Dictionary lookup is slow as it searches via keys by default. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys instead so that we can search via its values and speed up the process of searching the dictionary. Improves lookup time from O(n) per character to O(1) per character.
+- Reverse Mapping allows for fast lookup via values in dictionaries. In this scenario, dictionary lookup via keys takes is slow (O(n)) as it has to search through all the corresponding values to the selected key. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys instead so that we can search via its values and speed up the process of searching the dictionary. Improves lookup time from O(n) per character to O(1) per character.
 - For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its matching keys (original alphabetical or numeric characters). 
 - Suggested by Claude to significantly improve lookup speeds with minimal additional code.
 
@@ -122,7 +122,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (15) Why does the blocklist check override all subsequent checks and automatically return a final score of 0 if a match is found?
 
-- If the submitted password is found in the wordlist used in the blocklist check, it is regarded as an instant failure, preventing subsequent checks and the password is assigned zero points. It is safe to assume that the password is highly vulnerable if this occurs and therefore indicates no reason to continue with the rest of the strength check. De-substituted variants are also checked to prevent trivial bypasses of the blocklist check that would imply false password strength. 
+- If the submitted password is found in the API query within the blocklist check, it is regarded as an instant failure, preventing subsequent checks and the password is assigned zero points. It is safe to assume that the password is highly vulnerable if this occurs and therefore indicates no reason to continue with the rest of the strength check. De-substituted variants are also checked to prevent trivial bypasses of the blocklist check that would imply false password strength. 
 
 ##### (16) Why does the password attack simulator operate on the password as plaintext rather than hashes (which would be more realistic)?
 
@@ -130,7 +130,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (17) What reasoning was used for the assumptions made in the attack simulator?
 
-- Since the attack simulator simply provides a time estimate for each attack type, including the Rule-based Mutation attack type, I assumed a conservative but realistic 20 rule mutations per word in the wordlist to account for common Leetspeak substitutions and single character appends.
+- Since the attack simulator simply provides a time estimate for each attack type, including the Rule-based Mutation attack type, I assumed a conservative but realistic 20 rule mutations per word in the wordlist to account for common Leetspeak substitutions and single character appends. This is a simplifying assumption used to approximate the expansion of candidate space.
 - Assumed benchmark speeds to represent the potential hardware capabilities an attacker may possess. This resulted in three varied speeds for three different scenarios: an online attack (although this is usually limited even further by the service's rate limiting and is dependent on network latency), an offline attack, and an attack that utilises specialised hardware (cracking array, botnets, GPU clusters, etc.)
 
 - **Strength Checker:**
