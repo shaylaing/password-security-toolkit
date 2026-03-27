@@ -9,7 +9,7 @@ This project is an educational toolkit containing two separate password tools cr
 
 The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulator estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
 
-It should be noted that this project is purely for educational purposes and prioritises clarity and educational value over real-world accuracy by providing simplified versions of real-world security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic.
+It should be noted that this project is purely for educational purposes and prioritises clarity and educational value over real-world accuracy by providing simplified versions of real security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic.
 
 
 #### How to run this project locally:
@@ -103,8 +103,8 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (11) What is the purpose of the reverse mapping functionality used for the de-substitute function in the blocklist check?
 
-- Reverse Mapping allows for fast lookup via values in dictionaries. By default, Python dictionary key lookup is O(1) while value lookup is slow (O(n)) as it must iterate through all key-value pairs in the dictionary and inspect their values to determine which keys map to the given value. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys allowing us to achieve O(1) while searching the dictionary via values instead. Improves lookup time from O(n) per character to O(1) per character.
-- For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its original characters (original alphabetical or numeric characters). 
+- Reverse Mapping allows for fast lookup via values in dictionaries. By default, Python dictionary key lookup is O(1) while value lookup is O(n) as it must iterate through all key-value pairs and inspect their values to determine which keys map to the given value. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys allowing us to achieve O(1) while searching the dictionary via values instead. Improves lookup time from O(n) per character to O(1) per character.
+- For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its original characters (original alphabetical or numeric characters). This introduces a space-time tradeoff, where we allocate additional memory to store the reversed mapping in exchange for faster lookup.
 - Suggested by Claude to significantly improve lookup speeds with minimal additional code.
 
 ##### (12) Why did I decide to use Have I Been Pwned's API for the blocklist check instead of just a static .txt file of the most common passwords?
@@ -131,7 +131,7 @@ A directory containing a variety of static (unchanging) files used to support th
 ##### (17) What reasoning was used for the assumptions made in the attack simulator?
 
 - Since the attack simulator simply provides a time estimate for each attack type, including the Rule-based Mutation attack type, I assumed a conservative but realistic 20 rule mutations per word in the wordlist to account for common Leetspeak substitutions and single character appends. This is a simplifying assumption used to approximate the expansion of candidate space.
-- Assumed benchmark speeds to represent the potential hardware capabilities an attacker may possess. This results in three varied benchmark speeds representing three different attack scenarios: an online attack (although this is usually limited even further by the service's rate limiting and is dependent on network latency), an offline attack, and an attack that utilises specialised hardware (cracking array, botnets, GPU clusters, etc.)
+- Assumed constant benchmark speeds to represent the potential hardware capabilities an attacker may possess. This results in three varied benchmark speeds representing three different attack scenarios: an online attack (although this is usually limited even further by the service's rate limiting and is dependent on network latency), an offline attack, and an attack that utilises specialised hardware (cracking array, botnets, GPU clusters, etc.)
 
 - **Strength Checker:**
 	
