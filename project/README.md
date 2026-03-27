@@ -5,11 +5,11 @@
 
 #### Description:
 
-This project is an educational toolkit containing two separate password tools created to demonstrate the knowledge I've gained throughout Harvard's online CS50x course. The first tool is a password strength checker that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength. Meanwhile, the second tool is an attack simulator that estimates the time (worst case and average) it would take various attack types to crack the submitted password and displays the results.
+This project is an educational toolkit containing two separate password tools created to demonstrate the knowledge I've gained throughout Harvard's online CS50x course. The first tool is a password strength checker that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength. Meanwhile, the second tool is an attack simulator that estimates the worst-case and average times various attack types require to crack the submitted password and displays the results.
 
-The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulation estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
+The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulator estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
 
-It should be noted that this project is purely for educational purposes and represents simplified versions of real-world security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic.
+It should be noted that this project is purely for educational purposes and prioritises clarity and educational value over real-world accuracy by providing simplified versions of real-world security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic.
 
 
 #### How to run this project locally:
@@ -22,7 +22,7 @@ It should be noted that this project is purely for educational purposes and repr
 
 #### app.py:
 
-This file is the controller file for the applications that acts as the intermediary between the user's input (via HTML templates) and the application logic (via Python modules). It is responsible for getting the submitted password, computing its score and/or estimated attack times via module functions, and then updating the respective HTML templates with its response by rendering the template with the variables containing the result values. 
+This file is the controller file for the application that acts as the intermediary between the user's input (via HTML templates) and the application logic (via Python modules). It is responsible for getting the submitted password, computing its score and/or estimated attack times via module functions, and then updating the respective HTML templates with its response by rendering the respective template with the computed result values. 
 
 
 #### analyser.py:
@@ -32,22 +32,22 @@ This is the module file used for the password strength checker side of the toolk
 
 #### simulator.py:
 
-This is the module file used for the attack simulation side of the toolkit. It contains all the relevant functionality needed to calculate estimated attack times for the following attack types; brute force, dictionary, brute force x dictionary hybrid (a.k.a. suffix-prefix attack), and rule-based mutation. This module also contains an extra function that converts each raw computed time estimation (seconds) to more meaningful units for display purposes. This process is performed in the controller file, and therefore requires this module to be imported into app.py.
+This is the module file used for the attack simulator side of the toolkit. It contains all the relevant functionality needed to calculate estimated attack times for the following attack types; brute force, dictionary, brute force x dictionary hybrid (a.k.a. suffix-prefix attack), and rule-based mutation. This module also contains an extra function that converts each of the raw computed time estimations (seconds) to more meaningful units for display purposes. This process is performed in the controller file, and therefore requires this module to be imported into app.py.
 
 
 #### helpers.py:
 
-The helpers module file solely contains the functionality needed to get all possible de-substituted variants of the submitted password. This refers to the process of identifying any Leetspeak characters (for instance, '@' representing 'a') used in the password, and returns list containing every possible variant of the password with the substituted Leetspeak characters replaced with their original characters.
+The helpers module file solely contains the functionality needed to get all possible de-substituted variants of the submitted password. This refers to the process of identifying any Leetspeak characters (for instance, '@' representing 'a') used in the password, and returns a list containing all possible de-substituted variants generated from the password (limited to 200 variants), where any substituted Leetspeak characters are replaced with their potential original characters.
 
 
 #### templates/:
 
-A directory containing the templates for each HTML page of the application. It includes the HTML code for the homepage, password strength checker, and the attack simulation. It also includes the layout file that acts as the boilerplate for all the other templates. These templates can be re-rendered to include the application's result response to the user's requests.
+A directory containing the templates for each HTML page of the application. It includes the HTML code for the homepage, password strength checker, and the attack simulator. It also includes the layout file that acts as the boilerplate for all the other templates. These templates can be re-rendered to include the application's result response to the user's requests.
 
 
 #### static/:
 
-A directory containing a variety of static (unchanging) files used to support the application. This includes two JavaScript files used to provide dynamic functionality for the strength checker and attack simulation HTML pages, a CSS file for HTML template styling, and a txt file containing the wordlist used in the attack simulation code.
+A directory containing a variety of static (unchanging) files used to support the application. This includes two JavaScript files used to provide dynamic functionality for the strength checker and attack simulator HTML pages, a CSS file for HTML template styling, and a txt file containing the wordlist used in the attack simulator code.
 
 
 #### Design Choices & Thoughts:
@@ -103,8 +103,8 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (11) What is the purpose of the reverse mapping functionality used for the de-substitute function in the blocklist check?
 
-- Reverse Mapping allows for fast lookup via values in dictionaries. In this scenario, dictionary lookup via keys takes is slow (O(n)) as it has to search through all the corresponding values to the selected key. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys instead so that we can search via its values and speed up the process of searching the dictionary. Improves lookup time from O(n) per character to O(1) per character.
-- For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its matching keys (original alphabetical or numeric characters). 
+- Reverse Mapping allows for fast lookup via values in dictionaries. By default, Python dictionary key lookup is O(1) while value lookup is slow (O(n)) as it must iterate through all key-value pairs in the dictionary and inspect their values to determine which keys map to the given value. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys allowing us to achieve O(1) while searching the dictionary via values instead. Improves lookup time from O(n) per character to O(1) per character.
+- For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its original characters (original alphabetical or numeric characters). 
 - Suggested by Claude to significantly improve lookup speeds with minimal additional code.
 
 ##### (12) Why did I decide to use Have I Been Pwned's API for the blocklist check instead of just a static .txt file of the most common passwords?
@@ -122,7 +122,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (15) Why does the blocklist check override all subsequent checks and automatically return a final score of 0 if a match is found?
 
-- If the submitted password is found in the API query within the blocklist check, it is regarded as an instant failure, preventing subsequent checks and the password is assigned zero points. It is safe to assume that the password is highly vulnerable if this occurs and therefore indicates no reason to continue with the rest of the strength check. De-substituted variants are also checked to prevent trivial bypasses of the blocklist check that would imply false password strength. 
+- If the submitted password is found in the results returned by the API query during the blocklist check, it is regarded as an instant failure, preventing subsequent checks and the password is assigned zero points. It is safe to assume that the password is highly vulnerable if this occurs and therefore indicates no reason to continue with the rest of the strength check. De-substituted variants are also checked to prevent trivial bypasses of the blocklist check that would imply false password strength. 
 
 ##### (16) Why does the password attack simulator operate on the password as plaintext rather than hashes (which would be more realistic)?
 
@@ -131,12 +131,12 @@ A directory containing a variety of static (unchanging) files used to support th
 ##### (17) What reasoning was used for the assumptions made in the attack simulator?
 
 - Since the attack simulator simply provides a time estimate for each attack type, including the Rule-based Mutation attack type, I assumed a conservative but realistic 20 rule mutations per word in the wordlist to account for common Leetspeak substitutions and single character appends. This is a simplifying assumption used to approximate the expansion of candidate space.
-- Assumed benchmark speeds to represent the potential hardware capabilities an attacker may possess. This resulted in three varied speeds for three different scenarios: an online attack (although this is usually limited even further by the service's rate limiting and is dependent on network latency), an offline attack, and an attack that utilises specialised hardware (cracking array, botnets, GPU clusters, etc.)
+- Assumed benchmark speeds to represent the potential hardware capabilities an attacker may possess. This results in three varied benchmark speeds representing three different attack scenarios: an online attack (although this is usually limited even further by the service's rate limiting and is dependent on network latency), an offline attack, and an attack that utilises specialised hardware (cracking array, botnets, GPU clusters, etc.)
 
 - **Strength Checker:**
 	
 	- The length of the password directly determines the maximum score the password can achieve.
-	- ASCII's 32 symbols (not including space character) are used to determine which characters are counted as special characters in entropy check and composition check.
+	- A set of 32 ASCII symbols (not including space character) are used to determine which characters are counted as special characters in entropy check and composition check.
 	- For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.
 	- Password de-substitution is limited to 200 variants to reduce loading times.
 	- Blocklist check uses Have I Been Pwned's password API with k-anonymity to prevent password from being exposed during each query.
