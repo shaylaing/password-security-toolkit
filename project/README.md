@@ -103,7 +103,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (11) What is the purpose of the reverse mapping functionality used for the de-substitute function in the blocklist check?
 
-- Reverse Mapping allows for fast lookup via values in dictionaries. By default, Python dictionary key lookup is O(1) while value lookup is O(n) as it must iterate through all key-value pairs and inspect their values to determine which keys map to the given value. Reverse mapping enables us to flip the dictionary around so that we treat its values as keys allowing us to achieve O(1) while searching the dictionary via values instead. Improves lookup time from O(n) per character to O(1) per character.
+- Reverse Mapping allows for fast lookup via values in dictionaries. By default, Python dictionary key lookup is O(1) while value lookup is O(n) as it must iterate through all key-value pairs and inspect their values to determine which keys map to the given value. Reverse mapping enables us to avoid value lookup entirely by treating the original values as keys in a separate dictionary. This achieves O(1) lookup time per character where lookup time was previously O(n) per character.
 - For the purpose of the de-substitute function, we can query the reverse map with a value (substituted Leetspeak character) to find its original characters (original alphabetical or numeric characters). This introduces a space-time tradeoff, where we allocate additional memory to store the reversed mapping in exchange for faster lookup.
 - Suggested by Claude to significantly improve lookup speeds with minimal additional code.
 
