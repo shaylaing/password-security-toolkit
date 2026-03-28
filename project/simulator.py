@@ -73,8 +73,9 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 31536000:
             # Convert time to days
             converted_time = time / 86400
-            # Convert time to have 3 decimal places
-            converted_time = round(converted_time, 3)
+            
+            # Round time to nearest whole number
+            converted_time = int(round(converted_time))
 
             # Add converted time and unit to dict
             unit = "days"
@@ -84,8 +85,8 @@ def convert_times_to_units(times: dict) -> dict:
             # Convert time to years:
             converted_time = time / 31536000
 
-            # Convert time to have 3 decimal places
-            converted_time = round(converted_time, 3)
+            # Round time to nearest whole number
+            converted_time = int(round(converted_time))
 
             # Add converted time and unit to dict
             unit = "years"
@@ -95,8 +96,8 @@ def convert_times_to_units(times: dict) -> dict:
             # Convert time to years (purely for presentation)
             converted_time = time / 31536000
 
-            # Convert time to have 3 decimal places
-            converted_time = round(converted_time, 3)
+            # Round time to nearest whole number
+            converted_time = int(round(converted_time))
 
             # Add converted time and unit to dict
             unit = "years (practically uncrackable)"

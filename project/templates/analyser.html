@@ -10,7 +10,7 @@
         <p id="about">This is a password strength checker tool that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
     </div>
     <div class="analyser-form">
-        <p>Enter a password to test it's strength:</p>
+        <p>Enter a password to test its strength:</p>
         <form id="strengthAnalyser" action="/analyser" method="post">
             <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
             <button id="startCheckButton" name="startCheck" type="submit">Start</button>
@@ -29,9 +29,9 @@
     </div>
     <!-- Display results of password strength check -->
     <div id="results" class="results-section">
-        <h3 class="header">Strength Score:</h3>
         {% if score is not none %}
-            <p id="show_score" class="{{ level }}" style="font-size: larger;">{{ score }}/100</p>
+            <h3 class="header">Strength Score:</h3>
+            <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
         {% endif %}
         {% if entropy_bits %}
         <h3 class="header">Entropy Estimation:</h3>
@@ -39,7 +39,7 @@
         {% endif %}
         {% if possible_combinations %}
         <h3 class="header">Brute-Force Search Space:</h3>
-            <p id="show_possible_combinations">{{ possible_combinations }}</p>
+            <p id="show_possible_combinations">{{ possible_combinations }} possible combinations</p>
         {% endif %}
         {% if feedback %}
             <h3 class="header">Feedback:</h3>
@@ -52,7 +52,7 @@
     <div class="assumptions-section">
         <h3 class="header" style="padding-top: 50px;">Assumptions and Limitations:</h3>
         <div style="font-size: small;">
-            <p>The length of the password directly determines the maximum score the password can achieve.</p>
+            <p>The length of the password directly determine the maximum score the password can achieve.</p>
             <p>ASCII's 32 symbols (not including space character) are used to determines which characters are counted as special characters in entropy check and composition check.</p>
             <p>For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.</p>
             <p>Password de-substitution is limited to 200 variants to reduce loading times.</p>

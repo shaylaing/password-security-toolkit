@@ -540,8 +540,8 @@ def score_colour(score: int) -> str:
     if score < 50:
         return "bad"
     # For scores between 50-74, colour final score amber
-    elif 49 < score < 75:
+    elif score < 75:
         return "okay"
     # For scores between 75-100, colour final score green
-    elif 84 < score <= 100:
+    else:
         return "good"

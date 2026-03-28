@@ -3,6 +3,8 @@ body
     background: #222; /* dark mode as default */
     color: #e0e0e0;
     font-family: monospace;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .navbar /* navbar element */
