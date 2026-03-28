@@ -1,9 +1,9 @@
 body 
 {
-    background: #151515; /* dark mode as default */
+    background: #000000; /* dark mode as default */
     color: #e0e0e0;
     font-family: monospace;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -19,6 +19,7 @@ div
 {
     background: #222;
     padding: 20px;
+    border-radius: 25px;
 }
 
 nav a /* navbar links */
@@ -50,31 +51,6 @@ main
     opacity: 0.3;
 } 
 
-.analyser-form /* password textbox and button */
-{
-    padding-top: 30px;
-    margin: 20px 0;
-}
-
-.results-section 
-{
-    padding-top: 10px;
-    margin: 20px 0;
-    font-weight: bold;
-}
-
-.results-section p
-{
-    padding-bottom: 50px;
-    font-size: small;
-}
-
-.sim-results-section
-{
-    font-size: small;
-    padding-top: 2px;
-}
-
 button
 {
     color: #222;
@@ -99,6 +75,11 @@ button:hover /* hover animation for buttons */
     font-family: monospace;
 }
 
+.about-section
+{
+    font-size: small;
+}
+
 .header
 {
     margin-top: 20px;
@@ -121,7 +102,45 @@ button:hover /* hover animation for buttons */
     color: #b3f7d3;
 }
 
-.about-section
+/* Analyser page: */
+.analyser-main-body
+{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    gap: 30px;
+    padding: 0;
+    margin-top: 80px;
+}
+
+.analyser-form /* password textbox and button */
+{
+    padding-top: 30px;
+    margin: 20px 0;
+    box-sizing: border-box;
+    width: calc(50% - 10px);
+}
+
+.analyser-results-section 
+{
+    padding-top: 10px;
+    margin: 20px 0;
+    font-weight: bold;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+.results-section p
+{
+    padding-bottom: 50px;
+    font-size: small;
+}
+
+/* Simulator page: */
+.sim-results-section
 {
     font-size: small;
+    padding-top: 2px;
 }

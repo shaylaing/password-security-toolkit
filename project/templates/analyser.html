@@ -9,43 +9,47 @@
         <h3 class="header">About:</h3>
         <p id="about">This is a password strength checker tool that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
     </div>
-    <div class="analyser-form">
-        <p>Enter a password to test its strength:</p>
-        <form id="strengthAnalyser" action="/analyser" method="post">
-            <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
-            <button id="startCheckButton" name="startCheck" type="submit">Start</button>
-            <!-- Show error message if inputted password is too long (server-side) -->
-            {% if length_error %}
-                <p id="server-length-error" style="color: red;">{{ length_error }}</p>
+    <div class="analyser-main-body">
+        <div class="analyser-form">
+            <p>Enter a password to test its strength:</p>
+            <form id="strengthAnalyser" action="/analyser" method="post">
+                <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
+                <button id="startCheckButton" name="startCheck" type="submit">Start</button>
+                <!-- Show error message if inputted password is too long (server-side) -->
+                {% if length_error %}
+                    <p id="server-length-error" style="color: red;">{{ length_error }}</p>
+                {% endif %}
+                <!-- Show error message if inputted password is too long (client-side) -->
+                <p id="client-length-error" style="color: red;" hidden>Error 400: Inputted password is too long.</p>
+            </form>
+            <!-- Prevent empty password -->
+            {% if empty_error %}
+                <p id="empty-error">{{ empty_error }}</p>  
             {% endif %}
-            <!-- Show error message if inputted password is too long (client-side) -->
-            <p id="client-length-error" style="color: red;" hidden>Error 400: Inputted password is too long.</p>
-        </form>
-        <!-- Prevent empty password -->
-        {% if empty_error %}
-            <p id="empty-error">{{ empty_error }}</p>  
-        {% endif %}
-        <p id="note" style="font-size: smaller; font-style: italic;">Note: If password fails blocklist check, it automatically fails all following checks.</p>
-    </div>
-    <!-- Display results of password strength check -->
-    <div id="results" class="results-section">
+            <p id="note" style="font-size: smaller; font-style: italic;">Note: If password fails blocklist check, it automatically fails all following checks.</p>
+        </div>
         {% if score is not none %}
-            <h3 class="header">Strength Score:</h3>
-            <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
-        {% endif %}
-        {% if entropy_bits %}
-        <h3 class="header">Entropy Estimation:</h3>
-            <p id="show_entropy">{{ entropy_bits }}</p>
-        {% endif %}
-        {% if possible_combinations %}
-        <h3 class="header">Brute-Force Search Space:</h3>
-            <p id="show_possible_combinations">{{ possible_combinations }} possible combinations</p>
-        {% endif %}
-        {% if feedback %}
-            <h3 class="header">Feedback:</h3>
-            {% for i in feedback %}
-                <h5 class="{{ feedback[i].level }}">- {{ feedback[i].text }}</h5>
-            {% endfor %}
+            <!-- Display results of password strength check -->
+            <div id="results" class="analyser-results-section">
+                {% if score is not none %}
+                    <h3 class="header">Strength Score:</h3>
+                    <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
+                {% endif %}
+                {% if entropy_bits %}
+                <h3 class="header">Entropy Estimation:</h3>
+                    <p id="show_entropy">{{ entropy_bits }}</p>
+                {% endif %}
+                {% if possible_combinations %}
+                <h3 class="header">Brute-Force Search Space:</h3>
+                    <p id="show_possible_combinations">{{ possible_combinations }} possible combinations</p>
+                {% endif %}
+                {% if feedback %}
+                    <h3 class="header">Feedback:</h3>
+                    {% for i in feedback %}
+                        <h5 class="{{ feedback[i].level }}">- {{ feedback[i].text }}</h5>
+                    {% endfor %}
+                {% endif %}
+            </div>
         {% endif %}
     </div>
     <!-- Declare assumptions -->
