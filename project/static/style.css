@@ -17,8 +17,7 @@ body
 
 div
 {
-    background: #222;
-    padding: 20px;
+    background: #121212;
     border-radius: 25px;
 }
 
@@ -71,7 +70,7 @@ button:hover /* hover animation for buttons */
 .password /* password text box */
 {
     color: #b3f7d3;
-    background-color: #222;
+    background-color: #121212;
     font-family: monospace;
 }
 
@@ -82,12 +81,11 @@ button:hover /* hover animation for buttons */
 
 .header
 {
-    margin-top: 20px;
     color: #b3f7d3;
 }
 
 /* Feedback and Final Score Colouring: */
-.bad
+.bad 
 {
     color: red;
 }
@@ -102,7 +100,55 @@ button:hover /* hover animation for buttons */
     color: #b3f7d3;
 }
 
+/* Homepage: */
+.homepage-title
+{
+    text-align: center;
+    font-family: monospace;
+    font-size: 55px;
+    /* Text gradent: */
+    background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
+    background-clip: text;
+    color: transparent;
+}
+
+.homepage-subtitle
+{
+    text-align: center;
+    max-width: 80.5%;
+    margin: 0 auto;
+    margin-bottom: 80px;
+}
+
+.about-section
+{
+    padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
+    margin-top: 80px;
+    margin: 20px 0;
+}
+
 /* Analyser page: */
+.analyser-title
+{
+    text-align: center;
+    font-family: monospace;
+    font-size: 55px;
+    /* Text gradent: */
+    background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
+    background-clip: text;
+    color: transparent;
+}
+
+.analyser-subtitle
+{
+    text-align: center;
+    max-width: 80.5%;
+    margin: 0 auto
+}
+
 .analyser-main-body
 {
     display: flex;
@@ -110,32 +156,49 @@ button:hover /* hover animation for buttons */
     width: 100%;
     box-sizing: border-box;
     background: transparent;
-    gap: 30px;
+    gap: 40px;
     padding: 0;
     margin-top: 80px;
 }
 
 .analyser-form /* password textbox and button */
 {
+    padding: 40px;
     padding-top: 30px;
     margin: 20px 0;
     box-sizing: border-box;
     width: calc(50% - 10px);
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
 .analyser-results-section 
 {
-    padding-top: 10px;
+    padding: 40px;
     margin: 20px 0;
     font-weight: bold;
     box-sizing: border-box;
     flex: 1;
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
-.results-section p
+.analyser-results-section p
 {
     padding-bottom: 50px;
     font-size: small;
+}
+
+.assumptions-section
+{
+    padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
+    margin-top: 80px;
+}
+
+.assumptions-section h3
+{
+    padding-bottom: 10px;
 }
 
 /* Simulator page: */

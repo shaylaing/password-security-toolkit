@@ -5,10 +5,8 @@
 {% endblock %}
 
 {% block main %}
-    <div class="about-section">
-        <h3 class="header">About:</h3>
-        <p id="about">This is a password strength checker tool that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
-    </div>
+    <h1 class="analyser-title">Password Strength Checker</h1>
+    <p class="analyser-subtitle">Tool that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
     <div class="analyser-main-body">
         <div class="analyser-form">
             <p>Enter a password to test its strength:</p>
@@ -32,19 +30,19 @@
             <!-- Display results of password strength check -->
             <div id="results" class="analyser-results-section">
                 {% if score is not none %}
-                    <h3 class="header">Strength Score:</h3>
+                    <h2 class="header">Strength Score:</h2>
                     <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
                 {% endif %}
                 {% if entropy_bits %}
-                <h3 class="header">Entropy Estimation:</h3>
+                <h2 class="header">Entropy Estimation:</h2>
                     <p id="show_entropy">{{ entropy_bits }}</p>
                 {% endif %}
                 {% if possible_combinations %}
-                <h3 class="header">Brute-Force Search Space:</h3>
+                <h2 class="header">Brute-Force Search Space:</h2>
                     <p id="show_possible_combinations">{{ possible_combinations }} possible combinations</p>
                 {% endif %}
                 {% if feedback %}
-                    <h3 class="header">Feedback:</h3>
+                    <h2 class="header">Feedback:</h2>
                     {% for i in feedback %}
                         <h5 class="{{ feedback[i].level }}">- {{ feedback[i].text }}</h5>
                     {% endfor %}
@@ -54,14 +52,16 @@
     </div>
     <!-- Declare assumptions -->
     <div class="assumptions-section">
-        <h3 class="header" style="padding-top: 50px;">Assumptions and Limitations:</h3>
         <div style="font-size: small;">
-            <p>The length of the password directly determine the maximum score the password can achieve.</p>
-            <p>ASCII's 32 symbols (not including space character) are used to determines which characters are counted as special characters in entropy check and composition check.</p>
-            <p>For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.</p>
-            <p>Password de-substitution is limited to 200 variants to reduce loading times.</p>
-            <p>Blocklist check uses Have I Been Pwned's password API with k-anonymity to check if the submitted password (and its de-substituted variants) is commonly used.</p>
-            <p>Pattern checks are limited to three specific pattern types: sequential chars, keyboard patterns, and consecutive repeated chars (3+).</p>
+            <h2 class="header">Assumptions and Limitations:</h2>
+            <ul class="assumptions" style="padding-top: 10px;">
+                <li>The length of the password directly determine the maximum score the password can achieve.</li>
+                <li>ASCII's 32 symbols (not including space character) are used to determines which characters are counted as special characters in entropy check and composition check.</li>
+                <li>For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.</li>
+                <li>Password de-substitution is limited to 200 variants to reduce loading times.</li>
+                <li>Blocklist check uses Have I Been Pwned's password API with k-anonymity to check if the submitted password (and its de-substituted variants) is commonly used.</li>
+                <li>Pattern checks are limited to three specific pattern types: sequential chars, keyboard patterns, and consecutive repeated chars (3+).</li>
+            </ul>
         </div>
     </div>
 {% endblock %}
