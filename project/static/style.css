@@ -120,16 +120,6 @@ button:hover /* hover animation for buttons */
     margin-bottom: 80px;
 }
 
-.about-section
-{
-    padding: 40px;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
-    margin-top: 80px;
-    margin: 20px 0;
-}
-
 /* Analyser page: */
 .analyser-title
 {
@@ -201,9 +191,68 @@ button:hover /* hover animation for buttons */
     padding-bottom: 10px;
 }
 
+.assumptions-section p 
+{
+    font-size: small;
+}
+
 /* Simulator page: */
+.sim-title
+{
+    text-align: center;
+    font-family: monospace;
+    font-size: 55px;
+    /* Text gradent: */
+    background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
+    background-clip: text;
+    color: transparent;
+}
+
+.sim-subtitle
+{
+    text-align: center;
+    max-width: 80.5%;
+    margin: 0 auto;
+    margin-bottom: 80px;
+}
+
+.about-section
+{
+    padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
+    margin-top: 80px;
+    margin: 20px 0;
+}
+
+.sim-form
+{
+    padding: 40px;
+    padding-top: 30px;
+    margin: 100px 0;
+    box-sizing: border-box;
+    width: calc(50% - 10px);
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
+}
+
 .sim-results-section
 {
     font-size: small;
-    padding-top: 2px;
+    padding: 40px;
+    margin: 100px 0;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
+}
+
+.sim-results-section h2
+{
+    padding-top: 50px;
+}
+
+.sim-results-section h4
+{
+    font-weight: bold;
+    color: #b3f7d3;
+    margin-top: 5px;
 }

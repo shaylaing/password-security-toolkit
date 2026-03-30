@@ -5,20 +5,21 @@
 {% endblock %}
 
 {% block main %}
+<h1 class="sim-title">Password Attack Simulator</h1>
+    <p class="sim-subtitle">A simple attack simulation tool that estimates the time (worst case and average) it would take different attack types to crack the submitted password and displays the results.</p>
     <div class="about-section">
-        <h3 class="header">About:</h3>
-        <p id="about">This is a simple attack simulation tool that estimates the time (worst case and average) it would take different attack types to crack the submitted password and displays the results.</p>
-        <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer;">(i) Click here to show more information about each tested attack type.</button>
-        <div id="moreInfo" name="moreInfo">
-            <p>Brute Force Attack - systematically tries every possible character combination within a defined character set. Simulation returns estimated time based on total search space.</p>
+        <h2 class="header">About:</h2>
+        <p id="note" style="margin-top: 0px;">In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
+        <button id="showMore" name="showmore" onclick="show_more" style="all: unset; cursor: pointer; color: #b3f7d3; font-weight: bold; margin-top: 15px;">(i) Click here to show more information about each tested attack type.</button>
+        <div id="moreInfo" name="moreInfo" hidden>
+            <p style="margin-top: 10px;">Brute Force Attack - systematically tries every possible character combination within a defined character set. Simulation returns estimated time based on total search space.</p>
             <p>Dictionary Attack - tests the password against a list of commonly used passwords. If a match is found, the password is considered vulnerable and an estimated crack time is returned.</p>
             <p>Brute Force x Dictionary Hybrid Attack - also known as a Suffix-Prefix Attack, takes common passwords from a wordlist and systematically adds short sequences (typically 1-3 characters) of numbers or symbols to its beginning and/or end. If a match is found, returns estimated time.</p>
             <p>Rule-Based Mutation Attack - applies common transformations (e.g. Leetspeak character substitution, capitalisation, symbol replacement) to dictionary words and checks if any variant matches the password. If a match is found, returns estimated time.</p>
         </div>
-        <p id="note" style="padding-top: 5px;">Note - In the real world, attackers may use a combination of multiple attack types at the same time to speed up the overall attack time. For instance, they may check the password against a wordlist before commencing a brute force attack.</p>
     </div>
-    <div class="simulator-form">
-        <p style="padding-top: 30px;">Enter password to estimate attack times:</p>
+    <div class="sim-form">
+        <p>Enter password to estimate attack times:</p>
     <form id="attackSimulator" action="/simulator" method="post">
         <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
         <button id="startCheckButton" name="startCheck" type="submit">Start</button>
@@ -28,84 +29,86 @@
             <p id="error-message">{{ error }}</p>  
         {% endif %}
     </div>
-    <!-- Display results of password attack simulator -->
-    <div id="results" class="sim-results-section">
-        {% if brute_force_times %}     
-            <h3 class="header" style="padding-top: 20px;">Brute Force Attack Time Estimates:</h3>
-            <!-- Show maximum brute force times -->
-            <h4>Maximum Times (worst case)</h4>
-            <p>Online Scenario: {{ brute_force_times["online_maximum_time"][0] }} {{ brute_force_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ brute_force_times["offline_maximum_time"][0] }} {{ brute_force_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ brute_force_times["specialised_maximum_time"][0] }} {{ brute_force_times["specialised_maximum_time"][1] }}</p>
-            <!-- Show average brute force times -->
-            <h4 style="padding-top: 8px;">Average Times</h4>
-            <p>Online Scenario: {{ brute_force_times["online_average_time"][0] }} {{ brute_force_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ brute_force_times["offline_average_time"][0] }} {{ brute_force_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ brute_force_times["specialised_average_time"][0] }} {{ brute_force_times["specialised_average_time"][1] }}</p>
-        {% endif %}
-                
-        {% if dictionary_times %}
-            <h3 class="header" style="padding-top: 20px;">Dictionary Attack Time Estimates:</h3>
-            <!-- Show maximum dictionary attack times -->
-            <h4>Maximum Times (worst case)</h4>
-            <p>Online Scenario: {{ dictionary_times["online_maximum_time"][0] }} {{ dictionary_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ dictionary_times["offline_maximum_time"][0] }} {{ dictionary_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ dictionary_times["specialised_maximum_time"][0] }} {{ dictionary_times["specialised_maximum_time"][1] }}</p>
-            <!-- Show average dictionary times -->
-            <h4 style="padding-top: 8px;">Average Times</h4>
-            <p>Online Scenario: {{ dictionary_times["online_average_time"][0] }} {{ dictionary_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ dictionary_times["offline_average_time"][0] }} {{ dictionary_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} {{ dictionary_times["specialised_average_time"][1] }}</p>
-        <!-- Show message if password isn't vulnerable to dictionary attack -->
-        {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to dictionary attack.</p>
-        {% endif %}
+    {% if submitted %}
+        <!-- Display results of password attack simulator -->
+        <div id="results" class="sim-results-section">
+            {% if brute_force_times %}     
+                <h2 class="header" style="padding-top: 0 !important;">Brute Force Attack Time Estimates:</h2>
+                <!-- Show maximum brute force times -->
+                <h4>Maximum Times (worst case)</h4>
+                <p>Online Scenario: {{ brute_force_times["online_maximum_time"][0] }} {{ brute_force_times["online_maximum_time"][1] }}</p>
+                <p>Offline Scenario: {{ brute_force_times["offline_maximum_time"][0] }} {{ brute_force_times["offline_maximum_time"][1] }}</p>
+                <p>Specialised Scenario: {{ brute_force_times["specialised_maximum_time"][0] }} {{ brute_force_times["specialised_maximum_time"][1] }}</p>
+                <!-- Show average brute force times -->
+                <h4 style="padding-top: 8px;">Average Times</h4>
+                <p>Online Scenario: {{ brute_force_times["online_average_time"][0] }} {{ brute_force_times["online_average_time"][1] }}</p>
+                <p>Offline Scenario: {{ brute_force_times["offline_average_time"][0] }} {{ brute_force_times["offline_average_time"][1] }}</p>
+                <p>Specialised Scenario: {{ brute_force_times["specialised_average_time"][0] }} {{ brute_force_times["specialised_average_time"][1] }}</p>
+            {% endif %}
+                    
+            {% if dictionary_times %}
+                <h2 class="header">Dictionary Attack Time Estimates:</h2>
+                <!-- Show maximum dictionary attack times -->
+                <h4>Maximum Times (worst case)</h4>
+                <p>Online Scenario: {{ dictionary_times["online_maximum_time"][0] }} {{ dictionary_times["online_maximum_time"][1] }}</p>
+                <p>Offline Scenario: {{ dictionary_times["offline_maximum_time"][0] }} {{ dictionary_times["offline_maximum_time"][1] }}</p>
+                <p>Specialised Scenario: {{ dictionary_times["specialised_maximum_time"][0] }} {{ dictionary_times["specialised_maximum_time"][1] }}</p>
+                <!-- Show average dictionary times -->
+                <h4 style="padding-top: 8px;">Average Times</h4>
+                <p>Online Scenario: {{ dictionary_times["online_average_time"][0] }} {{ dictionary_times["online_average_time"][1] }}</p>
+                <p>Offline Scenario: {{ dictionary_times["offline_average_time"][0] }} {{ dictionary_times["offline_average_time"][1] }}</p>
+                <p>Specialised Scenario: {{ dictionary_times["specialised_average_time"][0] }} {{ dictionary_times["specialised_average_time"][1] }}</p>
+            <!-- Show message if password isn't vulnerable to dictionary attack -->
+            {% elif submitted %}
+                <p style="font-weight: italic; font-weight: bold; padding-top: 12px; color: #b3f7d3; margin-top: 50px;">Password is not vulnerable to dictionary attack.</p>
+            {% endif %}
 
-        {% if hybrid_times %}
-            <h3 class="header" style="padding-top: 20px;">Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h3>
-            <!-- Show maximum hybrid attack times -->
-            <h4>Maximum Times (worst case)</h4>
-            <p>Online Scenario: {{ hybrid_times["online_maximum_time"][0] }} {{ hybrid_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ hybrid_times["offline_maximum_time"][0] }} {{ hybrid_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ hybrid_times["specialised_maximum_time"][0] }} {{ hybrid_times["specialised_maximum_time"][1] }}</p>
-            <!-- Show average hybrid times -->
-            <h4 style="padding-top: 8px;">Average Times</h4>
-            <p>Online Scenario: {{ hybrid_times["online_average_time"][0] }} {{ hybrid_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ hybrid_times["offline_average_time"][0] }} {{ hybrid_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} {{ hybrid_times["specialised_average_time"][1] }}</p>
-        <!-- Show message if password isn't vulnerable to hybrid attack -->
-        {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to hybrid attack.</p>
-        {% endif %}
+            {% if hybrid_times %}
+                <h2 class="header">Brute Force x Dictionary Hybrid Attack (a.k.a. Suffix-Prefix Attack) Time Estimates:</h2>
+                <!-- Show maximum hybrid attack times -->
+                <h4>Maximum Times (worst case)</h4>
+                <p>Online Scenario: {{ hybrid_times["online_maximum_time"][0] }} {{ hybrid_times["online_maximum_time"][1] }}</p>
+                <p>Offline Scenario: {{ hybrid_times["offline_maximum_time"][0] }} {{ hybrid_times["offline_maximum_time"][1] }}</p>
+                <p>Specialised Scenario: {{ hybrid_times["specialised_maximum_time"][0] }} {{ hybrid_times["specialised_maximum_time"][1] }}</p>
+                <!-- Show average hybrid times -->
+                <h4 style="padding-top: 8px;">Average Times</h4>
+                <p>Online Scenario: {{ hybrid_times["online_average_time"][0] }} {{ hybrid_times["online_average_time"][1] }}</p>
+                <p>Offline Scenario: {{ hybrid_times["offline_average_time"][0] }} {{ hybrid_times["offline_average_time"][1] }}</p>
+                <p>Specialised Scenario: {{ hybrid_times["specialised_average_time"][0] }} {{ hybrid_times["specialised_average_time"][1] }}</p>
+            <!-- Show message if password isn't vulnerable to hybrid attack -->
+            {% elif submitted %}
+                <p style="font-weight: italic; font-weight: bold; padding-top: 12px; color: #b3f7d3; margin-top: 50px;">Password is not vulnerable to hybrid attack.</p>
+            {% endif %}
 
-        {% if rule_based_times %}
-            <h3 class="header" style="padding-top: 20px;">Rule-Based Mutation Attack Time Estimates:</h3>
-            <!-- Show maximum rule-based mutation attack times -->
-            <h4>Maximum Times (worst case)</h4>
-            <p>Online Scenario: {{ rule_based_times["online_maximum_time"][0] }} {{ rule_based_times["online_maximum_time"][1] }}</p>
-            <p>Offline Scenario: {{ rule_based_times["offline_maximum_time"][0] }} {{ rule_based_times["offline_maximum_time"][1] }}</p>
-            <p>Specialised Scenario: {{ rule_based_times["specialised_maximum_time"][0] }} {{ rule_based_times["specialised_maximum_time"][1] }}</p>
-            <!-- Show average rule-based mutation times -->
-            <h4 style="padding-top: 8px;">Average Times</h4>
-            <p>Online Scenario: {{ rule_based_times["online_average_time"][0] }} {{ rule_based_times["online_average_time"][1] }}</p>
-            <p>Offline Scenario: {{ rule_based_times["offline_average_time"][0] }} {{ rule_based_times["offline_average_time"][1] }}</p>
-            <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} {{ rule_based_times["specialised_average_time"][1] }}</p>
-        <!-- Show message if password isn't vulnerable to rule-based mutation attack -->
-        {% elif submitted %}
-            <p style="font-weight: bold; padding-top: 12px; color: #b3f7d3;">Password is not vulnerable to rule-based mutation attack.</p>
-        {% endif %}
-    </div>
+            {% if rule_based_times %}
+                <h2 class="header">Rule-Based Mutation Attack Time Estimates:</h2>
+                <!-- Show maximum rule-based mutation attack times -->
+                <h4>Maximum Times (worst case)</h4>
+                <p>Online Scenario: {{ rule_based_times["online_maximum_time"][0] }} {{ rule_based_times["online_maximum_time"][1] }}</p>
+                <p>Offline Scenario: {{ rule_based_times["offline_maximum_time"][0] }} {{ rule_based_times["offline_maximum_time"][1] }}</p>
+                <p>Specialised Scenario: {{ rule_based_times["specialised_maximum_time"][0] }} {{ rule_based_times["specialised_maximum_time"][1] }}</p>
+                <!-- Show average rule-based mutation times -->
+                <h4 style="padding-top: 8px;">Average Times</h4>
+                <p>Online Scenario: {{ rule_based_times["online_average_time"][0] }} {{ rule_based_times["online_average_time"][1] }}</p>
+                <p>Offline Scenario: {{ rule_based_times["offline_average_time"][0] }} {{ rule_based_times["offline_average_time"][1] }}</p>
+                <p>Specialised Scenario: {{ rule_based_times["specialised_average_time"][0] }} {{ rule_based_times["specialised_average_time"][1] }}</p>
+            <!-- Show message if password isn't vulnerable to rule-based mutation attack -->
+            {% elif submitted %}
+                <p style="font-weight: italic; font-weight: bold; padding-top: 12px; color: #b3f7d3; margin-top: 50px;">Password is not vulnerable to rule-based mutation attack.</p>
+            {% endif %}
+        </div>
+    {% endif %}
     <!-- Declare assumptions -->
     <div class="assumptions-section">
-        <h3 class="header" style="padding-top: 50px;">Assumptions:</h3>
-        <div style="font-size: small;">
-            <p>- Assumes benchmark speeds for three varying levels of computational hardware power that an attacker may possess: Online Attack Scenario - one thousand guesses per second (dependent on network latency and rate limiting of service), Offline Attack Scenario (with high-end GPU) - ten billion guesses per second, and Specialised Rig Scenario (cracking arrays, botnets, GPU clusters, etc.) - one hundred trillion guesses per second.</p>
-            <p>- Utilises a standard top 10,000 most common passwords list to be used in dictionary attack estimate and hybrid attack estimate.</p>
-            <p>- Hybrid attack simulation assumes the attacker would consider prefixes and suffixes to have a padding depth of up to 3 characters.</p>
-            <p>- Rule-based Mutation attack simulation model assumes every word in the wordlist has an average of 20 rule-based mutations each to determine total candidate pool size.</p>
-            <p>- Assumes a charset of 95 ASCII characters for brute force attack estimations.</p>
-            <p>- Assumes a total of 42 possible ASCII symbols and digits (not including the space character) are included in the charset used to determine what is and what isn't a special character in the hybrid attack model.</p>
-        </div>
+        <h2 class="header">Assumptions:</h2>
+        <ul class="assumptions" style="padding-top: 10px;">
+            <li>Assumes benchmark speeds for three varying levels of computational hardware power that an attacker may possess: Online Attack Scenario - one thousand guesses per second (dependent on network latency and rate limiting of service), Offline Attack Scenario (with high-end GPU) - ten billion guesses per second, and Specialised Rig Scenario (cracking arrays, botnets, GPU clusters, etc.) - one hundred trillion guesses per second.</li>
+            <li>Utilises a standard top 10,000 most common passwords list to be used in dictionary attack estimate and hybrid attack estimate.</li>
+            <li>Hybrid attack simulation assumes the attacker would consider prefixes and suffixes to have a padding depth of up to 3 characters.</li>
+            <li>Rule-based Mutation attack simulation model assumes every word in the wordlist has an average of 20 rule-based mutations each to determine total candidate pool size.</li>
+            <li>Assumes a charset of 95 ASCII characters for brute force attack estimations.</li>
+            <li>Assumes a total of 42 possible ASCII symbols and digits (not including the space character) are included in the charset used to determine what is and what isn't a special character in the hybrid attack model.</li>
+        </ul>
     </div>
 {% endblock %}
 
