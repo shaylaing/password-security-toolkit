@@ -54,7 +54,7 @@ def convert_times_to_units(times: dict) -> dict:
 
             # Convert time to have 3 decimal places
             converted_time = round(converted_time, 3)
-                         
+
             # Add converted time and unit to dict
             unit = "minutes"
             converted_times[name] = (converted_time, unit)
@@ -73,7 +73,7 @@ def convert_times_to_units(times: dict) -> dict:
         elif time < 31536000:
             # Convert time to days
             converted_time = time / 86400
-            
+
             # Round time to nearest whole number
             converted_time = int(round(converted_time))
 
@@ -102,7 +102,7 @@ def convert_times_to_units(times: dict) -> dict:
             # Add converted time and unit to dict
             unit = "years (practically uncrackable)"
             converted_times[name] = (converted_time, unit)
-    
+
     return converted_times
 
 
@@ -147,7 +147,7 @@ def dictionary_sim(password: str) -> None | dict:
             match_position = i
             vulnerable = True
             break
-    
+
     # If match found:
     if vulnerable:
         # Create dict to store attack time estimates
@@ -176,13 +176,12 @@ def dictionary_sim(password: str) -> None | dict:
 
 # Define brute force x dictionary hybrid attack simulation function (a.k.a. suffix-prefix attack):
 def hybrid_sim(password: str) -> None | dict:
-
     # Hardcode estimated attack times for hybrid attack (times aren't dependent on password):
     # Calculate total possible character mutations for both prefixes OR suffixes
-    maximum_mutations = 2 * (42 + (42 ** 2) + (42 ** 3)) 
+    maximum_mutations = 2 * (42 + (42 ** 2) + (42 ** 3))
 
     # NOTE: Derives total possible number of prepended and appended symbol mutations from ASCII standard
-    # NOTE: Estimates prefix and suffix mutations independently of each other 
+    # NOTE: Estimates prefix and suffix mutations independently of each other
     # NOTE: Charset size of 42 characters (32 symbols + 10 digits)
 
     # Calculate maximum possible combinations attacker needs to check to crack password (worst case)
@@ -206,7 +205,7 @@ def hybrid_sim(password: str) -> None | dict:
     if password in wordset:
         # Match found, return early
         return convert_times_to_units(times)
-    
+
     # Match not found, check if hybrid versions of password (without 1-3 character prefixes and suffixes) appears in wordlist:
     else:
         # Initialise prefix count variable and suffix count variable
@@ -217,49 +216,50 @@ def hybrid_sim(password: str) -> None | dict:
         for char in password[:3]:       # Iterates from start to 3rd char
             if char.isdigit() or char in SYMBOLS_SET:
                 prefix_count += 1
-            
-            # If current character is not a symbol or number, end loop 
+
+            # If current character is not a symbol or number, end loop
             else:
                 break
-       
+
         # Count how many numbers or symbols appear in suffix (last 3 chars) of password contiguously and store total
-        for char in password[-3:][::-1]:       # Iterates from 3rd last char till end
+        # Iterates from 3rd last char till end
+        for char in password[-3:][::-1]:
             if char.isdigit() or char in SYMBOLS_SET:
                 suffix_count += 1
-            
-            # If current character is not a symbol or number, end loop 
+
+            # If current character is not a symbol or number, end loop
             else:
                 break
-        
+
         # Gradually remove each prefix and suffix char one by one and check if remaining password appears in wordlist:
-        # Iterate for the total prefix count 
+        # Iterate for the total prefix count
         for p in range(prefix_count + 1):
             # Iterate for the total suffix count
             for s in range(suffix_count + 1):
                 # Prevent original password from being checked again
                 if p == 0 and s == 0:
                     continue
-                
+
                 # Prevent :-0 edge case in slicing
                 if s == 0:
-                    # Check if remaining password (without prefix chars) 
+                    # Check if remaining password (without prefix chars)
                     if password[p:] in wordset:
                         # Match found, update flag variable and return early
                         return convert_times_to_units(times)
-                
+
                 # Continue check if there's still prefixes and suffixes to be removed
                 else:
                     if password[p:-s] in wordset:
                         # Match found, return early
                         return convert_times_to_units(times)
-                
+
         # If match not found:
         return None
-    
-    # NOTE: Assumes a padding depth limit of up to three characters for the prefix and suffix. 
-    # NOTE: Estimated attack times remain constant as the attacker would need to try all possible 
+
+    # NOTE: Assumes a padding depth limit of up to three characters for the prefix and suffix.
+    # NOTE: Estimated attack times remain constant as the attacker would need to try all possible
     # combinations if they don't know the composition of password beforehand.
-    # NOTE: Utlises a standard wordlist size of the top 10,000 most common passwords, in addition to
+    # NOTE: Utilises a standard wordlist size of the top 10,000 most common passwords, in addition to
     # assuming ASCII characters only.
 
 
@@ -276,13 +276,13 @@ def rule_based_mutation_sim(password: str) -> None | dict:
         return None
 
     # Search for passwords in wordlist to determine vulnerability:
-    # Check if any de-subtituted variants of the password appear in wordlist
+    # Check if any de-substituted variants of the password appear in wordlist
     for variant in desubbed_passwords:
         if variant in wordset:
             # Match found, update flag variable
             vulnerable = True
             break
-    
+
     # If match found:
     if vulnerable:
         # Create dict to store attack time estimates
@@ -298,15 +298,15 @@ def rule_based_mutation_sim(password: str) -> None | dict:
         times["offline_average_time"] = ((len(wordset) * 20) / 2) / OFFLINE_BENCHMARK
         times["specialised_average_time"] = ((len(wordset) * 20) / 2) / SPECIALISED_BENCHMARK
 
-        # NOTE: For the attack time calculation/estimates, the model assumes an average of ~20 
-        # rule-based mutations per word in the wordlist to account for common Leetspeak 
-        # substitutions, capitalisaion, and symbol replacements. This value assumption is used 
-        # because the attacker cannot know the correct mutations in advance and must attempt 
+        # NOTE: For the attack time calculation/estimates, the model assumes an average of ~20
+        # rule-based mutations per word in the wordlist to account for common Leetspeak
+        # substitutions, capitalisation, and symbol replacements. This value assumption is used
+        # because the attacker cannot know the correct mutations in advance and must attempt
         # multiple password variants.
 
         # Convert each time estimate in times dict to largest meaningful unit and return it
         return convert_times_to_units(times)
-    
+
     # If match not found:
     else:
         return None

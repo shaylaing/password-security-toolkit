@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, request
 from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation, score_colour
 from simulator import brute_force_sim, dictionary_sim, hybrid_sim, rule_based_mutation_sim
 
@@ -19,20 +19,20 @@ def analyser():
         score = None
         return render_template("analyser.html", current_page=request.path, score=score)
 
-    # Initialise final score
-    score = 0
-
     # Check for POST request method (form submission)
     if request.method == "POST":
+        # Initialise final score
+        score = 0
+
         # Input validation for form submission:
         # Get inputted password from form submission
         password = request.form.get("password")
 
         # Prevent empty password:
         if len(password) == 0:
-            # Create error variable and set it to True
+            # Create error variable with message
             empty_error = "Error 400: Password must be at least one character long."
-            
+
             # Early return with error message
             return render_template("analyser.html", current_page=request.path, empty_error=empty_error)
 
@@ -41,7 +41,7 @@ def analyser():
             # If password is too long, return early with suitable error message
             length_error = "400: Inputted password is too long."
             return render_template("analyser.html", current_page=request.path, length_error=length_error)
-        
+
         # Perform checks:
         # Blocklist check:
         # Perform check and store result
@@ -52,24 +52,24 @@ def analyser():
             blocklist_check_result = False
 
         # If result of blocklist check is a fail, SKIP ALL OTHER CHECKS AND EARLY EXIT
-        if blocklist_check_result == True:
+        if blocklist_check_result:
             # Set final score to 0
             score = 0
 
             # Determine display colour of final score
             level = score_colour(score)
 
-            # Override all other checks and exit 
+            # Override all other checks and exit
             return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback_creation(blocklist_check_result), level=level)
-        
-        # NOTE: If match is found in blocklist check, then it is treated as an instant fail 
+
+        # NOTE: If match is found in blocklist check, then it is treated as an instant fail
         # and overrides all other checks, returning a final score of 0. When a password appears
-        # in the blocklist, it is certain that the password is extremely vulnerable and likely 
+        # in the blocklist, it is certain that the password is extremely vulnerable and likely
         # to be cracked.
 
         # Minimum length check:
         # Perform check and store result
-        min_length_check_points, score_cap = min_length_check(password)        # Tuple unpacking to store multiple return values 
+        min_length_check_points, score_cap = min_length_check(password)     # Tuple unpacking to store multiple return values
 
         # Add rewarded points for minimum length check to final score
         score += min_length_check_points
@@ -78,12 +78,13 @@ def analyser():
         SCORE_CAP = score_cap
 
         # NOTE: The minimum length check determines a score cap that limits the maximum score
-        # the password can achieve. This design choice was made to reflect the importance 
+        # the password can achieve. This design choice was made to reflect the importance
         # the length of a password alone has on the hacker's ability to crack it.
 
         # Entropy check:
         # Perform check and store result
-        entropy_check_points, entropy_bits, possible_combinations = entropy_check(password) 
+        entropy_check_points, entropy_bits, possible_combinations = entropy_check(
+            password)
 
         # Add rewarded points for entropy check to final score
         score += entropy_check_points
@@ -101,7 +102,7 @@ def analyser():
         # Add rewarded points for composition check to final score
         score += composition_check_points
 
-        # Pattern check: 
+        # Pattern check:
         # Perform check and store result
         pattern_checks_points = pattern_checks(password)
 
@@ -115,7 +116,8 @@ def analyser():
         score = min(score, SCORE_CAP)
 
         # Create feedback to be shown to the user
-        feedback = feedback_creation(blocklist_check_result, min_length_check_points, entropy_check_points, composition_check_points, pattern_checks_points)
+        feedback = feedback_creation(blocklist_check_result, min_length_check_points,
+                                     entropy_check_points, composition_check_points, pattern_checks_points)
 
         # Determine display colour of final score
         level = score_colour(score)
@@ -127,7 +129,7 @@ def analyser():
 def simulator():
     if request.method == "GET":
         return render_template("simulator.html", current_page=request.path, submitted=False)
-    
+
     if request.method == "POST":
         # Input validation for form submission:
         # Get inputted password from form submission
@@ -135,12 +137,12 @@ def simulator():
 
         # Prevent empty password:
         if len(password) == 0:
-            # Create error variable and set it to True
+            # Create error variable with message
             error = "Error 400: Password must be at least one character long."
-            
+
             # Early return with error message
             return render_template("simulator.html", current_page=request.path, error=error, submitted=False)
-        
+
         # Perform attack simulations:
         # Brute force simulation
         brute_force_times = brute_force_sim(password)

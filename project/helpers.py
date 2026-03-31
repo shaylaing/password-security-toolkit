@@ -35,14 +35,15 @@ common_substitutions_reverse_map = {}
 # Take each key (real char) and its list of substitutions (values) (.items prevents default key-only iteration over dict)
 for key, vals in COMMON_SUBSTITUTIONS.items():
     # Take each value in values (subbed chars)
-    for val in vals:        
+    for val in vals:
         # Register value (subbed char) as key to reverse map with an empty list as its value, and append each matching real char to that key (subbed char)
         common_substitutions_reverse_map.setdefault(val, []).append(key)
 
-# NOTE: Dictionary lookup is slow as it searches via keys by default. Reverse mapping 
-# enables us to flip the dictionary around so that we treat its values as keys instead so 
-# that we can search via its values and speed up the process of searching the dictionary. 
-# Provides improvement from O(n) per character to O(1) per character.
+# NOTE: Dictionary lookup is slow as it searches via keys by default. Reverse mapping
+# enables us to flip the dictionary around so that we treat its values as keys instead so
+# that we can search via its values and speed up the process of searching the dictionary.
+# Provides improvement from O(n) per character to O(1) per character. Only runs once on
+# module import to avoid performance loss.
 
 
 # Define function to generate all possible original passwords by reversing character substitutions (used in blocklist check)
@@ -50,7 +51,7 @@ def desubstitute(password: str) -> list[str]:
     # Initialise list with empty string to act as starting base for building combinations
     desubbed_possibilities = [""]
 
-    #  Loop through each character in the password
+    # Loop through each character in the password
     for char in password:
         # Ensure character is lowercase before checking against dict
         char = char.lower()
@@ -78,12 +79,12 @@ def desubstitute(password: str) -> list[str]:
 
     return desubbed_possibilities
 
-# NOTE: Each string in desubbed_possibilities acts as a base. For each base string, we create 
-# a new string for every possible original character for the current password character. That is 
+# NOTE: Each string in desubbed_possibilities acts as a base. For each base string, we create
+# a new string for every possible original character for the current password character. That is
 # how one base string produces multiple new strings, one per possible original character.
 
-# NOTE: If desubbed_possibilities currently contains four partial password strings and the 
-# current password character could represent three possible original characters (stored in 
-# possible_chars), then each possible character is appended to its own separate copy of each 
-# existing string (stored in new_possibilities). These newly created strings replace the old 
+# NOTE: If desubbed_possibilities currently contains four partial password strings and the
+# current password character could represent three possible original characters (stored in
+# possible_chars), then each possible character is appended to its own separate copy of each
+# existing string (stored in new_possibilities). These newly created strings replace the old
 # list, so desubbed_possibilities now contains 12 partial password possibilities.

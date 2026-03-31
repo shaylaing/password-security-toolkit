@@ -16,8 +16,8 @@ def blocklist_check(password: str) -> bool:
     # Hash password with SHA-1 and store it
     password_hash = hashlib.sha1(password.encode()).hexdigest()
 
-    # NOTE: .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string. 
-    # .hexdigest() converts the resulting binary hash to a readable hexadecimal string 
+    # NOTE: .encode() converts password to UTF-8 as SHA-1 expects bytes, not a string.
+    # .hexdigest() converts the resulting binary hash to a readable hexadecimal string
     # so that it is compatible with the Pwned API's hex format.
 
     # Store first five characters of password hash for k-anonymity suppression
@@ -28,7 +28,7 @@ def blocklist_check(password: str) -> bool:
         "User-Agent": "password-security-toolkit"
     }
 
-    # NOTE: We are providing the Have I Been Pwned API with identification by including 
+    # NOTE: We are providing the Have I Been Pwned API with identification by including
     # this header in our request.
 
     # Query Have I Been Pwned password API for password hash prefix
@@ -72,15 +72,15 @@ def blocklist_check(password: str) -> bool:
     if not match:
         # Create list containing all possible de-subbed versions of password
         desubbed_passwords = helpers.desubstitute(password)
-           
+
         # Return False early if no substitutions were found for password (not vulnerable)
         if len(desubbed_passwords) == 1 and desubbed_passwords[0] == password.lower():
             return match
-        
+
         # Limit the amount of desubbed password variants being queried against the API (limit = 200 variants) to prevent request hanging or timeouts caused by combinatorial explosion
         if len(desubbed_passwords) > 200:
             desubbed_passwords = desubbed_passwords[:200]
-       
+
         # Loop through each possible de-subbed version of password
         for desubbed_password in desubbed_passwords:
             # Hash current de-subbed version of password with SHA-1
@@ -93,7 +93,7 @@ def blocklist_check(password: str) -> bool:
             # Query Have I Been Pwned password API for current de-subbed password hash prefix
             try:
                 pwned_desubbed_suffix_results = requests.get(
-                f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)
+                    f'https://api.pwnedpasswords.com/range/{desubbed_hash_prefix}', timeout=5, headers=headers)
 
             # Return False if API query failed/timed out
             except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
@@ -123,7 +123,8 @@ def blocklist_check(password: str) -> bool:
                         # Match found
                         match = True
                         return match
-                    # Loop continues if match not found
+
+                        # Else loop continues
 
     # NOTE: Have I Been Pwned's API returns a multi-line string of suffixes whose
     # prefix matches the prefix of the user's password hash. Therefore, we must use
@@ -188,18 +189,18 @@ def entropy_check(password: str) -> tuple[int, int, int]:
     # Loop through each character in password
     for char in password:
         # Check if character is numeric
-        if char.isdigit() == True:
+        if char.isdigit():
             has_numeric = True
         # Check if character is lowercase
-        if char.islower() == True:
+        if char.islower():
             has_lower = True
         # Check if character is uppercase
-        if char.isupper() == True:
+        if char.isupper():
             has_upper = True
         # Check if character is symbol
         if char in SYMBOLS_SET:
             has_symbol = True
-    
+
     # Calculate charset range:
     # Add numeric range to charset range if password contains an numeric character
     if has_numeric:
@@ -213,11 +214,11 @@ def entropy_check(password: str) -> tuple[int, int, int]:
     # Add symbol range to charset range if password contains a symbol
     if has_symbol:
         charset_range += SYMBOLS
-    
-    # Prevent charset range from being 0 by setting it to a default value of 1 
+
+    # Prevent charset range from being 0 by setting it to a default value of 1
     if charset_range == 0:
         charset_range += 1
-    
+
     # Calculate entropy
     entropy_bits = length * log2(charset_range)
 
@@ -255,18 +256,18 @@ def composition_check(password: str) -> int:
     # Loop through each character in password
     for char in password:
         # Check if character is numeric
-        if char.isdigit() == True:
+        if char.isdigit():
             has_numeric = True
         # Check if character is lowercase
-        if char.islower() == True:
+        if char.islower():
             has_lower = True
         # Check if character is uppercase
-        if char.isupper() == True:
+        if char.isupper():
             has_upper = True
         # Check if character is symbol
         if char in SYMBOLS_SET:
             has_symbol = True
-    
+
     # Setup code for embedded check:
     has_embedded_digit_or_symbol = False
 
@@ -280,7 +281,7 @@ def composition_check(password: str) -> int:
         for char in embedded_chars:
             # Check if embedded char is numeric or a symbol
             if char.isnumeric() or char in SYMBOLS_SET:
-                # Char is numeric or a symbol:
+                # Update flag variable to True:
                 has_embedded_digit_or_symbol = True
 
     # Check if password contains lowercase and uppercase characters AND embedded numbers or symbols
@@ -311,10 +312,11 @@ def pattern_checks(password: str) -> int:
     SEQUENTIAL_NUMBERS = "0123456789"
 
     # Define string set constant for keyboard patterns check
-    KEYBOARD_PATTERNS = {"qwerty", "asdfgh", "zxcvbn", "qwertyuiop", "asdfghjkl", "zxcvbnm", "qweasd", "qazwsx", "wsxedc", "edcrfv", "rfvtgb", "tgbyhn", "yhnujm", "1qaz2wsx", "2wsx3edc", "3edc4rfv", "qwe", "asd", "zxc", "wer", "sdf", "xcv", "ert", "dfg", "cvb", "rty", "fgh", "vbn", "tyu", "ghj", "bnm", "yui", "hjk", "nmk", "uio", "jkl", "mkl", "iop", "klo", "pol", "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890", "qaz", "wsx", "edc", "rfv", "tgb", "yhn", "ujm"}
+    KEYBOARD_PATTERNS = {"qwerty", "asdfgh", "zxcvbn", "qwertyuiop", "asdfghjkl", "zxcvbnm", "qweasd", "qazwsx", "wsxedc", "edcrfv", "rfvtgb", "tgbyhn", "yhnujm", "1qaz2wsx", "2wsx3edc", "3edc4rfv", "qwe", "asd", "zxc", "wer", "sdf", "xcv", "ert",
+                         "dfg", "cvb", "rty", "fgh", "vbn", "tyu", "ghj", "bnm", "yui", "hjk", "nmk", "uio", "jkl", "mkl", "iop", "klo", "pol", "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890", "qaz", "wsx", "edc", "rfv", "tgb", "yhn", "ujm"}
 
     # Check for sequential characters ('abc', '123', etc.) in password:
-    # Loop through each character index in password 
+    # Loop through each character index in password
     for i in range(len(password) - 2):
         # Access character in current iteration
         char = password[i]
@@ -335,7 +337,7 @@ def pattern_checks(password: str) -> int:
                         # Match found
                         sequential_chars = True
                         break
-        
+
             # Descending:
             # Prevent underflow
             if l - 2 > -1:
@@ -354,7 +356,7 @@ def pattern_checks(password: str) -> int:
             n = SEQUENTIAL_NUMBERS.index(char)
 
             # Ascending:
-            # Prevent bound error by ensuring characters being checked don't exceed length of sequence constant
+            # Prevent bound error by ensuring characters being checked don't exceed length of sequence constant
             if n + 2 < len(SEQUENTIAL_NUMBERS):
                 # Check if next character matches ascending number sequence
                 if password[i + 1] == SEQUENTIAL_NUMBERS[n + 1]:
@@ -380,7 +382,7 @@ def pattern_checks(password: str) -> int:
     if any(pattern in password for pattern in KEYBOARD_PATTERNS) or any(pattern[::-1] in password for pattern in KEYBOARD_PATTERNS):
         # Match found
         keyboard_pattern = True
-    
+
     # Check for repeated characters (3+ occurences) in password:
     # Loop through each character in password and fetch its index
     for i, char in enumerate(password):
@@ -394,7 +396,8 @@ def pattern_checks(password: str) -> int:
 
     # Determine deducted points for pattern checks:
     # Calculate how many pattern types appear in password
-    pattern_match_count = sum([sequential_chars, keyboard_pattern, repeated_chars])
+    pattern_match_count = sum(
+        [sequential_chars, keyboard_pattern, repeated_chars])
 
     # Determine deducted points:
     # No pattern types found
@@ -404,7 +407,7 @@ def pattern_checks(password: str) -> int:
     elif pattern_match_count == 1:
         deducted_points += 10
         return deducted_points
-    # Two pattern types found
+    #  Two pattern types found
     elif pattern_match_count == 2:
         deducted_points += 25
         return deducted_points
@@ -413,23 +416,23 @@ def pattern_checks(password: str) -> int:
         deducted_points += 40
         return deducted_points
 
-    # NOTE: We use sum() because, in Python, True has a value of 1 and False has a 
-    # value of 0. So we can use sum() to total how many instances of True there are in 
+    # NOTE: We use sum() because, in Python, True has a value of 1 and False has a
+    # value of 0. So we can use sum() to total how many instances of True there are in
     # a list of multiple variables.
 
 
 # Define feedback creation function:
-def feedback_creation(blocklist_check_result = False, min_length_check_points = 0, entropy_check_points = 0, composition_check_points = 0, pattern_check_points = 0) -> dict:
+def feedback_creation(blocklist_check_result=False, min_length_check_points=0, entropy_check_points=0, composition_check_points=0, pattern_check_points=0) -> dict:
     # Create empty dictionary to store feedback messages to be returned
     messages = {}
 
     # Determine blocklist check message
-    if blocklist_check_result == True:
+    if blocklist_check_result:
         messages["blocklist_check"] = {
             "text": "Instant Fail: Password appears in blocklist (including de-substituted version).",
             "level": "bad"
         }
-        
+
         # Only return this message if match is found
         return messages
     else:
@@ -459,7 +462,7 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
             "text": "Password length is great.",
             "level": "good"
         }
-    
+
     # Determine entropy check message
     if entropy_check_points == 0:
         messages["entropy_check"] = {
@@ -503,7 +506,7 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
             "text": "Password has great composition complexity.",
             "level": "good"
         }
-    
+
     # Determine pattern check message
     if pattern_check_points == 0:
         messages["pattern_check"] = {
@@ -525,12 +528,12 @@ def feedback_creation(blocklist_check_result = False, min_length_check_points = 
             "text": "Password contains instances of three pattern types.",
             "level": "bad"
         }
-    
+
     return messages
 
-    # NOTE: Parameters for this function are given default values within its def statement. 
-    # This is to ensure that each parameter still has a value when they are not included 
-    # in the function call. Added 'level' functionality to indicate serverity of feedback 
+    # NOTE: Parameters for this function are given default values within its def statement.
+    # This is to ensure that each parameter still has a value when they are not included
+    # in the function call. Added 'level' functionality to indicate severity of feedback
     # when displayed in form.
 
 
