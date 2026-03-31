@@ -1,5 +1,4 @@
-body 
-{
+body {
     background: #000000; /* dark mode as default */
     color: #e0e0e0;
     font-family: monospace;
@@ -8,51 +7,42 @@ body
     line-height: 1.6;
 }
 
-.navbar /* navbar element */
-{
+.navbar /* navbar element */ {
     box-sizing: border-box;
     text-align: center; /* center navbar links */
     margin: 0 auto; /* center navbar element */
     padding: 20px;
 }
 
-div
-{
+div {
     background: #121212;
     border-radius: 25px;
 }
 
-nav a /* navbar links */
-{
+nav a /* navbar links */ {
     box-sizing: border-box;
     display: inline-block;
     padding: 0 20px; /* spacing between each navbar link */
     color: #b3f7d3;
     text-decoration: none; /* removes link underline */
-    transition: 0.3s; /* recommended by Claude to make animation smoother */
+    transition: 0.3s; /* transition addition recommended by Claude to make animation smoother */
     font-family: monospace;
     font-size: 18px;
 }
 
-nav a:hover /* hover animation for navbar links */
-{
+nav a:hover /* hover animation for navbar links */ {
     opacity: 0.3; /* changing opacity effect when hovering over link */
 }
 
-
-main
-{
+main {
     padding: 20px;
 }
 
-
-.current_page /* highlight page user is currently on in navbar */
-{
+.current_page /* highlight page user is currently on in navbar */ {
     opacity: 0.3;
-} 
+}
 
-button
-{
+button {
     color: #222;
     background: #b3f7d3;
     border-color: #222;
@@ -63,58 +53,45 @@ button
     cursor: pointer;
 }
 
-button:hover /* hover animation for buttons */
-{
+button:hover /* hover animation for buttons */ {
     opacity: 0.7; /* changing opacity effect when hovering over button */
 }
 
-.password /* password text box */
-{
+.password /* password text box */ {
     color: #b3f7d3;
     background-color: #121212;
     font-family: monospace;
 }
 
-.about-section
-{
-    font-size: small;
-}
-
-.header
-{
+.header {
     color: #b3f7d3;
 }
 
 /* Feedback and Final Score Colouring: */
-.bad 
-{
+.bad {
     color: red;
 }
 
-.okay
-{
+.okay {
     color: #ffbf00;
 }
 
-.good
-{
+.good {
     color: #b3f7d3;
 }
 
 /* Homepage: */
-.homepage-title
-{
+.homepage-title {
     text-align: center;
     font-family: monospace;
     font-size: 55px;
-    /* Text gradent: */
+    /* Text gradient: */
     background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
     background-clip: text;
     color: transparent;
 }
 
-.homepage-subtitle
-{
+.homepage-subtitle {
     text-align: center;
     max-width: 80.5%;
     margin: 0 auto;
@@ -122,26 +99,23 @@ button:hover /* hover animation for buttons */
 }
 
 /* Analyser page: */
-.analyser-title
-{
+.analyser-title {
     text-align: center;
     font-family: monospace;
     font-size: 55px;
-    /* Text gradent: */
+    /* Text gradient: */
     background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
     background-clip: text;
     color: transparent;
 }
 
-.analyser-subtitle
-{
+.analyser-subtitle {
     text-align: center;
     max-width: 80.5%;
-    margin: 0 auto
+    margin: 0 auto;
 }
 
-.analyser-main-body
-{
+.analyser-main-body {
     display: flex;
     align-items: flex-start;
     width: 100%;
@@ -152,8 +126,7 @@ button:hover /* hover animation for buttons */
     margin-top: 80px;
 }
 
-.analyser-form /* password textbox and button */
-{
+.analyser-form /* password textbox and button */ {
     padding: 40px;
     padding-top: 30px;
     margin: 20px 0;
@@ -162,8 +135,7 @@ button:hover /* hover animation for buttons */
     box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
-.analyser-results-section 
-{
+.analyser-results-section {
     padding: 40px;
     margin: 20px 0;
     font-weight: bold;
@@ -172,14 +144,11 @@ button:hover /* hover animation for buttons */
     box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
-.analyser-results-section p
-{
+.analyser-results-section p {
     padding-bottom: 50px;
-    font-size: small;
 }
 
-.assumptions-section
-{
+.assumptions-section {
     padding: 40px;
     width: 100%;
     box-sizing: border-box;
@@ -187,48 +156,37 @@ button:hover /* hover animation for buttons */
     margin-top: 80px;
 }
 
-.assumptions-section h3
-{
-    padding-bottom: 10px;
-}
-
-.assumptions-section p 
-{
+.assumptions-section p {
     font-size: small;
 }
 
 /* Simulator page: */
-.sim-title
-{
+.sim-title {
     text-align: center;
     font-family: monospace;
     font-size: 55px;
-    /* Text gradent: */
+    /* Text gradient: */
     background-image: linear-gradient(to right, #e0e0e0, #a7f6cc, #72d19e);
     background-clip: text;
     color: transparent;
 }
 
-.sim-subtitle
-{
+.sim-subtitle {
     text-align: center;
     max-width: 80.5%;
     margin: 0 auto;
     margin-bottom: 80px;
 }
 
-.about-section
-{
+.about-section {
     padding: 40px;
     width: 100%;
     box-sizing: border-box;
     box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
-    margin-top: 80px;
     margin: 20px 0;
 }
 
-.sim-form
-{
+.sim-form {
     padding: 40px;
     padding-top: 30px;
     margin: 100px 0;
@@ -237,22 +195,18 @@ button:hover /* hover animation for buttons */
     box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
-.sim-results-section
-{
-    font-size: small;
+.sim-results-section {
     padding: 40px;
     margin: 100px 0;
     box-sizing: border-box;
     box-shadow: 0px 0px 18px 2px rgba(179, 247, 211, 0.5);
 }
 
-.sim-results-section h2
-{
+.sim-results-section h2 {
     padding-top: 50px;
 }
 
-.sim-results-section h4
-{
+.sim-results-section h4 {
     font-weight: bold;
     color: #b3f7d3;
     margin-top: 5px;
