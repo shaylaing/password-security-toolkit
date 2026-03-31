@@ -114,7 +114,7 @@ A directory containing a variety of static (unchanging) files used to support th
 
 ##### (13) What is k-anonymity and why is it used before querying the Have I Been Pwned API in the blocklist check?
 
-- k-anonymity is a data privacy technique that ensures each query is indistinguishable from at least k-1 others by only sending a partial hash to the API to prevent the full password hash from being exposed. Have I Been Pwned's password API utilises a k-anonymity model as its security measure. 
+- k-anonymity is a data privacy technique that ensures each query is indistinguishable from at least k−1 others by only sending a partial hash to the API to prevent the full password hash from being exposed. Have I Been Pwned's password API utilises a k-anonymity model as its security measure. 
 
 ##### (14) Why does the input validation for the user's submitted password utilise JavaScript code instead of just using the maxlength HTML attribute?
 
