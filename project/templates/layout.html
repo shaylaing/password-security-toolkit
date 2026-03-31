@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/static/style.css" rel="stylesheet">
     <title>Password Security Toolkit - {% block title %}{% endblock %}</title>
 </head>
 
 <body>
     <nav class="navbar">
-        <!-- Navigation bar --> <!-- Claude helped with Jinja conditional -->
-         <a href="/" class="{% if current_page == '/' %}current_page{% endif %}">Home</a>
-         <a href="/analyser" class="{% if current_page == '/analyser' %}current_page{% endif %}">Strength Checker</a>
-         <a href="/simulator" class="{% if current_page == '/simulator' %}current_page{% endif %}">Attack Simulator</a>
+        <!-- Navigation bar --> 
+        <!-- Claude helped with Jinja conditional -->
+        <a href="/" class="{% if current_page == '/' %}current_page{% endif %}">Home</a>
+        <a href="/analyser" class="{% if current_page == '/analyser' %}current_page{% endif %}">Strength Checker</a>
+        <a href="/simulator" class="{% if current_page == '/simulator' %}current_page{% endif %}">Attack Simulator</a>
     </nav>
 
     <main>
-        {% block main %}
-        {% endblock %}
+        {% block main %}{% endblock %}
     </main>
 
     {% block scripts %}

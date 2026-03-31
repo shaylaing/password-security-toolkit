@@ -156,10 +156,6 @@ button:hover /* hover animation for buttons */ {
     margin-top: 80px;
 }
 
-.assumptions-section p {
-    font-size: small;
-}
-
 /* Simulator page: */
 .sim-title {
     text-align: center;

@@ -29,16 +29,14 @@
         {% if score is not none %}
             <!-- Display results of password strength check -->
             <div id="results" class="analyser-results-section">
-                {% if score is not none %}
-                    <h2 class="header">Strength Score:</h2>
-                    <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
-                {% endif %}
+                <h2 class="header">Strength Score:</h2>
+                <p id="show_score" class="{{ level }}" style="font-size: x-large;">{{ score }}/100</p>
                 {% if entropy_bits %}
-                <h2 class="header">Entropy Estimation:</h2>
+                    <h2 class="header">Entropy Estimation:</h2>
                     <p id="show_entropy">{{ entropy_bits }}</p>
                 {% endif %}
                 {% if possible_combinations %}
-                <h2 class="header">Brute-Force Search Space:</h2>
+                    <h2 class="header">Brute-Force Search Space:</h2>
                     <p id="show_possible_combinations">{{ possible_combinations }} possible combinations</p>
                 {% endif %}
                 {% if feedback %}
@@ -55,8 +53,8 @@
         <div style="font-size: small;">
             <h2 class="header">Assumptions and Limitations:</h2>
             <ul class="assumptions" style="padding-top: 10px;">
-                <li>The length of the password directly determine the maximum score the password can achieve.</li>
-                <li>ASCII's 32 symbols (not including space character) are used to determines which characters are counted as special characters in entropy check and composition check.</li>
+                <li>The length of the password directly determines the maximum score the password can achieve.</li>
+                <li>ASCII's 32 symbols (not including space character) are used to determine which characters are counted as special characters in entropy check and composition check.</li>
                 <li>For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.</li>
                 <li>Password de-substitution is limited to 200 variants to reduce loading times.</li>
                 <li>Blocklist check uses Have I Been Pwned's password API with k-anonymity to check if the submitted password (and its de-substituted variants) is commonly used.</li>
@@ -64,12 +62,11 @@
             </ul>
         </div>
     </div>
+
+    <!-- NOTE: Brute Force Search Space refers to the estimated total possible combinations 
+    a hacker may have to check to crack the inputted password-->
 {% endblock %}
 
-<!-- NOTE: Brute Force Search Space refers to the estimated total possible combinations 
- a hacker may have to check to crack the inputted password-->
-
- 
 <!-- Import JavaScript from script.js -->
 {% block scripts %}
     <script src="{{ url_for('static', filename='analyser.js') }}"></script>
