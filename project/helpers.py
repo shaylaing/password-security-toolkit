@@ -58,13 +58,10 @@ def desubstitute(password: str) -> list[str]:
         # Ensure character is lowercase before checking against dict
         char = char.lower()
 
-        # Check for all possible original characters this current character could represent
-        if char in common_substitutions_reverse_map:
-            # Substituted character: store all original characters this substituted character could represent
-            possible_chars = common_substitutions_reverse_map[char]
-        else:
-            # Non-substituted character: store the current character as it already is in the password
-            possible_chars = [char]
+        # Check for all possible original characters this current character could represent:
+        # If current character is a substituted character, store all original characters it could represent
+        # If current character is a non-substituted character, store the current character as it is
+        possible_chars = common_substitutions_reverse_map.get(char, [char])
 
         # Temporary list storing updated possibilities including the current character or the original characters the current character may represent
         new_possibilities = []

@@ -3,7 +3,7 @@
 from helpers import desubstitute
 
 # Read in SecLists' Top 10,000 Common Passwords .txt file as list (for dictionary attack)
-with open('static/10k-most-common.txt', 'r') as file:
+with open('static/10k-most-common.txt', 'r', encoding="utf-8") as file:
     wordlist = file.read().splitlines()
 
 # Convert wordlist to set for faster lookup (O(1)) (for all other attack types)
