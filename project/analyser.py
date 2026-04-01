@@ -175,7 +175,7 @@ def entropy_check(password: str) -> tuple[int, int, int]:
     NUMERICS = 10
     LOWERCASE = 26
     UPPERCASE = 26
-    SYMBOLS = 32        # ASCII characters only
+    SYMBOLS = 32        # ASCII characters only (not including space character)
 
     # Calculate and store length of password
     length = len(password)
@@ -426,7 +426,7 @@ def pattern_checks(password: str) -> int:
 
 
 # Define feedback creation function:
-def feedback_creation(blocklist_check_result=False, min_length_check_points=0, entropy_check_points=0, composition_check_points=0, pattern_check_points=0) -> dict:
+def feedback_creation(blocklist_check_result=False, min_length_check_points=0, entropy_check_points=0, composition_check_points=0, pattern_checks_points=0) -> dict:
     # Create empty dictionary to store feedback messages to be returned
     messages = {}
 
@@ -512,22 +512,22 @@ def feedback_creation(blocklist_check_result=False, min_length_check_points=0, e
         }
 
     # Determine pattern check message
-    if pattern_check_points == 0:
+    if pattern_checks_points == 0:
         messages["pattern_check"] = {
             "text": "Password contains no common patterns.",
             "level": "good"
         }
-    elif pattern_check_points == 10:
+    elif pattern_checks_points == 10:
         messages["pattern_check"] = {
             "text": "Password contains instances of one pattern type.",
             "level": "okay"
         }
-    elif pattern_check_points == 25:
+    elif pattern_checks_points == 25:
         messages["pattern_check"] = {
             "text": "Password contains instances of two pattern types.",
             "level": "bad"
         }
-    elif pattern_check_points == 40:
+    elif pattern_checks_points == 40:
         messages["pattern_check"] = {
             "text": "Password contains instances of three pattern types.",
             "level": "bad"

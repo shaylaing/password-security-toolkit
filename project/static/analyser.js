@@ -1,9 +1,9 @@
 // Input validation for password submission:
-// Listen for user submitting their inputted password
+// Listen for user submitting their entered password
 document
     .getElementById("strengthAnalyser")
     .addEventListener("submit", function (event) {
-        // Get password input textbox
+        // Get password input text box
         const passwordField = document.getElementById("passwordTextbox");
 
         // Prevent inputted password from being longer than 64 characters

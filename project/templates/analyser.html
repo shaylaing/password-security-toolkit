@@ -6,21 +6,21 @@
 
 {% block main %}
     <h1 class="analyser-title">Password Strength Checker</h1>
-    <p class="analyser-subtitle">Tool that analyses a password submitted by the user and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
+    <p class="analyser-subtitle">Tool that analyses a submitted password and displays a score out of 100 along with basic feedback based on a set of criteria designed to evaluate its strength.</p>
     <div class="analyser-main-body">
         <div class="analyser-form">
             <p>Enter a password to test its strength:</p>
             <form id="strengthAnalyser" action="/analyser" method="post">
                 <input id="passwordTextbox" name="password" class="password" placeholder="Password" type="text" autofocus required>
                 <button id="startCheckButton" name="startCheck" type="submit">Start</button>
-                <!-- Show error message if inputted password is too long (server-side) -->
+                <!-- Show error message if entered password is too long (server-side) -->
                 {% if length_error %}
                     <p id="server-length-error" style="color: red;">{{ length_error }}</p>
                 {% endif %}
-                <!-- Show error message if inputted password is too long (client-side) -->
-                <p id="client-length-error" style="color: red;" hidden>Error 400: Inputted password is too long.</p>
+                <!-- Show error message if entered password is too long (client-side) -->
+                <p id="client-length-error" style="color: red;" hidden>Error 400: Entered password is too long.</p>
             </form>
-            <!-- Prevent empty password -->
+            <!-- Display error message for empty password -->
             {% if empty_error %}
                 <p id="empty-error">{{ empty_error }}</p>  
             {% endif %}
@@ -58,13 +58,13 @@
                 <li>For the entropy calculation, the charset range is determined from the password's inclusion of the following 4 character type pools: 10 numerics, 26 lower, 26 upper, and 32 symbols.</li>
                 <li>Password de-substitution is limited to 200 variants to reduce loading times.</li>
                 <li>Blocklist check uses Have I Been Pwned's password API with k-anonymity to check if the submitted password (and its de-substituted variants) is commonly used.</li>
-                <li>Pattern checks are limited to three specific pattern types: sequential chars, keyboard patterns, and consecutive repeated chars (3+).</li>
+                <li>Pattern checks are limited to three specific pattern types: sequential characters, keyboard patterns, and consecutive repeated characters (3+).</li>
             </ul>
         </div>
     </div>
 
-    <!-- NOTE: Brute Force Search Space refers to the estimated total possible combinations 
-    a hacker may have to check to crack the inputted password-->
+    <!-- NOTE: Brute-Force Search Space refers to the estimated total possible combinations 
+    a hacker may have to check to crack the password-->
 {% endblock %}
 
 <!-- Import JavaScript from script.js -->

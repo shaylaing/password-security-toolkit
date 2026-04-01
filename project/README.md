@@ -9,7 +9,7 @@ This web-based application project is an educational toolkit containing two sepa
 
 The project utilises Python, HTML, CSS, JavaScript, and the Flask web application framework. The password strength test takes into account blocklist matches, minimum password length, password entropy, password composition, and instances of common patterns to determine the password's final score. The attack simulator estimates attack times for brute force attacks, dictionary attacks, brute force x dictionary hybrid attacks (a.k.a. suffix-prefix attacks), and rule-based mutation attacks.
 
-It should be noted that this project is purely for educational purposes and prioritises clarity and educational value over real-world accuracy by providing simplified versions of real security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic. Loading times can be slow for longer passwords.
+This is my first self-developed project and is purely for educational purposes. It prioritises clarity and educational value over real-world accuracy by providing simplified versions of real security tools. As a result, there are multiple opportunities to improve this application in the future to make it both more accurate and more realistic. Note: Loading times may be slow for longer passwords.
 
 
 #### How to run this project locally:

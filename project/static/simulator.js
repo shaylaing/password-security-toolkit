@@ -4,6 +4,6 @@ document.getElementById("showMore").addEventListener("click", function () {
     // Get paragraph element containing extra information
     const extraInfo = document.getElementById("moreInfo");
 
-    // Flip visibility of extra information to opposite of current visibility
+    // Toggle visibility of extra information
     extraInfo.hidden = !extraInfo.hidden;
 });
