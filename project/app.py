@@ -1,3 +1,5 @@
+'''Flask controller that handles routing and request processing for Password Security Toolkit.'''
+
 from flask import Flask, render_template, request
 from analyser import blocklist_check, min_length_check, entropy_check, composition_check, pattern_checks, feedback_creation, score_colour
 from simulator import brute_force_sim, dictionary_sim, hybrid_sim, rule_based_mutation_sim
@@ -11,6 +13,8 @@ app = Flask(__name__)
 def index():
     if request.method == "GET":
         return render_template("index.html", current_page=request.path)
+    
+    return None
 
 
 @app.route("/analyser", methods=["GET", "POST"])
@@ -123,6 +127,8 @@ def analyser():
         level = score_colour(score)
 
         return render_template("analyser.html", current_page=request.path, score=score, feedback=feedback, entropy_bits=entropy_bits, possible_combinations=possible_combinations, level=level)
+    
+    return None
 
 
 @app.route("/simulator", methods=["GET", "POST"])
@@ -157,3 +163,5 @@ def simulator():
         rule_based_times = rule_based_mutation_sim(password)
 
         return render_template("simulator.html", current_page=request.path, brute_force_times=brute_force_times, dictionary_times=dictionary_times, hybrid_times=hybrid_times, rule_based_times=rule_based_times, submitted=True)
+    
+    return None

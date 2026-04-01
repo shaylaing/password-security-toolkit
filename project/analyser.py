@@ -1,3 +1,5 @@
+"""Functionality for password strength checker in Password Security Toolkit project."""
+
 from math import log2
 import hashlib
 import requests
@@ -415,6 +417,8 @@ def pattern_checks(password: str) -> int:
     elif pattern_match_count == 3:
         deducted_points += 40
         return deducted_points
+
+    return deducted_points
 
     # NOTE: We use sum() because, in Python, True has a value of 1 and False has a
     # value of 0. So we can use sum() to total how many instances of True there are in

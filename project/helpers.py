@@ -1,3 +1,5 @@
+"""Functionality for password de-substitution used in Password Security Toolkit project."""
+
 # Define dict of commonly substituted characters and their singular substitutions (a.k.a. Leet Speak) for blocklist check
 COMMON_SUBSTITUTIONS = {
     "a": ["@", "4", "^"],

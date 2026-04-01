@@ -1,3 +1,5 @@
+"""Functionality for password attack simulator in Password Security Toolkit project."""
+
 from helpers import desubstitute
 
 # Read in SecLists' Top 10,000 Common Passwords .txt file as list (for dictionary attack)
