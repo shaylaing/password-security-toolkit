@@ -1,6 +1,6 @@
 # PASSWORD SECURITY TOOLKIT
 
-#### Video Demo: <URL HERE>
+#### Video Demo: https://youtu.be/dgpvgj4ftKQ
 
 
 #### Description:
